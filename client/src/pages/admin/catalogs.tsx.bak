@@ -1,0 +1,940 @@
+import { useState } from "react";
+import { useForm } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { z } from "zod";
+import { useMutation, useQuery } from "@tanstack/react-query";
+import { apiRequest, queryClient } from "@/lib/queryClient";
+import { useToast } from "@/hooks/use-toast";
+import { format } from "date-fns";
+import { Helmet } from "react-helmet";
+
+// UI Components
+import { AdminNavigation } from "@/components/admin/AdminNavigation";
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
+import {
+  Table,
+  TableBody,
+  TableCell,
+  TableHead,
+  TableHeader,
+  TableRow,
+} from "@/components/ui/table";
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogHeader,
+  DialogTitle,
+} from "@/components/ui/dialog";
+import { Input } from "@/components/ui/input";
+import { Button } from "@/components/ui/button";
+import {
+  Form,
+  FormControl,
+  FormDescription,
+  FormField,
+  FormItem,
+  FormLabel,
+  FormMessage,
+} from "@/components/ui/form";
+import { Textarea } from "@/components/ui/textarea";
+import { Switch } from "@/components/ui/switch";
+import { Separator } from "@/components/ui/separator";
+import { Badge } from "@/components/ui/badge";
+import { ImageUploader } from "@/components/admin/ImageUploader";
+import { CatalogItemForm } from "@/components/admin/CatalogItemForm";
+import { Tabs, TabsList, TabsTrigger, TabsContent } from "@/components/ui/tabs";
+
+// Icons
+import {
+  Edit,
+  Eye,
+  Search,
+  Trash2,
+  Calendar,
+  Tag,
+  MapPin,
+  Video,
+  Plus,
+  Package,
+  Gavel,
+} from "lucide-react";
+
+// Define catalog schema
+const catalogSchema = z.object({
+  name: z.string().min(3, "Name must be at least 3 characters"),
+  description: z.string().min(10, "Description must be at least 10 characters"),
+  eventDate: z.string(),
+  status: z.string(),
+  location: z.string().optional().nullable(),
+  isOnline: z.boolean().default(false),
+  streamUrl: z.string().optional().nullable(),
+  imageUrl: z.string().optional().nullable(),
+});
+
+// Define types
+type CatalogFormValues = z.infer<typeof catalogSchema>;
+
+type Catalog = {
+  id: string;
+  name: string;
+  description: string;
+  eventDate: string;
+  status: string;
+  imageUrl: string | null;
+  location: string | null;
+  isOnline: boolean;
+  streamUrl: string | null;
+  auctionCount: number;
+  createdAt: string;
+  updatedAt: string;
+  auctions?: any[];
+};
+
+export default function CatalogsPage() {
+  // State
+  const [searchTerm, setSearchTerm] = useState("");
+  const [selectedCatalog, setSelectedCatalog] = useState<Catalog | null>(null);
+  const [isCreateDialogOpen, setIsCreateDialogOpen] = useState(false);
+  const [isEditDialogOpen, setIsEditDialogOpen] = useState(false);
+  const [isViewDialogOpen, setIsViewDialogOpen] = useState(false);
+  const [isAddItemFormOpen, setIsAddItemFormOpen] = useState(false);
+  const [activeViewTab, setActiveViewTab] = useState("details");
+  const { toast } = useToast();
+
+  // Fetch catalogs
+  const {
+    data: catalogsData = { catalogs: [] },
+    isLoading: isLoadingCatalogs,
+  } = useQuery({
+    queryKey: ['/api/auction-catalogs'],
+    staleTime: 60000, // 1 minute
+  });
+
+  const catalogs = catalogsData?.catalogs || [];
+
+  // Create form
+  const form = useForm<CatalogFormValues>({
+    resolver: zodResolver(catalogSchema),
+    defaultValues: {
+      name: "",
+      description: "",
+      eventDate: new Date().toISOString().slice(0, 16),
+      status: "upcoming",
+      location: "",
+      isOnline: false,
+      streamUrl: "",
+      imageUrl: "",
+    },
+  });
+
+  // Create mutation
+  const createMutation = useMutation({
+    mutationFn: (data: CatalogFormValues) => {
+      return apiRequest("POST", "/api/auction-catalogs", data);
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ['/api/auction-catalogs'] });
+      toast({
+        title: "Success",
+        description: "Catalog created successfully",
+      });
+      setIsCreateDialogOpen(false);
+      form.reset();
+    },
+    onError: (error: any) => {
+      toast({
+        title: "Error",
+        description: error.message || "Failed to create catalog",
+        variant: "destructive",
+      });
+    },
+  });
+
+  // Update mutation
+  const updateMutation = useMutation({
+    mutationFn: (data: CatalogFormValues & { id: string }) => {
+      return apiRequest("PATCH", `/api/auction-catalogs/${data.id}`, data);
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ['/api/auction-catalogs'] });
+      toast({
+        title: "Success",
+        description: "Catalog updated successfully",
+      });
+      setIsEditDialogOpen(false);
+    },
+    onError: (error: any) => {
+      toast({
+        title: "Error",
+        description: error.message || "Failed to update catalog",
+        variant: "destructive",
+      });
+    },
+  });
+
+  // Delete mutation
+  const deleteMutation = useMutation({
+    mutationFn: (id: string) => {
+      return apiRequest("DELETE", `/api/auction-catalogs/${id}`);
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ['/api/auction-catalogs'] });
+      toast({
+        title: "Success",
+        description: "Catalog deleted successfully",
+      });
+    },
+    onError: (error: any) => {
+      toast({
+        title: "Error",
+        description: error.message || "Failed to delete catalog",
+        variant: "destructive",
+      });
+    },
+  });
+
+  // Form submission handlers
+  const onCreateSubmit = (data: CatalogFormValues) => {
+    createMutation.mutate(data);
+  };
+
+  const onUpdateSubmit = (data: CatalogFormValues) => {
+    if (selectedCatalog) {
+      updateMutation.mutate({ ...data, id: selectedCatalog.id });
+    }
+  };
+
+  // Action handlers
+  const handleView = (catalog: Catalog) => {
+    setSelectedCatalog(catalog);
+    setIsViewDialogOpen(true);
+  };
+
+  const handleEdit = (catalog: Catalog) => {
+    setSelectedCatalog(catalog);
+    form.reset({
+      name: catalog.name,
+      description: catalog.description,
+      eventDate: new Date(catalog.eventDate).toISOString().slice(0, 16),
+      status: catalog.status,
+      location: catalog.location || "",
+      isOnline: catalog.isOnline,
+      streamUrl: catalog.streamUrl || "",
+      imageUrl: catalog.imageUrl || "",
+    });
+    setIsEditDialogOpen(true);
+  };
+
+  const handleDelete = (catalog: Catalog) => {
+    if (confirm(`Are you sure you want to delete "${catalog.name}"?`)) {
+      deleteMutation.mutate(catalog.id);
+    }
+  };
+
+  // Filter catalogs
+  const filteredCatalogs = catalogs.filter((catalog: Catalog) => {
+    return (
+      searchTerm === "" ||
+      catalog.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      catalog.description.toLowerCase().includes(searchTerm.toLowerCase())
+    );
+  });
+
+  // Format date
+  const formatDate = (date: string) => {
+    return format(new Date(date), "PPp"); // e.g., "Apr 29, 2021, 12:34 PM"
+  };
+
+  // Loading state
+  if (isLoadingCatalogs) {
+    return (
+      <div className="container mx-auto px-4 py-8 flex justify-center items-center min-h-screen">
+        <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-primary"></div>
+      </div>
+    );
+  }
+
+  return (
+    <>
+      <Helmet>
+        <title>Auction Catalogs | Admin | LANORA HOUSE</title>
+        <meta name="description" content="Manage auction catalogs for LANORA HOUSE." />
+      </Helmet>
+      
+      <div className="container mx-auto py-6 max-w-7xl">
+        <AdminNavigation />
+        
+        <div className="px-4 py-4">
+          <div className="flex flex-col md:flex-row justify-between items-start md:items-center mb-6">
+            <div>
+              <h1 className="text-2xl font-bold">Auction Catalogs</h1>
+              <p className="text-muted-foreground">
+                Create and manage catalogs for your auctions.
+              </p>
+            </div>
+            <div className="mt-4 md:mt-0 flex items-center space-x-2">
+              <div className="relative">
+                <Search className="absolute left-2 top-1/2 transform -translate-y-1/2 h-4 w-4 text-muted-foreground" />
+                <Input
+                  placeholder="Search catalogs..."
+                  className="pl-8 w-full md:w-[200px]"
+                  value={searchTerm}
+                  onChange={(e) => setSearchTerm(e.target.value)}
+                />
+              </div>
+              <Button onClick={() => {
+                form.reset();
+                setIsCreateDialogOpen(true);
+              }}>
+                Create Catalog
+              </Button>
+            </div>
+          </div>
+          
+          <Card>
+            <CardHeader className="p-4">
+              <CardTitle>All Catalogs</CardTitle>
+              <CardDescription>
+                Showing {filteredCatalogs.length} of {catalogs.length} catalogs
+              </CardDescription>
+            </CardHeader>
+            <CardContent className="p-0">
+              {filteredCatalogs.length === 0 ? (
+                <div className="flex flex-col items-center justify-center py-12 px-4 text-center">
+                  <p className="text-muted-foreground mb-4">No catalogs found.</p>
+                  <Button onClick={() => {
+                    form.reset();
+                    setIsCreateDialogOpen(true);
+                  }}>
+                    Create Your First Catalog
+                  </Button>
+                </div>
+              ) : (
+                <div className="overflow-x-auto">
+                  <Table>
+                    <TableHeader>
+                      <TableRow>
+                        <TableHead>Catalog</TableHead>
+                        <TableHead>Status</TableHead>
+                        <TableHead>Event Date</TableHead>
+                        <TableHead className="text-center">Auctions</TableHead>
+                        <TableHead>Created</TableHead>
+                        <TableHead className="text-right">Actions</TableHead>
+                      </TableRow>
+                    </TableHeader>
+                    <TableBody>
+                      {filteredCatalogs.map((catalog: Catalog) => (
+                        <TableRow key={catalog.id}>
+                          <TableCell>
+                            <div className="flex items-center space-x-3">
+                              {catalog.imageUrl ? (
+                                <img
+                                  src={catalog.imageUrl}
+                                  alt={catalog.name}
+                                  className="w-10 h-10 rounded object-cover"
+                                />
+                              ) : (
+                                <div className="w-10 h-10 rounded bg-gray-100 flex items-center justify-center">
+                                  <Calendar className="w-6 h-6 text-gray-400" />
+                                </div>
+                              )}
+                              <div>
+                                <div className="font-medium">{catalog.name}</div>
+                                <div className="text-sm text-muted-foreground line-clamp-1">
+                                  {catalog.description}
+                                </div>
+                              </div>
+                            </div>
+                          </TableCell>
+                          <TableCell>
+                            <Badge variant={
+                              catalog.status === "completed" ? "secondary" : 
+                              catalog.status === "active" ? "success" : 
+                              "outline"
+                            }>
+                              {catalog.status.charAt(0).toUpperCase() + catalog.status.slice(1)}
+                            </Badge>
+                            {catalog.isOnline && (
+                              <Badge variant="outline" className="ml-2">
+                                Online
+                              </Badge>
+                            )}
+                          </TableCell>
+                          <TableCell>
+                            {format(new Date(catalog.eventDate), "MMM d, yyyy")}
+                          </TableCell>
+                          <TableCell className="text-center">
+                            <Badge variant="outline">{catalog.auctionCount}</Badge>
+                          </TableCell>
+                          <TableCell>
+                            {format(new Date(catalog.createdAt), "MMM d, yyyy")}
+                          </TableCell>
+                          <TableCell className="text-right">
+                            <div className="flex justify-end space-x-2">
+                              <Button
+                                variant="ghost"
+                                size="sm"
+                                onClick={() => handleView(catalog)}
+                              >
+                                <Eye className="h-4 w-4 mr-1" /> View
+                              </Button>
+                              
+                              <Button
+                                variant="ghost"
+                                size="sm"
+                                onClick={() => handleEdit(catalog)}
+                              >
+                                <Edit className="h-4 w-4 mr-1" /> Edit
+                              </Button>
+                              
+                              <Button
+                                variant="ghost"
+                                size="sm"
+                                className="text-destructive hover:bg-destructive/10 hover:text-destructive"
+                                onClick={() => handleDelete(catalog)}
+                              >
+                                <Trash2 className="h-4 w-4 mr-1" /> Delete
+                              </Button>
+                            </div>
+                          </TableCell>
+                        </TableRow>
+                      ))}
+                    </TableBody>
+                  </Table>
+                </div>
+              )}
+            </CardContent>
+          </Card>
+        </div>
+      </div>
+
+      {/* Create Catalog Dialog */}
+      <Dialog open={isCreateDialogOpen} onOpenChange={setIsCreateDialogOpen}>
+        <DialogContent className="sm:max-w-[600px] max-h-[90vh] overflow-y-auto">
+          <DialogHeader>
+            <DialogTitle>Create New Catalog</DialogTitle>
+            <DialogDescription>
+              Create a new catalog for your auction events.
+            </DialogDescription>
+          </DialogHeader>
+          
+          <Form {...form}>
+            <form onSubmit={form.handleSubmit(onCreateSubmit)} className="space-y-6">
+              <FormField
+                control={form.control}
+                name="name"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>Catalog Name</FormLabel>
+                    <FormControl>
+                      <Input placeholder="Summer Antiques Collection" {...field} />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+              
+              <FormField
+                control={form.control}
+                name="description"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>Description</FormLabel>
+                    <FormControl>
+                      <Textarea 
+                        placeholder="Provide details about this catalog..." 
+                        {...field}
+                        className="min-h-[100px]"
+                      />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+              
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <FormField
+                  control={form.control}
+                  name="eventDate"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>Event Date</FormLabel>
+                      <FormControl>
+                        <Input type="datetime-local" {...field} />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+                
+                <FormField
+                  control={form.control}
+                  name="status"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>Status</FormLabel>
+                      <FormControl>
+                        <select
+                          className="flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50"
+                          {...field}
+                        >
+                          <option value="upcoming">Upcoming</option>
+                          <option value="active">Active</option>
+                          <option value="completed">Completed</option>
+                        </select>
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+              </div>
+              
+              <FormField
+                control={form.control}
+                name="location"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>Location (Optional)</FormLabel>
+                    <FormControl>
+                      <Input placeholder="Event location" {...field} value={field.value || ""} />
+                    </FormControl>
+                    <FormDescription>
+                      Where will this auction event take place?
+                    </FormDescription>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+              
+              <FormField
+                control={form.control}
+                name="imageUrl"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>Catalog Cover Image</FormLabel>
+                    <FormControl>
+                      <ImageUploader
+                        onImageChange={field.onChange}
+                        currentImageUrl={field.value || ""}
+                      />
+                    </FormControl>
+                    <FormDescription>
+                      Upload an image for this catalog
+                    </FormDescription>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+              
+              <Separator />
+              
+              <FormField
+                control={form.control}
+                name="isOnline"
+                render={({ field }) => (
+                  <FormItem className="flex flex-row items-center justify-between rounded-lg border p-4">
+                    <div className="space-y-0.5">
+                      <FormLabel className="text-base">Online Event</FormLabel>
+                      <FormDescription>
+                        Will this auction event be streamed online?
+                      </FormDescription>
+                    </div>
+                    <FormControl>
+                      <Switch
+                        checked={field.value}
+                        onCheckedChange={field.onChange}
+                      />
+                    </FormControl>
+                  </FormItem>
+                )}
+              />
+              
+              {form.watch("isOnline") && (
+                <FormField
+                  control={form.control}
+                  name="streamUrl"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>Stream URL (Optional)</FormLabel>
+                      <FormControl>
+                        <Input placeholder="https://example.com/stream" {...field} value={field.value || ""} />
+                      </FormControl>
+                      <FormDescription>
+                        Provide a URL where the auction will be streamed
+                      </FormDescription>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+              )}
+              
+              <div className="flex justify-end space-x-2">
+                <Button 
+                  type="button" 
+                  variant="outline" 
+                  onClick={() => setIsCreateDialogOpen(false)}
+                >
+                  Cancel
+                </Button>
+                <Button 
+                  type="submit" 
+                  disabled={createMutation.isPending}
+                >
+                  {createMutation.isPending ? "Creating..." : "Create Catalog"}
+                </Button>
+              </div>
+            </form>
+          </Form>
+        </DialogContent>
+      </Dialog>
+
+      {/* Edit Catalog Dialog */}
+      <Dialog open={isEditDialogOpen} onOpenChange={setIsEditDialogOpen}>
+        <DialogContent className="sm:max-w-[600px] max-h-[90vh] overflow-y-auto">
+          <DialogHeader>
+            <DialogTitle>Edit Catalog</DialogTitle>
+            <DialogDescription>
+              Update the details of your auction catalog.
+            </DialogDescription>
+          </DialogHeader>
+          
+          <Form {...form}>
+            <form onSubmit={form.handleSubmit(onUpdateSubmit)} className="space-y-6">
+              <FormField
+                control={form.control}
+                name="name"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>Catalog Name</FormLabel>
+                    <FormControl>
+                      <Input placeholder="Summer Antiques Collection" {...field} />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+              
+              <FormField
+                control={form.control}
+                name="description"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>Description</FormLabel>
+                    <FormControl>
+                      <Textarea 
+                        placeholder="Provide details about this catalog..." 
+                        {...field}
+                        className="min-h-[100px]"
+                      />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+              
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <FormField
+                  control={form.control}
+                  name="eventDate"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>Event Date</FormLabel>
+                      <FormControl>
+                        <Input type="datetime-local" {...field} />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+                
+                <FormField
+                  control={form.control}
+                  name="status"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>Status</FormLabel>
+                      <FormControl>
+                        <select
+                          className="flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50"
+                          {...field}
+                        >
+                          <option value="upcoming">Upcoming</option>
+                          <option value="active">Active</option>
+                          <option value="completed">Completed</option>
+                        </select>
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+              </div>
+              
+              <FormField
+                control={form.control}
+                name="location"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>Location (Optional)</FormLabel>
+                    <FormControl>
+                      <Input placeholder="Event location" {...field} value={field.value || ""} />
+                    </FormControl>
+                    <FormDescription>
+                      Where will this auction event take place?
+                    </FormDescription>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+              
+              <FormField
+                control={form.control}
+                name="imageUrl"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>Catalog Cover Image</FormLabel>
+                    <FormControl>
+                      <ImageUploader
+                        onImageChange={field.onChange}
+                        currentImageUrl={field.value || ""}
+                      />
+                    </FormControl>
+                    <FormDescription>
+                      Upload an image for this catalog
+                    </FormDescription>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+              
+              <Separator />
+              
+              <FormField
+                control={form.control}
+                name="isOnline"
+                render={({ field }) => (
+                  <FormItem className="flex flex-row items-center justify-between rounded-lg border p-4">
+                    <div className="space-y-0.5">
+                      <FormLabel className="text-base">Online Event</FormLabel>
+                      <FormDescription>
+                        Will this auction event be streamed online?
+                      </FormDescription>
+                    </div>
+                    <FormControl>
+                      <Switch
+                        checked={field.value}
+                        onCheckedChange={field.onChange}
+                      />
+                    </FormControl>
+                  </FormItem>
+                )}
+              />
+              
+              {form.watch("isOnline") && (
+                <FormField
+                  control={form.control}
+                  name="streamUrl"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>Stream URL (Optional)</FormLabel>
+                      <FormControl>
+                        <Input placeholder="https://example.com/stream" {...field} value={field.value || ""} />
+                      </FormControl>
+                      <FormDescription>
+                        Provide a URL where the auction will be streamed
+                      </FormDescription>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+              )}
+              
+              <div className="flex justify-end space-x-2">
+                <Button 
+                  type="button" 
+                  variant="outline" 
+                  onClick={() => setIsEditDialogOpen(false)}
+                >
+                  Cancel
+                </Button>
+                <Button 
+                  type="submit" 
+                  disabled={updateMutation.isPending}
+                >
+                  {updateMutation.isPending ? "Saving..." : "Save Changes"}
+                </Button>
+              </div>
+            </form>
+          </Form>
+        </DialogContent>
+      </Dialog>
+
+      {/* View Catalog Dialog */}
+      {selectedCatalog && (
+        <Dialog open={isViewDialogOpen} onOpenChange={setIsViewDialogOpen}>
+          <DialogContent className="sm:max-w-[800px] max-h-[90vh] overflow-y-auto">
+            <DialogHeader>
+              <DialogTitle>Auction Catalog</DialogTitle>
+              <DialogDescription>
+                View and manage this auction catalog
+              </DialogDescription>
+            </DialogHeader>
+            
+            <div className="space-y-4">
+              <div className="flex items-center space-x-4">
+                {selectedCatalog.imageUrl ? (
+                  <img
+                    src={selectedCatalog.imageUrl}
+                    alt={selectedCatalog.name}
+                    className="w-20 h-20 rounded object-cover"
+                  />
+                ) : (
+                  <div className="w-20 h-20 rounded bg-gray-100 flex items-center justify-center">
+                    <Calendar className="w-8 h-8 text-gray-400" />
+                  </div>
+                )}
+                <div>
+                  <h3 className="text-lg font-bold">{selectedCatalog.name}</h3>
+                  <div className="flex items-center space-x-2 text-sm text-muted-foreground">
+                    <span>{formatDate(selectedCatalog.eventDate)}</span>
+                    <span>•</span>
+                    <Badge variant={
+                      selectedCatalog.status === "completed" ? "secondary" : 
+                      selectedCatalog.status === "active" ? "success" : 
+                      "outline"
+                    }>
+                      {selectedCatalog.status.charAt(0).toUpperCase() + selectedCatalog.status.slice(1)}
+                    </Badge>
+                    {selectedCatalog.isOnline && (
+                      <Badge variant="outline">Online</Badge>
+                    )}
+                  </div>
+                </div>
+              </div>
+              
+              <Separator />
+              
+              <Tabs defaultValue="details" value={activeViewTab} onValueChange={setActiveViewTab}>
+                <TabsList className="grid w-full grid-cols-2">
+                  <TabsTrigger value="details">
+                    <Calendar className="mr-2 h-4 w-4" /> Catalog Details
+                  </TabsTrigger>
+                  <TabsTrigger value="items">
+                    <Package className="mr-2 h-4 w-4" /> Auction Items ({selectedCatalog.auctionCount || 0})
+                  </TabsTrigger>
+                </TabsList>
+                
+                <TabsContent value="details" className="space-y-4 mt-4">
+                  <div>
+                    <h4 className="font-medium mb-1">Description</h4>
+                    <p className="text-sm whitespace-pre-wrap">{selectedCatalog.description}</p>
+                  </div>
+                  
+                  <div className="grid grid-cols-2 gap-4">
+                    <div>
+                      <h4 className="font-medium mb-1">Event Date</h4>
+                      <p className="text-sm">{formatDate(selectedCatalog.eventDate)}</p>
+                    </div>
+                    
+                    <div>
+                      <h4 className="font-medium mb-1">Location</h4>
+                      <p className="text-sm">{selectedCatalog.location || (selectedCatalog.isOnline ? "Online" : "Not specified")}</p>
+                    </div>
+                  </div>
+                  
+                  {selectedCatalog.isOnline && selectedCatalog.streamUrl && (
+                    <div>
+                      <h4 className="font-medium mb-1">Stream URL</h4>
+                      <a 
+                        href={selectedCatalog.streamUrl} 
+                        target="_blank" 
+                        rel="noopener noreferrer"
+                        className="text-primary hover:underline text-sm"
+                      >
+                        {selectedCatalog.streamUrl}
+                      </a>
+                    </div>
+                  )}
+              </div>
+              
+              <div>
+                <h3 className="text-sm font-medium text-muted-foreground mb-1">Description</h3>
+                <p className="whitespace-pre-line">{selectedCatalog.description}</p>
+              </div>
+              
+              <Separator />
+              
+              <div>
+                <h3 className="text-base font-medium mb-2">
+                  Associated Auctions ({selectedCatalog.auctionCount})
+                </h3>
+                
+                {selectedCatalog.auctions && selectedCatalog.auctions.length > 0 ? (
+                  <div className="overflow-x-auto">
+                    <Table>
+                      <TableHeader>
+                        <TableRow>
+                          <TableHead>Lot #</TableHead>
+                          <TableHead>Item</TableHead>
+                          <TableHead>Start Bid</TableHead>
+                          <TableHead>Status</TableHead>
+                        </TableRow>
+                      </TableHeader>
+                      <TableBody>
+                        {selectedCatalog.auctions.map((auction) => (
+                          <TableRow key={auction.id}>
+                            <TableCell>{auction.lotNumber || "-"}</TableCell>
+                            <TableCell>
+                              <div className="font-medium">{auction.title}</div>
+                            </TableCell>
+                            <TableCell>£{parseFloat(auction.startingBid).toFixed(2)}</TableCell>
+                            <TableCell>
+                              <Badge variant={
+                                auction.status === "ended" ? "secondary" : 
+                                auction.status === "active" ? "success" : 
+                                "outline"
+                              }>
+                                {auction.status.charAt(0).toUpperCase() + auction.status.slice(1)}
+                              </Badge>
+                            </TableCell>
+                          </TableRow>
+                        ))}
+                      </TableBody>
+                    </Table>
+                  </div>
+                ) : (
+                  <div className="text-center py-6 text-muted-foreground">
+                    <p>No auctions added to this catalog yet.</p>
+                    <Button 
+                      variant="outline" 
+                      className="mt-2" 
+                      size="sm"
+                      onClick={() => {
+                        setIsViewDialogOpen(false);
+                        // Ideally navigate to auctions page with a filter for this catalog
+                        // Or open create auction dialog with this catalog pre-selected
+                      }}
+                    >
+                      Add Auctions
+                    </Button>
+                  </div>
+                )}
+              </div>
+              
+              <div className="text-sm text-muted-foreground">
+                <div>Created: {formatDate(selectedCatalog.createdAt)}</div>
+                <div>Last Updated: {formatDate(selectedCatalog.updatedAt)}</div>
+              </div>
+            </div>
+          </DialogContent>
+        </Dialog>
+      )}
+    </>
+  );
+}

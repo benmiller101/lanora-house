@@ -1,0 +1,104 @@
+import { Route, Switch } from "wouter";
+import { Helmet } from "react-helmet";
+import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
+import { Toaster } from "@/components/ui/toaster";
+import RootLayout from "@/components/layout/RootLayout";
+import { ThemeProvider } from "@/components/theme-provider";
+
+// Page imports
+import HomePage from "@/pages";
+import ProductsPage from "@/pages/products";
+import ProductDetailPage from "@/pages/products/[id]";
+import CategoriesPage from "@/pages/categories";
+import CategoryProductsPage from "@/pages/categories/[id]";
+import AboutPage from "@/pages/about";
+import ContactPage from "@/pages/contact";
+import RafflesPage from "@/pages/raffles";
+import RaffleDetailPage from "@/pages/raffles/[id]";
+import CartPage from "@/pages/cart";
+import CheckoutPage from "@/pages/checkout";
+import AuctionsPage from "@/pages/auctions";
+import AuctionCatalogPage from "@/pages/auctions/[id]";
+import AuctionLotPage from "@/pages/auctions/[catalogId]/lots/[lotId]";
+import MembersPage from "@/pages/members";
+import NotFoundPage from "@/pages/404";
+
+// Admin pages
+import AdminLoginPage from "@/pages/admin-login";
+import AdminDashboard from "@/pages/admin";
+import AdminProductsPage from "@/pages/admin/products";
+import AdminCategoriesPage from "@/pages/admin/categories";
+import AdminOrdersPage from "@/pages/admin/orders";
+import AdminRafflesPage from "@/pages/admin/raffles";
+import AdminAuctionCatalogs from "@/pages/admin/auction-catalogs";
+import AdminSubmissionsPage from "@/pages/admin/submissions";
+
+// Create a client
+const queryClient = new QueryClient({
+  defaultOptions: {
+    queries: {
+      retry: 0,
+      refetchOnWindowFocus: false,
+      queryFn: async ({ queryKey }) => {
+        // Default fetcher for queries
+        const [url] = queryKey as [string];
+        const response = await fetch(url);
+        
+        if (!response.ok) {
+          throw new Error(`Network response was not ok: ${response.status}`);
+        }
+        
+        return response.json();
+      },
+    },
+  },
+});
+
+export default function App() {
+  return (
+    <>
+      <Helmet>
+        <title>LANORA HOUSE - Antiques & Collectibles</title>
+        <meta name="description" content="Discover unique antiques, vintage collectibles, and rare items at LANORA HOUSE. Shop our curated collection or participate in auctions and raffles for one-of-a-kind treasures." />
+      </Helmet>
+      
+      <ThemeProvider defaultTheme="light">
+        <QueryClientProvider client={queryClient}>
+          <RootLayout>
+            <Switch>
+              <Route path="/" component={HomePage} />
+              <Route path="/products" component={ProductsPage} />
+              <Route path="/products/:id" component={ProductDetailPage} />
+              <Route path="/categories" component={CategoriesPage} />
+              <Route path="/categories/:id" component={CategoryProductsPage} />
+              <Route path="/about" component={AboutPage} />
+              <Route path="/contact" component={ContactPage} />
+              <Route path="/raffles" component={RafflesPage} />
+              <Route path="/raffles/:id" component={RaffleDetailPage} />
+              <Route path="/cart" component={CartPage} />
+              <Route path="/checkout" component={CheckoutPage} />
+              <Route path="/auctions" component={AuctionsPage} />
+              <Route path="/auctions/:id" component={AuctionCatalogPage} />
+              <Route path="/auctions/:catalogId/lots/:lotId" component={AuctionLotPage} />
+              <Route path="/members" component={MembersPage} />
+              <Route path="/members/:tab" component={MembersPage} />
+              
+              {/* Admin routes */}
+              <Route path="/admin-login" component={AdminLoginPage} />
+              <Route path="/admin" component={AdminDashboard} />
+              <Route path="/admin/products" component={AdminProductsPage} />
+              <Route path="/admin/categories" component={AdminCategoriesPage} />
+              <Route path="/admin/orders" component={AdminOrdersPage} />
+              <Route path="/admin/raffles" component={AdminRafflesPage} />
+              <Route path="/admin/auction-catalogs" component={AdminAuctionCatalogs} />
+              <Route path="/admin/submissions" component={AdminSubmissionsPage} />
+              
+              <Route component={NotFoundPage} />
+            </Switch>
+          </RootLayout>
+          <Toaster />
+        </QueryClientProvider>
+      </ThemeProvider>
+    </>
+  );
+}

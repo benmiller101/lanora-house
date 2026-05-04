@@ -1,0 +1,17 @@
+{
+  "name": "Antique Victorian Mahogany Writing Desk",
+  "description": "An exquisite example of Victorian craftsmanship featuring intricate carved details and original brass hardware",
+  "detailedDescription": "This stunning writing desk showcases the finest Victorian woodworking traditions. Hand-carved mahogany with original brass fittings, leather writing surface, and secret compartments. Authenticated provenance and excellent condition make this a museum-quality piece.",
+  "price": 1850,
+  "originalPrice": 2200,
+  "categoryId": 4,
+  "era": "Victorian (1837-1901)",
+  "condition": "Excellent - Minor wear consistent with age",
+  "materials": "Mahogany, Brass, Leather",
+  "dimensions": "122cm W x 61cm D x 76cm H",
+  "origin": "London, England",
+  "provenance": "Originally commissioned for the Ashworth family estate in 1878. Documented ownership through three generations before acquisition.",
+  "stockQuantity": 1,
+  "isFeatured": true,
+  "isBestSeller": false
+}

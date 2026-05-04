@@ -1,0 +1,249 @@
+@import url('https://fonts.googleapis.com/css2?family=Lexend:wght@300;400;500;600;700&display=swap');
+@import url('https://cdn.jsdelivr.net/npm/remixicon@3.5.0/fonts/remixicon.css');
+
+@font-face {
+  font-family: 'New Spirit';
+  font-style: normal;
+  font-weight: 300;
+  src: url('/fonts/NewSpirit-Light.ttf') format('truetype');
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'New Spirit';
+  font-style: italic;
+  font-weight: 300;
+  src: url('/fonts/NewSpirit-LightItalic.ttf') format('truetype');
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'New Spirit';
+  font-style: normal;
+  font-weight: 400;
+  src: url('/fonts/NewSpirit-Regular.ttf') format('truetype');
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'New Spirit';
+  font-style: italic;
+  font-weight: 400;
+  src: url('/fonts/NewSpirit-RegularItalic.ttf') format('truetype');
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'New Spirit';
+  font-style: normal;
+  font-weight: 500;
+  src: url('/fonts/NewSpirit-Medium.ttf') format('truetype');
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'New Spirit';
+  font-style: italic;
+  font-weight: 500;
+  src: url('/fonts/NewSpirit-MediumItalic.ttf') format('truetype');
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'New Spirit';
+  font-style: normal;
+  font-weight: 600;
+  src: url('/fonts/NewSpirit-SemiBold.ttf') format('truetype');
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'New Spirit';
+  font-style: italic;
+  font-weight: 600;
+  src: url('/fonts/NewSpirit-SemiBoldItalic.ttf') format('truetype');
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'New Spirit';
+  font-style: normal;
+  font-weight: 700;
+  src: url('/fonts/NewSpirit-Bold.ttf') format('truetype');
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'New Spirit';
+  font-style: italic;
+  font-weight: 700;
+  src: url('/fonts/NewSpirit-BoldItalic.ttf') format('truetype');
+  font-display: swap;
+}
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --background: 0 0% 100%;
+  --foreground: 20 14.3% 4.1%;
+  --muted: 214 20% 96%;
+  --muted-foreground: 214 10% 36%;
+  --popover: 0 0% 100%;
+  --popover-foreground: 20 14.3% 4.1%;
+  --card: 0 0% 100%;
+  --card-foreground: 20 14.3% 4.1%;
+  --border: 214 20% 88%;
+  --input: 214 20% 88%;
+  
+  /* LANORA HOUSE Brand Colors - Official brand palette */
+  --primary: 237 47% 33%; /* #2D317C */
+  --primary-light: 237 47% 43%;
+  --primary-dark: 237 45% 29%; /* #292C6D */
+  --primary-foreground: 0 0% 100%;
+  
+  --secondary: 214 54% 77%; /* #A6C1E4 */
+  --secondary-light: 214 54% 87%;
+  --secondary-dark: 214 54% 67%;
+  --secondary-foreground: 237 47% 33%;
+  
+  --accent: 0 0% 100%; /* white */
+  --accent-light: 0 0% 100%;
+  --accent-dark: 214 20% 96%;
+  --accent-foreground: 237 47% 33%;
+  
+  --neutral-ivory: 0 0% 100%;
+  --neutral-paper: 214 54% 97%;
+  --neutral-wood: 237 47% 20%;
+  
+  --status-success: 134 30% 32%;
+  --status-warning: 45 90% 66%;
+  --status-error: 3 57% 51%;
+  
+  --radius: 0.5rem;
+}
+
+.dark {
+  --background: 20 14.3% 4.1%;
+  --foreground: 60 9.1% 97.8%;
+  --muted: 12 6.5% 15.1%;
+  --muted-foreground: 24 5.4% 63.9%;
+  --popover: 20 14.3% 4.1%;
+  --popover-foreground: 60 9.1% 97.8%;
+  --card: 20 14.3% 4.1%;
+  --card-foreground: 60 9.1% 97.8%;
+  --border: 12 6.5% 15.1%;
+  --input: 12 6.5% 15.1%;
+  --primary: 350 58% 35%;
+  --primary-foreground: 60 9.1% 97.8%;
+  --secondary: 44 49% 55%;
+  --secondary-foreground: 12 6.5% 15.1%;
+  --accent: 195 42% 29%;
+  --accent-foreground: 60 9.1% 97.8%;
+  --radius: 0.5rem;
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+  body {
+    @apply font-sans antialiased bg-neutral-ivory text-neutral-wood;
+    font-size: 1rem;
+    line-height: 1.6;
+  }
+  p, li, dd, dt, blockquote {
+    line-height: 1.6;
+    font-size: 1rem;
+  }
+  h1, h2, h3, h4, h5, h6 {
+    @apply font-display;
+    line-height: 1.2;
+  }
+  /* Minimum heading sizes — Tailwind utility classes override these */
+  h1 { font-size: clamp(1.75rem, 4vw, 2.5rem); }
+  h2 { font-size: clamp(1.25rem, 3vw, 1.875rem); }
+  h3 { font-size: clamp(1.125rem, 2.5vw, 1.5rem); }
+  h4, h5, h6 { font-size: clamp(1rem, 2vw, 1.25rem); }
+  /* Ensure small text used as UI labels doesn't apply to semantic body */
+  small, .text-xs, caption {
+    line-height: 1.5;
+  }
+}
+
+@layer components {
+  .raffle-countdown {
+    @apply bg-accent text-accent-foreground;
+    background: hsl(var(--accent));
+  }
+  
+  .antique-card {
+    @apply transition-transform duration-300 hover:-translate-y-1 hover:shadow-lg;
+  }
+
+  .custom-scrollbar::-webkit-scrollbar {
+    @apply w-2;
+  }
+  
+  .custom-scrollbar::-webkit-scrollbar-track {
+    @apply bg-neutral-paper;
+  }
+  
+  .custom-scrollbar::-webkit-scrollbar-thumb {
+    @apply bg-primary rounded-full;
+  }
+
+  /* Simple Product Card Effects */
+  .simple-hover-card {
+    transition: box-shadow 0.2s ease;
+  }
+
+  .simple-hover-card:hover {
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
+  }
+}
+
+/* Print Styles for Invoice */
+@media print {
+  @page {
+    size: A4;
+    margin: 1cm;
+  }
+  
+  body {
+    print-color-adjust: exact;
+    -webkit-print-color-adjust: exact;
+  }
+  
+  /* Hide everything except the invoice */
+  .print\:hidden {
+    display: none !important;
+  }
+  
+  /* Remove shadows and borders for printing */
+  .print\:shadow-none {
+    box-shadow: none !important;
+  }
+  
+  .print\:border-0 {
+    border: 0 !important;
+  }
+  
+  /* Ensure page breaks don't split content */
+  table {
+    page-break-inside: avoid;
+  }
+  
+  tr {
+    page-break-inside: avoid;
+  }
+  
+  /* Make sure colors print correctly */
+  .bg-primary,
+  .text-primary,
+  .border-primary {
+    print-color-adjust: exact;
+    -webkit-print-color-adjust: exact;
+  }
+}

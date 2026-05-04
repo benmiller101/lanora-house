@@ -1,0 +1,980 @@
+import { Request, Response, Router } from 'express';
+import { pool } from './db';
+
+const router = Router();
+
+// POST (create) a new raffle
+router.post("/", async (req: Request, res: Response) => {
+  try {
+    // Start a transaction to ensure all operations succeed or fail together
+    await pool.query('BEGIN');
+    
+    try {
+      const { 
+        name, 
+        description, 
+        itemDescription, 
+        retailPrice, 
+        ticketPrice, 
+        startDate, 
+        startTime, 
+        endDate, 
+        endTime, 
+        maxTickets, 
+        status,
+        imageUrl,
+        instantWinEnabled,
+        instantWinTitle,
+        instantWinPrizes
+      } = req.body;
+      
+      console.log('Creating new raffle with data:', JSON.stringify(req.body, null, 2));
+      
+      // Format the dates properly
+      let formattedStartDate = null;
+      let formattedEndDate = null;
+      
+      if (startDate) {
+        const time = startTime || '00:00';
+        formattedStartDate = new Date(`${startDate}T${time}`);
+      }
+      
+      if (endDate) {
+        const time = endTime || '23:59';
+        formattedEndDate = new Date(`${endDate}T${time}`);
+      }
+      
+      // Create the new raffle
+      const createRaffleQuery = `
+        INSERT INTO raffles (
+          name,
+          description,
+          item_description,
+          retail_price,
+          ticket_price,
+          start_date,
+          end_date,
+          max_tickets,
+          status,
+          image_url,
+          instant_win_enabled,
+          instant_win_title
+        )
+        VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12)
+        RETURNING id
+      `;
+      
+      const values = [
+        name,
+        description || '',
+        itemDescription || '',
+        retailPrice || '0',
+        ticketPrice || '0',
+        formattedStartDate,
+        formattedEndDate,
+        maxTickets || '0',
+        status || 'upcoming',
+        imageUrl || '',
+        instantWinEnabled || false,
+        instantWinTitle || 'COSMIC CASH'
+      ];
+      
+      const result = await pool.query(createRaffleQuery, values);
+      const newRaffleId = result.rows[0].id;
+      
+      // If instant win is enabled and prizes are provided, add them
+      if (instantWinEnabled) {
+        // Ensure we have a valid prize array even if none was provided
+        let prizeArray = [];
+        
+        if (instantWinPrizes && Array.isArray(instantWinPrizes) && instantWinPrizes.length > 0) {
+          prizeArray = instantWinPrizes;
+        } else {
+          // Default prize if none specified but instant win is enabled
+          prizeArray = [{ type: 'cash', count: 5, amount: 10 }];
+        }
+        
+        const prizesJson = JSON.stringify(prizeArray);
+        console.log('Saving instant win prizes:', prizesJson);
+        
+        const updatePrizesQuery = `
+          UPDATE raffles
+          SET instant_win_prizes = $1,
+              instant_win_count = $2
+          WHERE id = $3
+        `;
+        
+        // Calculate total instant win count from all prize configurations
+        const totalCount = prizeArray.reduce((sum, prize) => sum + (prize.count || 0), 0);
+        
+        await pool.query(updatePrizesQuery, [prizesJson, totalCount, newRaffleId]);
+      }
+      
+      // Commit the transaction
+      await pool.query('COMMIT');
+      
+      // Fetch the complete raffle data to return
+      const getCreatedRaffleQuery = `SELECT * FROM raffles WHERE id = $1`;
+      const createdRaffle = await pool.query(getCreatedRaffleQuery, [newRaffleId]);
+      
+      res.status(201).json({
+        message: 'Raffle created successfully',
+        raffle: createdRaffle.rows[0]
+      });
+    } catch (error) {
+      // If there's an error, roll back the transaction
+      await pool.query('ROLLBACK');
+      throw error;
+    }
+  } catch (error) {
+    console.error('Error creating raffle:', error);
+    res.status(500).json({ message: 'Error creating raffle' });
+  }
+});
+
+// PATCH (update) a raffle
+router.patch("/:id", async (req: Request, res: Response) => {
+  try {
+    const raffleId = req.params.id;
+    const updateData = req.body;
+    
+    console.log('Updating raffle with ID:', raffleId);
+    console.log('Update data received:', JSON.stringify(updateData, null, 2));
+    
+    // Start a transaction to ensure all operations succeed or fail together
+    await pool.query('BEGIN');
+    
+    try {
+      // 1. First update the main raffle data
+      const updateRaffleQuery = `
+        UPDATE raffles
+        SET 
+          name = $1,
+          description = $2,
+          item_description = $3,
+          ticket_price = $4,
+          start_date = $5,
+          end_date = $6,
+          max_tickets = $7,
+          status = $8,
+          image_url = $9,
+          instant_win_enabled = $10,
+          instant_win_title = $11
+        WHERE id = $12
+        RETURNING *
+      `;
+      
+      // Format the dates properly
+      let startDate = null;
+      let endDate = null;
+      
+      if (updateData.startDate) {
+        const startTime = updateData.startTime || '00:00';
+        startDate = new Date(`${updateData.startDate}T${startTime}`);
+      }
+      
+      if (updateData.endDate) {
+        const endTime = updateData.endTime || '23:59';
+        endDate = new Date(`${updateData.endDate}T${endTime}`);
+      }
+      
+      const raffleResult = await pool.query(updateRaffleQuery, [
+        updateData.name,
+        updateData.description || '',
+        updateData.itemDescription || '',
+        updateData.ticketPrice || '0',
+        startDate,
+        endDate,
+        updateData.maxTickets || '0',
+        updateData.status || 'active',
+        updateData.imageUrl || '',
+        updateData.hasOwnProperty('instantWinEnabled') ? updateData.instantWinEnabled : false,
+        updateData.instantWinTitle || 'COSMIC CASH',
+        raffleId
+      ]);
+      
+      if (raffleResult.rows.length === 0) {
+        await pool.query('ROLLBACK');
+        return res.status(404).json({ message: 'Raffle not found' });
+      }
+      
+      // 2. Now handle the prizes
+      // If instant win is enabled, update the prizes configuration
+      if (updateData.instantWinEnabled) {
+        // Ensure we have a valid prize array
+        let prizeArray = [];
+        
+        if (updateData.instantWinPrizes && Array.isArray(updateData.instantWinPrizes) && updateData.instantWinPrizes.length > 0) {
+          prizeArray = updateData.instantWinPrizes;
+        } else if (typeof updateData.instantWinPrizes === 'string') {
+          try {
+            prizeArray = JSON.parse(updateData.instantWinPrizes);
+          } catch (error) {
+            console.error('Error parsing instant win prizes:', error);
+            // Fallback to default prizes
+            prizeArray = [{ type: 'cash', count: 5, amount: 10 }];
+          }
+        } else {
+          // Default prize if none provided but enabled
+          prizeArray = [{ type: 'cash', count: 5, amount: 10 }];
+        }
+        
+        console.log('Saving instant win prizes:', prizeArray);
+        
+        const prizesJson = JSON.stringify(prizeArray);
+        
+        // Calculate total count from all prize configurations
+        const totalCount = prizeArray.reduce((sum, prize) => sum + (Number(prize.count) || 0), 0);
+        
+        const updatePrizesQuery = `
+          UPDATE raffles
+          SET instant_win_prizes = $1,
+              instant_win_count = $2
+          WHERE id = $3
+        `;
+        
+        await pool.query(updatePrizesQuery, [prizesJson, totalCount, raffleId]);
+      }
+      // If instant win is disabled, clear the prizes
+      else if (updateData.instantWinEnabled === false) {
+        const clearPrizesQuery = `
+          UPDATE raffles
+          SET instant_win_prizes = NULL,
+              instant_win_count = 0
+          WHERE id = $1
+        `;
+        
+        await pool.query(clearPrizesQuery, [raffleId]);
+      }
+      
+      // Commit the transaction
+      await pool.query('COMMIT');
+      
+      // Fetch the updated raffle for response
+      const getUpdatedQuery = `SELECT * FROM raffles WHERE id = $1`;
+      const updatedResult = await pool.query(getUpdatedQuery, [raffleId]);
+      
+      res.json({ 
+        message: 'Raffle updated successfully',
+        raffle: updatedResult.rows[0]
+      });
+    } catch (error) {
+      // If there's an error, roll back the transaction
+      await pool.query('ROLLBACK');
+      throw error;
+    }
+  } catch (error) {
+    console.error('Error updating raffle:', error);
+    res.status(500).json({ message: 'Error updating raffle' });
+  }
+});
+
+// DELETE a raffle
+router.delete("/:id", async (req: Request, res: Response) => {
+  try {
+    const raffleId = req.params.id;
+    
+    console.log(`Attempting to delete raffle ID: ${raffleId}`);
+    
+    // First check if the raffle exists
+    const checkQuery = `SELECT id FROM raffles WHERE id = $1`;
+    const checkResult = await pool.query(checkQuery, [raffleId]);
+    
+    if (checkResult.rows.length === 0) {
+      return res.status(404).json({ message: 'Raffle not found' });
+    }
+    
+    // Try to delete any entries first
+    try {
+      const deleteEntriesQuery = `DELETE FROM raffle_entries WHERE raffle_id = $1`;
+      await pool.query(deleteEntriesQuery, [raffleId]);
+      console.log(`Deleted entries for raffle ID: ${raffleId}`);
+    } catch (entriesError) {
+      console.error('Error deleting raffle entries:', entriesError);
+      // Continue with deletion even if entries deletion fails
+    }
+    
+    // Try to delete any instant win prizes
+    try {
+      const deleteInstantWinsQuery = `DELETE FROM instant_win_prizes WHERE raffle_id = $1`;
+      await pool.query(deleteInstantWinsQuery, [raffleId]);
+      console.log(`Deleted instant win prizes for raffle ID: ${raffleId}`);
+    } catch (prizesError) {
+      console.error('Error deleting instant win prizes:', prizesError);
+      // Continue with deletion even if prizes deletion fails
+    }
+    
+    // Now delete the raffle itself
+    const deleteQuery = `DELETE FROM raffles WHERE id = $1 RETURNING *`;
+    const result = await pool.query(deleteQuery, [raffleId]);
+    
+    console.log(`Successfully deleted raffle ID: ${raffleId}`);
+    res.json({ message: 'Raffle deleted successfully' });
+  } catch (error) {
+    console.error('Error deleting raffle:', error);
+    res.status(500).json({ message: 'Error deleting raffle' });
+  }
+});
+
+// Default instant win configuration (when raffle doesn't have specific settings)
+const DEFAULT_INSTANT_WIN_MODULO = 50;     // Tickets with numbers divisible by this value win
+
+// Helper function to format raffle data consistently with instant win prizes
+function formatRaffleResponse(raffle) {
+  // Parse the instant win prizes if they exist
+  let instantWinPrizes = null;
+  if (raffle.instant_win_prizes) {
+    try {
+      instantWinPrizes = JSON.parse(raffle.instant_win_prizes);
+      console.log('Parsed instant win prizes for raffle ID', raffle.id, ':', instantWinPrizes);
+    } catch (error) {
+      console.error('Error parsing instant win prizes for raffle ID', raffle.id, ':', error);
+    }
+  }
+  
+  return {
+    id: raffle.id.toString(),
+    name: raffle.name,
+    description: raffle.description || '',
+    itemDescription: raffle.item_description || '',
+    retailPrice: raffle.retail_price ? raffle.retail_price.toString() : '0',
+    ticketPrice: raffle.ticket_price ? raffle.ticket_price.toString() : '0',
+    startDate: raffle.start_date ? new Date(raffle.start_date).toISOString() : '',
+    endDate: raffle.end_date ? new Date(raffle.end_date).toISOString() : '',
+    endTime: raffle.end_time || '',
+    maxTickets: raffle.max_tickets || 0,
+    soldTickets: raffle.sold_tickets || 0,
+    status: raffle.status || 'upcoming',
+    ticketLimit: raffle.max_tickets || 0,
+    imageUrl: raffle.image_url || '',
+    createdAt: raffle.created_at,
+    updatedAt: raffle.updated_at,
+    winnerId: raffle.winner_id,
+    winningTicketNumber: raffle.winning_ticket_number,
+    instantWinEnabled: raffle.instant_win_enabled || false,
+    instantWinTitle: raffle.instant_win_title || '',
+    instantWinCount: raffle.instant_win_count || 0,
+    instantWinPrizes: instantWinPrizes
+  };
+}
+const DEFAULT_INSTANT_WIN_AMOUNT = 5;      // Default amount won per winning ticket (in £)
+
+// Get a single raffle by ID
+router.get("/:id", async (req: Request, res: Response) => {
+  try {
+    const raffleId = req.params.id;
+    
+    if (!raffleId) {
+      return res.status(400).json({ message: 'Invalid raffle ID' });
+    }
+    
+    // Check if this is a special route rather than a numeric ID
+    if (isNaN(Number(raffleId))) {
+      // Handle special routes like 'admin', 'featured', 'upcoming', etc.
+      if (raffleId === 'admin') {
+        // Return all raffles for admin
+        const query = `SELECT * FROM raffles ORDER BY created_at DESC`;
+        const result = await pool.query(query);
+        
+        // Transform the data to match the expected format
+        const raffles = result.rows.map(raffle => ({
+          id: raffle.id.toString(),
+          name: raffle.name,
+          description: raffle.description || '',
+          itemDescription: raffle.item_description || '',
+          retailPrice: raffle.retail_price ? raffle.retail_price.toString() : '0',
+          ticketPrice: raffle.ticket_price ? raffle.ticket_price.toString() : '0',
+          startDate: raffle.start_date ? new Date(raffle.start_date).toISOString() : '',
+          endDate: raffle.end_date ? new Date(raffle.end_date).toISOString() : '',
+          endTime: raffle.end_time || '',
+          maxTickets: raffle.max_tickets || 0,
+          soldTickets: raffle.sold_tickets || 0,
+          status: raffle.status || 'upcoming',
+          ticketLimit: raffle.max_tickets || 0,
+          imageUrl: raffle.image_url || '',
+          createdAt: raffle.created_at,
+          updatedAt: raffle.updated_at,
+          winnerId: raffle.winner_id,
+          winningTicketNumber: raffle.winning_ticket_number
+        }));
+        
+        return res.json(raffles);
+      } else if (raffleId === 'featured') {
+        // Return featured raffles (active ones with the earliest end date)
+        const query = `
+          SELECT * FROM raffles 
+          WHERE status = 'active' AND end_date > NOW()
+          ORDER BY end_date ASC
+          LIMIT 1
+        `;
+        const result = await pool.query(query);
+        
+        // Transform the data to match the expected format
+        const raffles = result.rows.map(raffle => ({
+          id: raffle.id.toString(),
+          name: raffle.name,
+          description: raffle.description || '',
+          itemDescription: raffle.item_description || '',
+          retailPrice: raffle.retail_price ? raffle.retail_price.toString() : '0',
+          ticketPrice: raffle.ticket_price ? raffle.ticket_price.toString() : '0',
+          startDate: raffle.start_date ? new Date(raffle.start_date).toISOString() : '',
+          endDate: raffle.end_date ? new Date(raffle.end_date).toISOString() : '',
+          endTime: raffle.end_time || '',
+          maxTickets: raffle.max_tickets || 0,
+          soldTickets: raffle.sold_tickets || 0,
+          status: raffle.status || 'upcoming',
+          ticketLimit: raffle.max_tickets || 0,
+          imageUrl: raffle.image_url || '',
+          createdAt: raffle.created_at,
+          updatedAt: raffle.updated_at,
+          winnerId: raffle.winner_id,
+          winningTicketNumber: raffle.winning_ticket_number
+        }));
+        
+        return res.json(raffles);
+      } else if (raffleId === 'upcoming') {
+        // Return upcoming raffles
+        const query = `
+          SELECT * FROM raffles 
+          WHERE (status = 'upcoming' OR (status = 'active' AND start_date > NOW()))
+          ORDER BY start_date ASC
+        `;
+        const result = await pool.query(query);
+        
+        // Transform the data to match the expected format
+        const raffles = result.rows.map(raffle => ({
+          id: raffle.id.toString(),
+          name: raffle.name,
+          description: raffle.description || '',
+          itemDescription: raffle.item_description || '',
+          retailPrice: raffle.retail_price ? raffle.retail_price.toString() : '0',
+          ticketPrice: raffle.ticket_price ? raffle.ticket_price.toString() : '0',
+          startDate: raffle.start_date ? new Date(raffle.start_date).toISOString() : '',
+          endDate: raffle.end_date ? new Date(raffle.end_date).toISOString() : '',
+          endTime: raffle.end_time || '',
+          maxTickets: raffle.max_tickets || 0,
+          soldTickets: raffle.sold_tickets || 0,
+          status: raffle.status || 'upcoming',
+          ticketLimit: raffle.max_tickets || 0,
+          imageUrl: raffle.image_url || '',
+          createdAt: raffle.created_at,
+          updatedAt: raffle.updated_at,
+          winnerId: raffle.winner_id,
+          winningTicketNumber: raffle.winning_ticket_number
+        }));
+        
+        return res.json(raffles);
+      } else if (raffleId === 'active') {
+        // Return active raffles
+        const query = `
+          SELECT * FROM raffles 
+          WHERE status = 'active' AND start_date <= NOW() AND end_date > NOW()
+          ORDER BY end_date ASC
+        `;
+        const result = await pool.query(query);
+        
+        // Transform the data to match the expected format
+        const raffles = result.rows.map(raffle => {
+          // Parse the instant win prizes if they exist
+          let instantWinPrizes = null;
+          if (raffle.instant_win_prizes) {
+            try {
+              instantWinPrizes = JSON.parse(raffle.instant_win_prizes);
+              console.log('Processed instant win prizes:', instantWinPrizes);
+            } catch (error) {
+              console.error('Error parsing instant win prizes:', error);
+            }
+          }
+          
+          return {
+            id: raffle.id.toString(),
+            name: raffle.name,
+            description: raffle.description || '',
+            itemDescription: raffle.item_description || '',
+            retailPrice: raffle.retail_price ? raffle.retail_price.toString() : '0',
+            ticketPrice: raffle.ticket_price ? raffle.ticket_price.toString() : '0',
+            startDate: raffle.start_date ? new Date(raffle.start_date).toISOString() : '',
+            endDate: raffle.end_date ? new Date(raffle.end_date).toISOString() : '',
+            endTime: raffle.end_time || '',
+            maxTickets: raffle.max_tickets || 0,
+            ticketsSold: raffle.tickets_sold || 0,
+            status: raffle.status || 'upcoming',
+            ticketLimit: raffle.max_tickets || 0,
+            imageUrl: raffle.image_url || '',
+            createdAt: raffle.created_at,
+            updatedAt: raffle.updated_at,
+            winnerId: raffle.winner_id,
+            winningTicketNumber: raffle.winning_ticket_number,
+            // Add instant win configuration
+            instantWinEnabled: raffle.instant_win_enabled || false,
+            instantWinTitle: raffle.instant_win_title || 'COSMIC CASH',
+            instantWinPrizes: instantWinPrizes
+          };
+        });
+        
+        return res.json(raffles);
+      } else if (raffleId === 'past') {
+        // Return past raffles
+        const query = `
+          SELECT * FROM raffles 
+          WHERE (status = 'ended' OR (status = 'active' AND end_date < NOW()))
+          ORDER BY end_date DESC
+        `;
+        const result = await pool.query(query);
+        
+        // Transform the data to match the expected format
+        const raffles = result.rows.map(raffle => {
+          // Parse the instant win prizes if they exist
+          let instantWinPrizes = null;
+          if (raffle.instant_win_prizes) {
+            try {
+              instantWinPrizes = JSON.parse(raffle.instant_win_prizes);
+              console.log('Processed instant win prizes:', instantWinPrizes);
+            } catch (error) {
+              console.error('Error parsing instant win prizes:', error);
+            }
+          }
+          
+          return {
+          id: raffle.id.toString(),
+          name: raffle.name,
+          description: raffle.description || '',
+          itemDescription: raffle.item_description || '',
+          retailPrice: raffle.retail_price ? raffle.retail_price.toString() : '0',
+          ticketPrice: raffle.ticket_price ? raffle.ticket_price.toString() : '0',
+          startDate: raffle.start_date ? new Date(raffle.start_date).toISOString() : '',
+          endDate: raffle.end_date ? new Date(raffle.end_date).toISOString() : '',
+          endTime: raffle.end_time || '',
+          maxTickets: raffle.max_tickets || 0,
+          soldTickets: raffle.sold_tickets || 0,
+          status: raffle.status || 'upcoming',
+          ticketLimit: raffle.max_tickets || 0,
+          imageUrl: raffle.image_url || '',
+          createdAt: raffle.created_at,
+          updatedAt: raffle.updated_at,
+          winnerId: raffle.winner_id,
+          winningTicketNumber: raffle.winning_ticket_number
+        }));
+        
+        return res.json(raffles);
+      }
+      
+      return res.status(404).json({ message: 'Invalid route parameter' });
+    }
+    
+    // Use direct SQL to get the raffle details
+    const query = `
+      SELECT r.*, 
+             (SELECT COUNT(*) FROM raffle_entries WHERE raffle_id = $1) as entry_count
+      FROM raffles r
+      WHERE r.id = $1
+    `;
+    
+    const result = await pool.query(query, [raffleId]);
+    
+    if (result.rows.length === 0) {
+      return res.status(404).json({ message: 'Raffle not found' });
+    }
+    
+    const raffle = result.rows[0];
+    
+    // Get winner information if available
+    let winner = null;
+    if (raffle.winner_id) {
+      const winnerQuery = `SELECT id, first_name, last_name, username FROM users WHERE id = $1`;
+      const winnerResult = await pool.query(winnerQuery, [raffle.winner_id]);
+      
+      if (winnerResult.rows.length > 0) {
+        const winnerUser = winnerResult.rows[0];
+        winner = {
+          id: winnerUser.id,
+          name: winnerUser.first_name && winnerUser.last_name
+            ? `${winnerUser.first_name} ${winnerUser.last_name}`
+            : winnerUser.username || 'Anonymous'
+        };
+      }
+    }
+    
+    // Parse the instant win prizes if they exist
+    let instantWinPrizes = [];
+    if (raffle.instant_win_prizes) {
+      try {
+        instantWinPrizes = JSON.parse(raffle.instant_win_prizes);
+        console.log("Parsed instant win prizes:", instantWinPrizes);
+      } catch (err) {
+        console.error("Error parsing instant win prizes:", err);
+      }
+    }
+    
+    // Format the response using our helper function
+    const baseResponse = formatRaffleResponse(raffle);
+    
+    // Add additional fields specific to this endpoint
+    const formattedRaffle = {
+      ...baseResponse,
+      ticketsSold: raffle.sold_tickets || 0,
+      // Keep legacy fields for backwards compatibility
+      instantWinAmount: raffle.instant_win_amount ? raffle.instant_win_amount.toString() : DEFAULT_INSTANT_WIN_AMOUNT.toString(),
+      instantWinNumbers: raffle.instant_win_numbers || [],
+      entryCount: parseInt(raffle.entry_count || '0')
+    };
+    
+    res.json(formattedRaffle);
+  } catch (error) {
+    console.error('Error fetching raffle:', error);
+    res.status(500).json({ message: 'Internal server error' });
+  }
+});
+
+// Get user's tickets for a specific raffle
+// Helper function to check for instant wins
+async function checkForInstantWins(raffleId: string, ticketNumbers: number[]): Promise<{ 
+  winningTickets: number[], 
+  totalAmount: number 
+}> {
+  try {
+    // Get the raffle configuration
+    const raffleQuery = `SELECT * FROM raffles WHERE id = $1`;
+    const raffleResult = await pool.query(raffleQuery, [raffleId]);
+    
+    if (raffleResult.rows.length === 0) {
+      return { winningTickets: [], totalAmount: 0 };
+    }
+    
+    const raffle = raffleResult.rows[0];
+    
+    // Check if instant win is enabled for this raffle
+    if (!raffle.instant_win_enabled) {
+      return { winningTickets: [], totalAmount: 0 };
+    }
+    
+    let winningTickets: number[] = [];
+    
+    // If raffle has specific instant win numbers, use those
+    if (raffle.instant_win_numbers && Array.isArray(raffle.instant_win_numbers) && raffle.instant_win_numbers.length > 0) {
+      winningTickets = ticketNumbers.filter(num => raffle.instant_win_numbers.includes(num));
+    } else {
+      // Otherwise use default rule (numbers divisible by the modulo)
+      winningTickets = ticketNumbers.filter(num => num % DEFAULT_INSTANT_WIN_MODULO === 0);
+    }
+    
+    // Get the reward amount from raffle config or use default
+    const instantWinAmount = raffle.instant_win_amount ? parseFloat(raffle.instant_win_amount) : DEFAULT_INSTANT_WIN_AMOUNT;
+    
+    // Calculate total win amount
+    const totalAmount = winningTickets.length * instantWinAmount;
+    
+    return { winningTickets, totalAmount };
+  } catch (error) {
+    console.error('Error checking for instant wins:', error);
+    return { winningTickets: [], totalAmount: 0 };
+  }
+}
+
+// API route to add funds to user wallet (for instant wins)
+router.post("/instant-win/claim", async (req: any, res: Response) => {
+  try {
+    const userId = req.user?.claims?.sub || req.body.userId;
+    
+    if (!userId) {
+      return res.status(401).json({ message: 'Not authenticated' });
+    }
+    
+    const { amount, ticketNumbers, raffleId } = req.body;
+    
+    if (!raffleId) {
+      return res.status(400).json({ message: 'Raffle ID is required' });
+    }
+    
+    if (!amount || amount <= 0) {
+      return res.status(400).json({ message: 'Invalid amount' });
+    }
+    
+    // Verify the ticket numbers actually belong to the user and are winners
+    if (ticketNumbers && Array.isArray(ticketNumbers)) {
+      const { winningTickets, totalAmount } = await checkForInstantWins(raffleId, ticketNumbers);
+      
+      if (winningTickets.length === 0 || Math.abs(totalAmount - amount) > 0.01) { // Allow for small floating point differences
+        return res.status(400).json({ 
+          message: 'Invalid instant win claim',
+          expected: totalAmount,
+          provided: amount 
+        });
+      }
+    }
+    
+    // Add funds to wallet
+    const insertWalletQuery = `
+      INSERT INTO wallet_transactions (user_id, amount, transaction_type, description, status)
+      VALUES ($1, $2, 'deposit', 'Instant Win Prize', 'completed')
+      RETURNING *
+    `;
+    
+    const walletResult = await pool.query(insertWalletQuery, [userId, amount]);
+    
+    if (walletResult.rows.length === 0) {
+      return res.status(500).json({ message: 'Failed to process instant win' });
+    }
+    
+    // Update user wallet balance
+    const updateBalanceQuery = `
+      UPDATE users 
+      SET wallet_balance = COALESCE(wallet_balance, 0) + $1
+      WHERE id = $2
+      RETURNING wallet_balance
+    `;
+    
+    const balanceResult = await pool.query(updateBalanceQuery, [amount, userId]);
+    
+    return res.status(200).json({
+      success: true,
+      transaction: walletResult.rows[0],
+      newBalance: balanceResult.rows[0]?.wallet_balance || amount
+    });
+  } catch (error) {
+    console.error('Error processing instant win:', error);
+    return res.status(500).json({ message: 'Failed to process instant win' });
+  }
+});
+
+// Get instant win tickets and winners for a raffle
+router.get("/:id/instant-winners", async (req: Request, res: Response) => {
+  try {
+    const raffleId = req.params.id;
+    
+    // Get the raffle to check if instant win is enabled
+    const raffleQuery = `SELECT * FROM raffles WHERE id = $1`;
+    const raffleResult = await pool.query(raffleQuery, [raffleId]);
+    
+    if (raffleResult.rows.length === 0) {
+      return res.status(404).json({ message: 'Raffle not found' });
+    }
+    
+    const raffle = raffleResult.rows[0];
+    
+    if (!raffle.instant_win_enabled) {
+      return res.json({ 
+        instantWinEnabled: false,
+        winners: [],
+        title: '',
+        amount: 0
+      });
+    }
+    
+    // Get all tickets for this raffle
+    const ticketsQuery = `
+      SELECT re.ticket_numbers, u.id as user_id, u.first_name, u.last_name 
+      FROM raffle_entries re
+      JOIN users u ON re.user_id = u.id
+      WHERE re.raffle_id = $1
+    `;
+    
+    const ticketsResult = await pool.query(ticketsQuery, [raffleId]);
+    
+    // Determine which tickets are winners
+    const instantWinNumbers = raffle.instant_win_numbers && Array.isArray(raffle.instant_win_numbers) && raffle.instant_win_numbers.length > 0
+      ? raffle.instant_win_numbers
+      : [];
+      
+    // Check for instant winners in the database
+    const winnersQuery = `
+      SELECT iw.ticket_number, iw.user_id, u.first_name, u.last_name
+      FROM instant_winners iw
+      JOIN users u ON iw.user_id = u.id
+      WHERE iw.raffle_id = $1
+    `;
+    
+    const winnersResult = await pool.query(winnersQuery, [raffleId]);
+    
+    // Process all tickets to find winners
+    const allTickets: number[] = [];
+    const existingWinners: any[] = [];
+    
+    // Add existing winners from the database
+    winnersResult.rows.forEach(winner => {
+      existingWinners.push({
+        ticketNumber: winner.ticket_number,
+        userId: winner.user_id,
+        name: `${winner.first_name} ${winner.last_name.charAt(0)}`,
+        isWinner: true
+      });
+    });
+    
+    // Add all tickets from entries
+    ticketsResult.rows.forEach(entry => {
+      if (entry.ticket_numbers && Array.isArray(entry.ticket_numbers)) {
+        entry.ticket_numbers.forEach((ticketNumber: number) => {
+          allTickets.push(ticketNumber);
+          
+          // If this ticket is a winner but not in existing winners, add it
+          if (instantWinNumbers.includes(ticketNumber) || ticketNumber % 10 === 0) {
+            const alreadyListed = existingWinners.some(w => w.ticketNumber === ticketNumber);
+            
+            if (!alreadyListed) {
+              existingWinners.push({
+                ticketNumber,
+                userId: entry.user_id,
+                name: `${entry.first_name} ${entry.last_name.charAt(0)}`,
+                isWinner: true
+              });
+            }
+          }
+        });
+      }
+    });
+    
+    // Generate some random non-winning tickets to display
+    const nonWinningTickets = Array.from({ length: 30 }, () => 
+      Math.floor(Math.random() * 100) + 1
+    );
+    
+    // Combine existing winners with some non-winners for display
+    const displayWinners = [...nonWinningTickets, ...existingWinners.map(w => w.ticketNumber)]
+      .filter((v, i, a) => a.indexOf(v) === i) // Remove duplicates
+      .slice(0, 50) // Limit to 50 tickets for display
+      .map(ticketNumber => {
+        const winner = existingWinners.find(w => w.ticketNumber === ticketNumber);
+        if (winner) {
+          return winner;
+        }
+        return {
+          ticketNumber,
+          userId: null,
+          name: '', 
+          isWinner: false
+        };
+      })
+      .sort(() => Math.random() - 0.5); // Randomize the order
+    
+    res.json({
+      instantWinEnabled: true,
+      title: raffle.instant_win_title || 'COSMIC CASH',
+      amount: raffle.instant_win_amount || 2,
+      prizeType: raffle.instant_win_prize_type || 'cash',
+      winners: displayWinners
+    });
+    
+    // Generate non-winning ticket numbers to fill out the display
+    // Include all max ticket numbers but mark only the winning ones
+    const maxNumber = raffle.max_tickets || 20000;
+    const totalWinners = raffle.instant_win_count || 25;
+    const displayCount = Math.min(maxNumber, 100); // Limit total display count to 100
+    
+    // Generate unique random numbers for display
+    const displayNumbers = new Set<number>();
+    
+    // First add all winning ticket numbers
+    existingWinners.forEach(winner => {
+      displayNumbers.add(winner.ticketNumber);
+    });
+    
+    // Then add random non-winning numbers until we reach displayCount
+    while (displayNumbers.size < displayCount) {
+      const randomNumber = Math.floor(Math.random() * maxNumber) + 1;
+      if (!instantWinNumbers.includes(randomNumber)) {
+        displayNumbers.add(randomNumber);
+      }
+    }
+    
+    // Convert to array and randomize order
+    const ticketsToDisplay = Array.from(displayNumbers)
+      .map(ticketNumber => {
+        const winner = existingWinners.find(w => w.ticketNumber === ticketNumber);
+        if (winner) {
+          return winner;
+        }
+        return {
+          ticketNumber,
+          userId: null,
+          name: '', 
+          isWinner: false
+        };
+      })
+      .sort(() => Math.random() - 0.5); // Randomize the order
+    
+    res.json({
+      instantWinEnabled: true,
+      title: raffle.instant_win_title || 'COSMIC CASH',
+      amount: raffle.instant_win_amount || 2,
+      prizeType: raffle.instant_win_prize_type || 'cash',
+      winners: ticketsToDisplay
+    });
+    
+  } catch (error) {
+    console.error('Error fetching instant winners:', error);
+    res.status(500).json({ message: 'Internal server error' });
+  }
+});
+
+router.get("/:id/my-tickets", async (req: any, res: Response) => {
+  try {
+    const raffleId = req.params.id;
+    const userId = req.user?.claims?.sub || req.query.userId;
+    
+    if (!userId) {
+      return res.status(401).json({ message: 'You must be logged in to view your tickets' });
+    }
+    
+    // Get raffle information for the instant win configuration
+    const raffleQuery = `SELECT * FROM raffles WHERE id = $1`;
+    const raffleResult = await pool.query(raffleQuery, [raffleId]);
+    
+    if (raffleResult.rows.length === 0) {
+      return res.status(404).json({ message: 'Raffle not found' });
+    }
+    
+    const raffle = raffleResult.rows[0];
+    
+    // Get the user's entries for this raffle with direct SQL
+    const query = `
+      SELECT * FROM raffle_entries 
+      WHERE raffle_id = $1 AND user_id = $2
+    `;
+    
+    const result = await pool.query(query, [raffleId, userId]);
+    
+    // Extract all ticket numbers from all entries for this raffle
+    const tickets = result.rows.flatMap(entry => {
+      if (Array.isArray(entry.ticket_numbers)) {
+        return entry.ticket_numbers;
+      } else if (typeof entry.ticket_numbers === 'string') {
+        try {
+          return JSON.parse(entry.ticket_numbers);
+        } catch (e) {
+          console.error('Error parsing ticket numbers:', e);
+          return [];
+        }
+      }
+      return [];
+    });
+    
+    // Format the response
+    const formattedTickets = tickets.map(ticketNumber => {
+      // Check if this ticket is an instant winner
+      let isInstantWinner = false;
+      
+      if (raffle.instant_win_enabled) {
+        // If raffle has specific instant win numbers, check if this ticket is among them
+        if (raffle.instant_win_numbers && Array.isArray(raffle.instant_win_numbers) && raffle.instant_win_numbers.length > 0) {
+          isInstantWinner = raffle.instant_win_numbers.includes(ticketNumber);
+        } else {
+          // Otherwise use default rule (numbers divisible by the modulo)
+          isInstantWinner = ticketNumber % DEFAULT_INSTANT_WIN_MODULO === 0;
+        }
+      }
+      
+      return {
+        ticketNumber,
+        purchaseDate: result.rows[0]?.created_at || new Date().toISOString(),
+        isInstantWinner
+      };
+    });
+    
+    res.json(formattedTickets);
+  } catch (error) {
+    console.error('Error fetching user raffle tickets:', error);
+    res.status(500).json({ message: 'Internal server error' });
+  }
+});
+
+export default router;
