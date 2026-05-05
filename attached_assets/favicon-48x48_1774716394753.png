@@ -1,0 +1,23 @@
+<!-- ===== Favicons & PWA — paste into your <head> ===== -->
+
+<!-- Classic favicon -->
+<link rel="icon" href="/favicon.ico" sizes="any">
+
+<!-- SVG favicon (modern browsers) — swap for an SVG version if you have one -->
+<link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+<link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+
+<!-- Apple Touch Icon -->
+<link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+
+<!-- PWA manifest -->
+<link rel="manifest" href="/site.webmanifest">
+
+<!-- Theme colour (browser chrome on mobile) -->
+<meta name="theme-color" content="#1a1a1a">
+
+<!-- Open Graph / Social sharing image -->
+<meta property="og:image" content="/og-image.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<!-- ===================================================== -->

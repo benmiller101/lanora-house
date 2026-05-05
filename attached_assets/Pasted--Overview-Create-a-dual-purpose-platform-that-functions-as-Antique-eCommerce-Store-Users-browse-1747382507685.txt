@@ -1,0 +1,169 @@
+🧩 Overview
+Create a dual-purpose platform that functions as:
+
+Antique eCommerce Store: Users browse, buy, and bid on antiques.
+
+Raffle System: Select antique items are offered via a raffle; users buy tickets to enter and potentially win.
+
+Include a web application and a mobile app (iOS + Android) that are fully synchronized.
+
+📚 Project Objectives
+Primary Goals:
+Create a responsive and elegant web app and mobile app.
+
+Support:
+
+Direct purchases of antiques.
+
+Raffles for select high-value or unique items.
+
+Auctions (optional but useful extension).
+
+Build an admin panel to manage items, raffles, users, and analytics.
+
+Ensure user authentication, payment processing, notifications, and security.
+
+🧱 Core Components
+1. 🖥️ Front-End
+a. Web (React + TailwindCSS or Next.js)
+Homepage with featured items & raffle previews.
+
+Product listing with filter/sort/search.
+
+Product details (with images, descriptions, seller notes, condition).
+
+Raffle page (countdown, ticket pricing, odds display).
+
+Account page: orders, raffle entries, wins, saved items.
+
+Cart + Checkout.
+
+Live updates on raffles.
+
+b. Mobile App (React Native or Flutter)
+Mirrored functionality of the web.
+
+Push notifications for raffles, purchases, account activity.
+
+QR code scanner for live events (e.g. in-store raffles or antique shows).
+
+2. ⚙️ Back-End
+a. Server (Node.js + Express or NestJS / Python Flask/FastAPI)
+RESTful or GraphQL API.
+
+Microservices architecture if scaling is needed.
+
+b. Database (PostgreSQL or MongoDB)
+Models:
+
+User (auth, profile, roles)
+
+AntiqueItem (details, images, price, condition)
+
+Raffle (item ref, ticket price, max entries, end date/time, winner)
+
+Order (user, item, payment info)
+
+RaffleEntry (user, raffle_id, ticket count)
+
+AdminActivity, Notifications, Favorites
+
+c. Authentication
+JWT or OAuth 2.0
+
+Optional: Sign-in with Google/Apple/Facebook
+
+Role-based access (user, admin, staff)
+
+d. File Storage
+Images & files via AWS S3 or Firebase Storage.
+
+3. 💸 Payments
+Stripe integration (raffle tickets, purchases, refunds).
+
+Split payouts if sellers can submit antiques.
+
+Fraud protection & logging.
+
+4. 📢 Notifications
+Email (SendGrid/Mailgun)
+
+SMS (Twilio)
+
+Push notifications (Firebase)
+
+In-app alerts (raffle ending soon, item back in stock, you won, etc.)
+
+5. 🧰 Admin Dashboard
+User management
+
+Raffle creation and monitoring
+
+Inventory upload / CRUD
+
+Order fulfillment
+
+Analytics dashboard (sales, raffle performance, user activity)
+
+6. 🎯 Raffle Mechanics
+Set max entries and ticket price per item.
+
+Live countdowns.
+
+Auto draw winner at expiration.
+
+Transparency: show # of entries, odds, past winners.
+
+Optional: livestream of the draw.
+
+7. 🏬 Antique Store Features
+Items for sale can be:
+
+Buy Now
+
+Enter Raffle
+
+(Optional) Auction
+
+Condition grades: Mint, Excellent, Good, Fair, Poor.
+
+Historical details or provenance for premium items.
+
+8. 🛡️ Security & Compliance
+HTTPS with SSL.
+
+GDPR/CCPA compliance for data handling.
+
+CAPTCHA for account creation.
+
+Rate-limiting on requests.
+
+Encrypted payments & password storage (bcrypt or Argon2).
+
+Audit trails for admin actions.
+
+9. 🔍 Search & SEO
+ElasticSearch or Algolia for antique search.
+
+Friendly URLs, meta-tags, social card previews.
+
+Blog module (antique stories, history) for content marketing.
+
+10. 🧪 Testing & DevOps
+Unit & integration testing (Jest, Mocha, or Pytest).
+
+CI/CD pipeline (GitHub Actions or GitLab).
+
+Containerized with Docker.
+
+Deploy on AWS/GCP/Vercel with auto-scaling.
+
+📱 App-Specific Notes
+PWA support for web app.
+
+Offline access to raffle ticket confirmation.
+
+Optional AR feature to preview antiques in-room.
+
+Live stream support for antique showcases or raffle announcements.
+

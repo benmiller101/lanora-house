@@ -1,0 +1,85 @@
+Please improve the SEO of this website by making the following 
+technical and metadata changes ONLY. Do NOT change any visible 
+design, layout, colours, fonts, images, or content that users 
+can see. All changes should be in the HTML head, meta tags, 
+structured data, or minor semantic HTML adjustments.
+
+Make the following fixes:
+
+1. META TAGS
+- Add a unique, descriptive <title> tag to every page (50–60 
+  characters). Example for homepage: "Lanora House | Auctions 
+  & Clearance Sales"
+- Add a unique <meta name="description"> to every page 
+  (120–155 characters) summarising that page's content
+- Add <meta name="robots" content="index, follow"> to all 
+  public pages
+- Ensure there are no duplicate title or description tags 
+  across pages
+
+2. HEADING STRUCTURE
+- Make sure every page has exactly ONE <h1> tag that describes 
+  the page's main topic
+- Restructure any headings so they follow a logical order: 
+  h1 → h2 → h3 (no skipping levels)
+- Do not change the visible text or styling — just correct 
+  the HTML tag used
+
+3. IMAGE ALT TEXT
+- Add descriptive alt="" attributes to every <img> tag that 
+  is missing one
+- For decorative images only, use alt=""
+- Keep descriptions concise and relevant (e.g., 
+  alt="Antique oak dining table at auction")
+
+4. CANONICAL TAGS
+- Add <link rel="canonical" href="[full page URL]"> to the 
+  <head> of every page to prevent duplicate content issues
+
+5. OPEN GRAPH & SOCIAL META TAGS
+- Add the following to every page's <head>:
+  <meta property="og:title" content="[page title]">
+  <meta property="og:description" content="[page description]">
+  <meta property="og:image" content="[URL to a relevant image]">
+  <meta property="og:url" content="[full page URL]">
+  <meta property="og:type" content="website">
+
+6. STRUCTURED DATA (Schema.org JSON-LD)
+- Add a JSON-LD script block to the homepage identifying the 
+  business:
+  {
+    "@context": "https://schema.org",
+    "@type": "LocalBusiness",
+    "name": "Lanora House",
+    "url": "https://www.lanorahouse.com",
+    "description": "Auction and clearance sales website"
+  }
+- Add AuctionEvent or Product schema to any individual listing 
+  pages where applicable
+
+7. INTERNAL LINKING
+- Ensure every page is reachable via at least one internal link 
+  from another page
+- Add descriptive anchor text to links (avoid "click here" 
+  or "read more" — use descriptive phrases like 
+  "View current auction listings")
+
+8. PAGE SPEED / TECHNICAL
+- Add <link rel="preconnect"> tags for any external fonts or 
+  CDN resources used
+- Ensure all CSS and JS files are minified if not already
+- Add loading="lazy" to all images that are below the fold
+
+9. SITEMAP & ROBOTS.TXT
+- Confirm there is a valid /sitemap.xml listing all public pages
+- Confirm /robots.txt exists and does not accidentally block 
+  search engines (it should allow all crawlers for public pages)
+
+10. HTTPS & LINKS
+- Check that no internal links use http:// — all should use 
+  https://
+- Fix any broken internal links (404s)
+
+Again — please do not change any colours, fonts, images, 
+layout, page structure, or any text that visitors read. 
+These are purely behind-the-scenes SEO improvements.

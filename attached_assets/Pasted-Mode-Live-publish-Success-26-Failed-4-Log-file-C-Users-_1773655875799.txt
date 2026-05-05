@@ -1,0 +1,87 @@
+Mode: Live publish
+Success: 26
+Failed: 4
+Log file: C:\Users\benwm\Desktop\Desktop\Graphic Design\Lanora House\Ebay\Processed\71\output\ebay_publish_log.jsonl
+
+OK row 1 | SKU=71-0001 | Published successfully.
+  Offer ID: 132864456011
+  Listing ID: 318012339220
+OK row 2 | SKU=71-0002 | Published successfully.
+  Offer ID: 132864505011
+  Listing ID: 318012339502
+OK row 3 | SKU=71-0003 | Published successfully.
+  Offer ID: 132864578011
+  Listing ID: 318012339922
+FAIL row 4 | SKU=71-0004 | eBay API request failed: POST /sell/inventory/v1/offer/132864641011/publish (offer_id=132864641011) returned HTTP 400. Response: {"errors": [{"errorId": 25002, "domain": "API_INVENTORY", "subdomain": "Selling", "category": "Request", "message": "A user error has occurred. The item specific Model is missing. Add Model to this listing, enter a valid value, and then try again.", "parameters": [{"name": "0", "value": "The item specific Model is missing."}, {"name": "1", "value": "The item specific Model is missing. Add Model to this listing, enter a valid value, and then try again."}, {"name": "2", "value": "Model"}]}]}
+OK row 5 | SKU=71-0005 | Published successfully.
+  Offer ID: 132864800011
+  Listing ID: 318012340595
+OK row 6 | SKU=71-0006 | Published successfully.
+  Offer ID: 132864832011
+  Listing ID: 318012340891
+OK row 7 | SKU=71-0007 | Published successfully.
+  Offer ID: 132864869011
+  Listing ID: 318012341123
+OK row 8 | SKU=71-0008 | Published successfully.
+  Offer ID: 132864951011
+  Listing ID: 318012341514
+OK row 9 | SKU=71-0009 | Published successfully.
+  Offer ID: 132865059011
+  Listing ID: 318012342097
+OK row 10 | SKU=71-0010 | Published successfully.
+  Offer ID: 132865235011
+  Listing ID: 318012342332
+OK row 11 | SKU=71-0011 | Published successfully.
+  Offer ID: 132865349011
+  Listing ID: 318012342634
+OK row 12 | SKU=71-0012 | Published successfully.
+  Offer ID: 132865406011
+  Listing ID: 318012342906
+OK row 13 | SKU=71-0013 | Published successfully.
+  Offer ID: 132865443011
+  Listing ID: 318012343118
+FAIL row 14 | SKU=71-0014 | eBay API request failed: POST /sell/inventory/v1/offer/132865514011/publish (offer_id=132865514011) returned HTTP 400. Response: {"errors": [{"errorId": 25021, "domain": "API_INVENTORY", "subdomain": "Selling", "category": "Request", "message": "The eBay listing associated with the inventory item, or the unpublished offer has invalid item condition information. The provided condition id is invalid for the selected primary category id."}]}
+FAIL row 15 | SKU=71-0015 | eBay API request failed: POST /sell/inventory/v1/offer/132865589011/publish (offer_id=132865589011) returned HTTP 400. Response: {"errors": [{"errorId": 25021, "domain": "API_INVENTORY", "subdomain": "Selling", "category": "Request", "message": "The eBay listing associated with the inventory item, or the unpublished offer has invalid item condition information. The provided condition id is invalid for the selected primary category id."}]}
+FAIL row 16 | SKU=71-0016 | eBay API request failed: POST /sell/inventory/v1/offer/132865701011/publish (offer_id=132865701011) returned HTTP 400. Response: {"errors": [{"errorId": 25021, "domain": "API_INVENTORY", "subdomain": "Selling", "category": "Request", "message": "The eBay listing associated with the inventory item, or the unpublished offer has invalid item condition information. The provided condition id is invalid for the selected primary category id."}]}
+OK row 17 | SKU=71-0017 | Published successfully.
+  Offer ID: 132866005011
+  Listing ID: 318012344569
+OK row 18 | SKU=71-0018 | Published successfully.
+  Offer ID: 132866342011
+  Listing ID: 318012345291
+OK row 19 | SKU=71-0019 | Published successfully.
+  Offer ID: 132866382011
+  Listing ID: 318012345919
+OK row 20 | SKU=71-0020 | Published successfully.
+  Offer ID: 132866491011
+  Listing ID: 318012346471
+OK row 21 | SKU=71-0021 | Published successfully.
+  Offer ID: 132866538011
+  Listing ID: 318012346842
+OK row 22 | SKU=71-0022 | Published successfully.
+  Offer ID: 132866592011
+  Listing ID: 318012347304
+OK row 23 | SKU=71-0023 | Published successfully.
+  Offer ID: 132866656011
+  Listing ID: 318012347680
+OK row 24 | SKU=71-0024 | Published successfully.
+  Offer ID: 132866735011
+  Listing ID: 318012348142
+OK row 25 | SKU=71-0025 | Published successfully.
+  Offer ID: 132866821011
+  Listing ID: 318012348655
+OK row 26 | SKU=71-0026 | Published successfully.
+  Offer ID: 132866900011
+  Listing ID: 318012349163
+OK row 27 | SKU=71-0027 | Published successfully.
+  Offer ID: 132867023011
+  Listing ID: 318012349727
+OK row 28 | SKU=71-0028 | Published successfully.
+  Offer ID: 132867117011
+  Listing ID: 318012350404
+OK row 29 | SKU=71-0029 | Published successfully.
+  Offer ID: 132867211011
+  Listing ID: 318012351126
+OK row 30 | SKU=71-0030 | Published successfully.
+  Offer ID: 132867293011
+  Listing ID: 318012351618

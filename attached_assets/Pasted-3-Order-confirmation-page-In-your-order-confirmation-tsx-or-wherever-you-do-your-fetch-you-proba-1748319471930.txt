@@ -1,0 +1,117 @@
+3) Order confirmation page
+In your order-confirmation.tsx (or wherever you do your fetch), you probably have something like this:
+
+ts
+Copy
+Edit
+// before:
+// fetch(`/order-confirmation?payment_intent=${pi}&order_id=${orderId}`)
+//   .then(res => res.json()) // oops! this URL returns HTML, not JSON.
+
+Replace it with:
+
+ts
+Copy
+Edit
+import { useState, useEffect } from 'react';
+import { useLocation } from 'wouter';
+
+export default function OrderConfirmation() {
+  const [location] = useLocation();
+  const params = new URLSearchParams(location.split('?')[1]);
+  const orderId = params.get('order_id');
+
+  const [order, setOrder] = useState<any>(null);
+  const [error, setError] = useState<string>();
+
+  useEffect(() => {
+    if (!orderId) return;
+    fetch(`/api/orders/${orderId}`, {
+      credentials: 'include'
+    })
+      .then(async res => {
+        if (!res.ok) throw new Error((await res.json()).message);
+        return res.json();
+      })
+      .then(data => setOrder(data))
+      .catch(err => setError(err.message));
+  }, [orderId]);
+
+  if (error) return <p className="text-red-500">Error loading order: {error}</p>;
+  if (!order) return <p>Loading…</p>;
+
+  return (
+    <div>
+      <h1>Order Confirmation</h1>
+      <p>Order #<strong>{order.id}</strong> placed on {new Date(order.createdAt).toLocaleDateString()}</p>
+      <ul>
+        {order.items.map((it: any) => (
+          <li key={it.id}>
+            {it.quantity} × {it.product?.name || it.name} @ £{it.price.toFixed(2)} = £{(it.price * it.quantity).toFixed(2)}
+          </li>
+        ))}
+      </ul>
+      <p>Subtotal: £{order.subtotal.toFixed(2)}</p>
+      <p>Shipping: £{order.shipping.toFixed(2)}</p>
+      <p>Tax: £{order.tax.toFixed(2)}</p>
+      <p><strong>Total: £{order.total.toFixed(2)}</strong></p>
+    </div>
+  );
+}
+Pull the order_id from the URL.
+
+Fetch /api/orders/${orderId} (not the HTML page).
+
+Include credentials: 'include' so your session stays logged in.
+
+Parse the JSON and render it.
+
+4) Item submissions list
+In your ItemSubmissionsList.tsx (or wherever you load submissions), change your fetch to point at the JSON endpoint:
+
+ts
+Copy
+Edit
+import { useState, useEffect } from 'react';
+
+export default function ItemSubmissionsList() {
+  const [subs, setSubs] = useState<any[]>([]);
+  const [error, setError] = useState<string>();
+
+  useEffect(() => {
+    fetch('/api/item-submissions', {
+      credentials: 'include'
+    })
+      .then(async res => {
+        if (!res.ok) throw new Error((await res.json()).message);
+        return res.json();
+      })
+      .then(data => setSubs(data))
+      .catch(err => setError(err.message));
+  }, []);
+
+  if (error) return <p className="text-red-500">Error loading submissions: {error}</p>;
+  if (!subs.length) return <p>No submissions yet.</p>;
+
+  return (
+    <div>
+      <h2>Your Submissions</h2>
+      <ul>
+        {subs.map(s => (
+          <li key={s.id}>
+            {s.title} — status: {s.status}
+          </li>
+        ))}
+      </ul>
+    </div>
+  );
+}
+Again:
+
+URL: /api/item-submissions
+
+credentials: 'include' so your session cookie is sent.
+
+Parse the JSON and then render.
+
+With those two changes your front-end will call the new JSON endpoints instead of trying to parse HTML pages as JSON.
