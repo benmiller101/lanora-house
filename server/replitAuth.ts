@@ -8,19 +8,9 @@ import memoize from "memoizee";
 import connectPg from "connect-pg-simple";
 import { storage } from "./storage-db";
 
-// For local development, we'll use a fallback domain
-const defaultDomains = "localhost:5000,127.0.0.1:5000";
-
-// Combine Replit domains with custom domain if provided
 function getAllDomains(): string[] {
-  const replitDomains = (process.env.REPLIT_DOMAINS || defaultDomains).split(",");
   const customDomain = process.env.CUSTOM_DOMAIN || "www.lanorahouse.com";
-  
-  if (customDomain) {
-    return [...replitDomains, customDomain];
-  }
-  
-  return replitDomains;
+  return [customDomain, "localhost:5000"];
 }
 
 const getOidcConfig = memoize(
@@ -32,6 +22,8 @@ const getOidcConfig = memoize(
   },
   { maxAge: 3600 * 1000 }
 );
+
+const isLocalDev = !process.env.REPL_ID;
 
 export function getSession() {
   const sessionTtl = 7 * 24 * 60 * 60 * 1000; // 1 week
@@ -79,10 +71,17 @@ async function upsertUser(claims: any) {
 
 export async function setupAuth(app: Express) {
   app.set("trust proxy", 1);
-  
+
   // Don't set up session here - it's already done in index.ts
   app.use(passport.initialize());
   app.use(passport.session());
+
+  if (isLocalDev) {
+    console.log("🔧 Local dev mode: Replit OIDC auth skipped");
+    passport.serializeUser((user: Express.User, cb) => cb(null, user));
+    passport.deserializeUser((user: Express.User, cb) => cb(null, user));
+    return;
+  }
 
   const config = await getOidcConfig();
 

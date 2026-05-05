@@ -4,15 +4,10 @@ import { storage } from "./storage";
 import type { Express } from "express";
 
 export function setupSocialAuth(app: Express) {
-  // Get the current domain automatically - try multiple sources
-  let currentDomain = process.env.REPLIT_DOMAINS?.split(',')[0];
-  
-  // Fallback to other domain sources if REPLIT_DOMAINS is not available
-  if (!currentDomain) {
-    currentDomain = process.env.REPL_SLUG ? `https://${process.env.REPL_SLUG}-${process.env.REPL_OWNER}.replit.app` : 'localhost:3000';
-  }
-  
-  const baseURL = currentDomain.startsWith('http') ? currentDomain : `https://${currentDomain}`;
+  const customDomain = process.env.CUSTOM_DOMAIN || process.env.BASE_URL;
+  const baseURL = customDomain
+    ? (customDomain.startsWith('http') ? customDomain : `https://${customDomain}`)
+    : 'http://localhost:5000';
   
 
   // Check if Facebook credentials are available

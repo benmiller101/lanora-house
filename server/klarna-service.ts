@@ -125,10 +125,10 @@ export async function createKlarnaSession(req: Request, res: Response) {
       order_tax_amount: totalTax * 100,
       order_lines: orderLines,
       merchant_urls: {
-        terms: `${process.env.REPLIT_ORIGIN || 'http://localhost:5000'}/terms`,
-        checkout: `${process.env.REPLIT_ORIGIN || 'http://localhost:5000'}/checkout`,
-        confirmation: `${process.env.REPLIT_ORIGIN || 'http://localhost:5000'}/order-confirmation`,
-        push: `${process.env.REPLIT_ORIGIN || 'http://localhost:5000'}/api/klarna/push`
+        terms: `${process.env.BASE_URL || `https://${process.env.CUSTOM_DOMAIN}` || 'http://localhost:5000'}/terms`,
+        checkout: `${process.env.BASE_URL || `https://${process.env.CUSTOM_DOMAIN}` || 'http://localhost:5000'}/checkout`,
+        confirmation: `${process.env.BASE_URL || `https://${process.env.CUSTOM_DOMAIN}` || 'http://localhost:5000'}/order-confirmation`,
+        push: `${process.env.BASE_URL || `https://${process.env.CUSTOM_DOMAIN}` || 'http://localhost:5000'}/api/klarna/push`
       }
     };
 

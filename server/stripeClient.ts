@@ -5,47 +5,21 @@ function getCredentials() {
   const publishableKey = process.env.STRIPE_PUBLIC_KEY;
 
   if (!secretKey || !publishableKey) {
-    throw new Error('Stripe keys not found. Please set STRIPE_SECRET_KEY and STRIPE_PUBLIC_KEY environment variables.');
+    throw new Error('Stripe keys not found. Set STRIPE_SECRET_KEY and STRIPE_PUBLIC_KEY environment variables.');
   }
 
-  return {
-    publishableKey,
-    secretKey,
-  };
+  return { publishableKey, secretKey };
 }
 
 export async function getUncachableStripeClient() {
   const { secretKey } = getCredentials();
-
-  return new Stripe(secretKey, {
-    apiVersion: '2025-08-27.basil',
-  });
+  return new Stripe(secretKey, { apiVersion: '2025-08-27.basil' });
 }
 
 export async function getStripePublishableKey() {
-  const { publishableKey } = getCredentials();
-  return publishableKey;
+  return getCredentials().publishableKey;
 }
 
 export async function getStripeSecretKey() {
-  const { secretKey } = getCredentials();
-  return secretKey;
-}
-
-let stripeSync: any = null;
-
-export async function getStripeSync() {
-  if (!stripeSync) {
-    const { StripeSync } = await import('stripe-replit-sync');
-    const secretKey = await getStripeSecretKey();
-
-    stripeSync = new StripeSync({
-      poolConfig: {
-        connectionString: process.env.DATABASE_URL!,
-        max: 2,
-      },
-      stripeSecretKey: secretKey,
-    });
-  }
-  return stripeSync;
+  return getCredentials().secretKey;
 }

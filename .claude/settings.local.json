@@ -1,0 +1,10 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(npm install *)",
+      "Bash(Get-ChildItem -Path \"c:\\\\Users\\\\benwm\\\\Desktop\\\\Desktop\\\\Coding Projects\\\\Lanora House Website\" -Force)",
+      "Bash(Select-Object Name, PSIsContainer)",
+      "Bash(Remove-Item \"c:\\\\Users\\\\benwm\\\\Desktop\\\\Desktop\\\\Coding Projects\\\\Lanora House Website\\\\replit.md\")"
+    ]
+  }
+}
