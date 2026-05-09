@@ -76,7 +76,7 @@ const faqs = [
   },
   {
     question: "Where are your auctions held?",
-    answer: "Our auctions take place at The Old Foundry Chapel, 11-13 Chapel Terrace, Hayle, Cornwall TR27 4AB. You can bid in person, online through our website, or leave commission bids. We also offer shipping and local delivery for items you win at auction.",
+    answer: "Our auctions take place at Unit 12b, The Old Foundry Chapel, Chapel Terrace, Hayle, Cornwall TR27 4AB. You can bid in person, online, or via EasyLiveAuction or BidSpirit. We also offer shipping and local delivery for items you win at auction.",
     icon: <Home className="w-6 h-6" />,
     highlight: "Hayle Auction House",
     color: "bg-blue-500"

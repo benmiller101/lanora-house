@@ -11,16 +11,16 @@ export default function Home() {
     <div className="min-h-screen">
       <SEOHead
         title="Lanora House: House Clearance & Auction Cornwall"
-        description="Cornwall's trusted house clearance company. We clear, recycle and rehome sustainably across Cornwall & Devon. Auction services also available."
+        description="Cornwall's sustainable house clearance specialists. We clear properties across Cornwall & Devon, run monthly in-person auctions in Hayle, and sell cleared items via eBay Live."
         path="/"
         jsonLd={{
           "@context": "https://schema.org",
           "@type": "LocalBusiness",
           "name": "Lanora House",
           "url": "https://www.lanorahouse.com",
-          "description": "Cornwall's trusted house clearance company. Sustainable clearances across Cornwall and Devon, with auction services also available.",
-          "address": { "@type": "PostalAddress", "streetAddress": "Unit 6, The Old Foundry Chapel, Chapel Terrace", "addressLocality": "Hayle", "addressRegion": "Cornwall", "postalCode": "TR27 4AB", "addressCountry": "GB" },
-          "telephone": "+44-1234-567890"
+          "description": "Sustainable house clearance specialists based in Hayle, Cornwall. Monthly auctions at The Old Foundry Chapel and eBay Live sales of cleared items.",
+          "address": { "@type": "PostalAddress", "streetAddress": "Unit 12b, The Old Foundry Chapel, Chapel Terrace", "addressLocality": "Hayle", "addressRegion": "Cornwall", "postalCode": "TR27 4AB", "addressCountry": "GB" },
+          "telephone": "+447843930927"
         }}
       />
 

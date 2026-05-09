@@ -49,7 +49,7 @@ export default function AuctionLocationPage() {
       "name": "The Old Foundry Chapel",
       "address": {
         "@type": "PostalAddress",
-        "streetAddress": "Unit 6, Chapel Terrace",
+        "streetAddress": "Unit 12b, The Old Foundry Chapel, Chapel Terrace",
         "addressLocality": "Hayle",
         "addressRegion": "Cornwall",
         "postalCode": "TR27 4AB",

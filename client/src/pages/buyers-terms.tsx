@@ -52,7 +52,7 @@ export default function BuyersTerms() {
                     </div>
                     <div>
                       <dt className="font-semibold text-neutral-900 dark:text-neutral-100">"Auctioneer" / "Lanora House"</dt>
-                      <dd className="text-neutral-700 dark:text-neutral-300 ml-4">Lanora House, operating from The Old Foundry Chapel, 11-13 Chapel Terrace, Hayle, Cornwall TR27 4AB.</dd>
+                      <dd className="text-neutral-700 dark:text-neutral-300 ml-4">Lanora House Auctions Limited (Company No. 15706382), operating from Unit 12b, The Old Foundry Chapel, Chapel Terrace, Hayle, Cornwall TR27 4AB.</dd>
                     </div>
                     <div>
                       <dt className="font-semibold text-neutral-900 dark:text-neutral-100">"Bidder"</dt>
@@ -216,9 +216,9 @@ export default function BuyersTerms() {
                     For any questions regarding these terms or your purchase, please contact us:
                   </p>
                   <div className="bg-neutral-100 dark:bg-neutral-800 p-6 rounded-lg mt-4">
-                    <p className="font-semibold text-neutral-900 dark:text-neutral-100">Lanora House</p>
-                    <p className="text-neutral-700 dark:text-neutral-300">The Old Foundry Chapel</p>
-                    <p className="text-neutral-700 dark:text-neutral-300">11-13 Chapel Terrace</p>
+                    <p className="font-semibold text-neutral-900 dark:text-neutral-100">Lanora House Auctions Limited</p>
+                    <p className="text-neutral-700 dark:text-neutral-300">Unit 12b, The Old Foundry Chapel</p>
+                    <p className="text-neutral-700 dark:text-neutral-300">Chapel Terrace</p>
                     <p className="text-neutral-700 dark:text-neutral-300">Hayle, Cornwall TR27 4AB</p>
                     <p className="text-neutral-700 dark:text-neutral-300 mt-2">Phone: 07843 930927</p>
                     <p className="text-neutral-700 dark:text-neutral-300">Email: info@lanorahouse.com</p>

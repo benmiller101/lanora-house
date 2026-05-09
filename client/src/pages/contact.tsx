@@ -130,8 +130,8 @@ export default function Contact() {
   return (
     <>
       <SEOHead
-        title="Contact Us - Get in Touch Today"
-        description="Contact Lanora House for clearance services, auction enquiries, quotes, or general questions. Based in Hayle, Cornwall, serving the South West."
+        title="Contact Lanora House | House Clearance & Auctions, Hayle Cornwall"
+        description="Get in touch with Lanora House for house clearance quotes, probate clearance enquiries, auction valuations, or eBay Live questions. Based in Hayle, serving Cornwall, Devon & the South West."
         path="/contact"
       />
       
@@ -155,11 +155,9 @@ export default function Contact() {
                   <CardDescription>Visit our location</CardDescription>
                 </CardHeader>
                 <CardContent>
-                  <p className="text-neutral-wood font-semibold">Viewing Room & Office</p>
-                  <p className="text-neutral-wood">First Floor (rear of building)</p>
-                  <p className="text-neutral-wood">The Old Foundry Chapel</p>
-                  <p className="text-neutral-wood">11–13 Chapel Terrace</p>
-                  <p className="text-neutral-wood">Hayle TR27 4AB</p>
+                  <p className="text-neutral-wood font-semibold">Unit 12b, The Old Foundry Chapel</p>
+                  <p className="text-neutral-wood">Chapel Terrace</p>
+                  <p className="text-neutral-wood">Hayle, Cornwall TR27 4AB</p>
                   <FindUsModal />
                 </CardContent>
               </Card>
@@ -274,13 +272,12 @@ export default function Contact() {
                                 </SelectTrigger>
                               </FormControl>
                               <SelectContent>
+                                <SelectItem value="clearance-quote">House Clearance Quote</SelectItem>
+                                <SelectItem value="probate-clearance">Probate / Estate Clearance</SelectItem>
                                 <SelectItem value="auction-valuation">Auction Valuation</SelectItem>
-                                <SelectItem value="clearance-quote">Clearance Service Quote</SelectItem>
-                                <SelectItem value="house-clearance">House Clearance</SelectItem>
-                                <SelectItem value="probate-clearance">Probate Clearance</SelectItem>
+                                <SelectItem value="ebay-live">eBay Live Sales Enquiry</SelectItem>
                                 <SelectItem value="commercial-clearance">Commercial Clearance</SelectItem>
-                                <SelectItem value="specialized-clearance">Specialized Clearance</SelectItem>
-                                <SelectItem value="general-inquiry">General Inquiry</SelectItem>
+                                <SelectItem value="general-inquiry">General Enquiry</SelectItem>
                                 <SelectItem value="feedback">Feedback</SelectItem>
                                 <SelectItem value="other">Other</SelectItem>
                               </SelectContent>

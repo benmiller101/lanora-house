@@ -20,7 +20,7 @@ import { useToast } from "@/hooks/use-toast";
 import { AdminNavigation } from "@/components/admin/AdminNavigation";
 import { apiRequest } from "@/lib/queryClient";
 
-const ADDRESS = "First Floor (rear of building), The Old Foundry Chapel, 11–13 Chapel Terrace, Hayle TR27 4AB";
+const ADDRESS = "Unit 12b, The Old Foundry Chapel, Chapel Terrace, Hayle, Cornwall TR27 4AB";
 
 interface MarketingTemplate {
   id: number;

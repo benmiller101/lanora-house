@@ -8,8 +8,8 @@ export default function About() {
   return (
     <>
       <SEOHead
-        title="About Us - Our Story & Mission"
-        description="From university sellers to professional clearances and auctions. Based at The Old Foundry Chapel in Hayle, serving Cornwall and Devon with eco-friendly services."
+        title="About Lanora House | House Clearance & Auctions, Hayle Cornwall"
+        description="Lanora House is a sustainable house clearance and auction company based in Hayle, Cornwall. We serve Cornwall, Devon, and the wider South West, combining clearances, monthly auctions, and eBay Live sales."
         path="/about"
       />
 
@@ -35,7 +35,7 @@ export default function About() {
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
             <a 
-              href="/house-clearance" 
+              href="/clearance"
               className="bg-primary text-white px-8 py-4 rounded-full font-medium hover:bg-primary/90 transition-all duration-300 transform hover:scale-105 shadow-lg"
             >
               Our Services
@@ -74,7 +74,7 @@ export default function About() {
                 <div className="bg-amber-50 p-8 rounded-2xl shadow-lg transform hover:scale-105 transition-transform duration-300">
                   <h3 className="text-2xl font-display text-neutral-800 mb-4">Introducing Our New Auction House</h3>
                   <p className="text-neutral-600 leading-relaxed mb-4">
-                    We're excited to announce our newest venture — regular auctions held at <strong>The Old Foundry Chapel</strong>, a beautifully restored historic venue located at <strong>11-13 Chapel Terrace, Hayle, TR27 4AB</strong>.
+                    Our monthly auctions are held at <strong>The Old Foundry Chapel</strong>, a beautifully restored historic venue located at <strong>Unit 12b, Chapel Terrace, Hayle, Cornwall TR27 4AB</strong>.
                   </p>
                   <p className="text-neutral-600 leading-relaxed">
                     This auction service is the perfect complement to our clearance business, allowing us to sell valuable items recovered from clearances and help our customers offset their clearance costs. Our viewing room is open to the public, and we welcome both sellers and bidders to this exciting new chapter.
@@ -274,9 +274,9 @@ export default function About() {
                     <div>
                       <h4 className="font-semibold text-neutral-800 mb-1">Auction Viewing Room & Office</h4>
                       <p className="text-neutral-600">
-                        <strong>The Old Foundry Chapel</strong><br />
-                        First Floor (rear of building)<br />
-                        11–13 Chapel Terrace, Hayle TR27 4AB
+                        <strong>Unit 12b, The Old Foundry Chapel</strong><br />
+                        Chapel Terrace<br />
+                        Hayle, Cornwall TR27 4AB
                       </p>
                     </div>
                   </div>

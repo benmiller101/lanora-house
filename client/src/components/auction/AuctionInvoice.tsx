@@ -159,11 +159,10 @@ export function AuctionInvoice({ catalogId, onClose }: AuctionInvoiceProps) {
                 </p>
               </div>
               <div className="text-right">
-                <h2 className="text-xl font-bold text-primary">Nevitt & Sons Ltd</h2>
-                <p className="text-sm mt-1">First Floor (rear of building)</p>
-                <p className="text-sm">The Old Foundry Chapel</p>
-                <p className="text-sm">11–13 Chapel Terrace</p>
-                <p className="text-sm">Hayle TR27 4AB</p>
+                <h2 className="text-xl font-bold text-primary">Lanora House Auctions Limited</h2>
+                <p className="text-sm mt-1">Unit 12b, The Old Foundry Chapel</p>
+                <p className="text-sm">Chapel Terrace</p>
+                <p className="text-sm">Hayle, Cornwall TR27 4AB</p>
               </div>
             </div>
           </div>
@@ -253,7 +252,7 @@ export function AuctionInvoice({ catalogId, onClose }: AuctionInvoiceProps) {
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4 text-sm">
               <div>
                 <p className="font-medium mb-1">Bank Transfer Details:</p>
-                <p>Account Name: <span className="font-semibold">Nevitt & Sons Ltd</span></p>
+                <p>Account Name: <span className="font-semibold">Lanora House Auctions Limited</span></p>
                 <p>Sort Code: <span className="font-semibold">23-11-85</span></p>
                 <p>Account Number: <span className="font-semibold">41004076</span></p>
               </div>
@@ -275,7 +274,7 @@ export function AuctionInvoice({ catalogId, onClose }: AuctionInvoiceProps) {
               Items must be collected from our premises at:
             </p>
             <p className="text-sm font-medium">
-              First Floor (rear of building), The Old Foundry Chapel, 11–13 Chapel Terrace, Hayle TR27 4AB
+              Unit 12b, The Old Foundry Chapel, Chapel Terrace, Hayle, Cornwall TR27 4AB
             </p>
             <p className="text-sm mt-3 text-muted-foreground">
               Please ensure payment is received before collection. For any queries, please contact us.
@@ -284,7 +283,7 @@ export function AuctionInvoice({ catalogId, onClose }: AuctionInvoiceProps) {
 
           {/* Footer */}
           <div className="mt-8 pt-6 border-t text-center text-xs text-muted-foreground">
-            <p>Thank you for your purchase at Nevitt & Sons Ltd</p>
+            <p>Thank you for your purchase at Lanora House Auctions Limited</p>
             <p className="mt-1">This invoice was generated on {new Date().toLocaleDateString()}</p>
           </div>
         </CardContent>

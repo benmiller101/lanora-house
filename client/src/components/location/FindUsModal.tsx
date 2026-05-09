@@ -84,7 +84,7 @@ export function FindUsModal() {
               How to Find Us
             </DialogTitle>
             <DialogDescription className="text-sm text-neutral-500 mt-1">
-              The Old Foundry Chapel, 11–13 Chapel Terrace, Hayle TR27 4AB
+              Unit 12b, The Old Foundry Chapel, Chapel Terrace, Hayle, Cornwall TR27 4AB
             </DialogDescription>
           </DialogHeader>
 

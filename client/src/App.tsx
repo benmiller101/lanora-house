@@ -24,11 +24,9 @@ import Clearance from "@/pages/clearance";
 import Contact from "@/pages/contact";
 
 // Lazy imports — all other pages
-const Raffles = lazy(() => import("@/pages/raffles"));
 const OrderConfirmation = lazy(() => import("@/pages/order-confirmation"));
 const About = lazy(() => import("@/pages/about"));
 const Members = lazy(() => import("@/pages/members"));
-const RaffleTerms = lazy(() => import("@/pages/raffle-terms"));
 const ShippingPolicy = lazy(() => import("@/pages/shipping-policy"));
 const ReturnsPolicy = lazy(() => import("@/pages/returns-policy"));
 const AuthenticityGuarantee = lazy(() => import("@/pages/authenticity-guarantee"));
@@ -36,16 +34,12 @@ const TermsOfService = lazy(() => import("@/pages/terms-of-service"));
 const PrivacyPolicy = lazy(() => import("@/pages/privacy-policy"));
 const CookiePolicy = lazy(() => import("@/pages/cookie-policy"));
 const BuyersTerms = lazy(() => import("@/pages/buyers-terms"));
-const RaffleDetail = lazy(() => import("@/pages/raffle-detail"));
-const RaffleCompletion = lazy(() => import("@/pages/raffle-completion"));
 const NotFound = lazy(() => import("@/pages/not-found"));
 const AdminLogin = lazy(() => import("@/pages/admin-login"));
 const Blog = lazy(() => import("@/pages/blog"));
 const BlogPost = lazy(() => import("@/pages/blog-post"));
 const Logout = lazy(() => import("@/pages/logout"));
 const OrderPayment = lazy(() => import("@/pages/order-payment"));
-const InstantWins = lazy(() => import("@/pages/instant-wins"));
-const PayPalTest = lazy(() => import("@/pages/paypal-test"));
 const BeforeAfter = lazy(() => import("@/pages/before-after"));
 const SellGoods = lazy(() => import("@/pages/sell-goods"));
 const ShedClearance = lazy(() => import("@/pages/shed-clearance"));
@@ -62,8 +56,6 @@ const BusinessCleaning = lazy(() => import("@/pages/business-cleaning"));
 const SaleReadyPackagePage = lazy(() => import("@/pages/sale-ready-package"));
 const SuccessStories = lazy(() => import("@/pages/success-stories"));
 const EnvironmentalImpact = lazy(() => import("@/pages/environmental-impact"));
-const SpinWheel = lazy(() => import("@/pages/spin-wheel"));
-const ClearanceRewardsGuide = lazy(() => import("@/pages/clearance-rewards-guide"));
 const ClearanceFAQ = lazy(() => import("@/pages/clearance-faq"));
 const ResetPassword = lazy(() => import("@/pages/reset-password"));
 const Cart = lazy(() => import("@/pages/Cart"));
@@ -111,7 +103,6 @@ const DrugParaphernaliaClearance = lazy(() => import("@/pages/drug-paraphernalia
 const AdminDashboard = lazy(() => import("@/pages/admin/index"));
 const AdminStreams = lazy(() => import("@/pages/admin/streams"));
 const AdminLiveAuctionControl = lazy(() => import("@/pages/admin/live-auction-control"));
-const AdminRaffles = lazy(() => import("@/pages/admin/raffles"));
 const AdminSubmissions = lazy(() => import("@/pages/admin/submissions"));
 const AdminBlog = lazy(() => import("@/pages/admin/blog-fixed"));
 const AdminCustomers = lazy(() => import("@/pages/admin/customers"));
@@ -131,7 +122,6 @@ const AdminOrders = lazy(() => import("@/pages/admin/orders"));
 const AdminEmailTemplates = lazy(() => import("@/pages/admin/email-templates"));
 const CustomerRequestsAdmin = lazy(() => import("@/pages/admin/customer-requests"));
 const AdminWithdrawals = lazy(() => import("@/pages/admin/withdrawals"));
-const RaffleWinnersAdmin = lazy(() => import("@/pages/admin/raffle-winners"));
 const BeforeAfterAdmin = lazy(() => import("@/pages/admin/before-after"));
 const AdminEnvironmentalImpact = lazy(() => import("@/pages/admin/environmental-impact"));
 const AdminOffers = lazy(() => import("@/pages/admin/offers"));
@@ -155,19 +145,14 @@ function Router() {
         <Route path="/shop" component={Shop} />
         <Route path="/product/:id" component={ProductPage} />
         <Route path="/checkout" component={CheckoutPage} />
-        <Route path="/raffles" component={Raffles} />
         <Route path="/cart" component={Cart} />
-        <Route path="/raffle/:id" component={RaffleDetail} />
-        <Route path="/raffle/:id/complete" component={RaffleCompletion} />
         <Route path="/order-payment" component={OrderPayment} />
         <Route path="/order-confirmation" component={OrderConfirmation} />
         <Route path="/contact" component={Contact} />
         <Route path="/about" component={About} />
         <Route path="/meet-the-team" component={MeetTheTeam} />
         <Route path="/members" component={Members} />
-        <Route path="/instant-wins" component={InstantWins} />
         <Route path="/clearance" component={Clearance} />
-        <Route path="/clearance-rewards-guide" component={ClearanceRewardsGuide} />
         <Route path="/clearance-faq" component={ClearanceFAQ} />
         <Route path="/pricing" component={Pricing} />
         <Route path="/shed-clearance" component={ShedClearance} />
@@ -212,11 +197,9 @@ function Router() {
         <Route path="/sale-ready-package" component={SaleReadyPackagePage} />
         <Route path="/success-stories" component={SuccessStories} />
         <Route path="/environmental-impact" component={EnvironmentalImpact} />
-        <Route path="/spin-wheel" component={SpinWheel} />
         <Route path="/auction-locations" component={AuctionLocationsHub} />
         <Route path="/auctions-in/:slug" component={AuctionLocationPage} />
         <Route path="/sell-goods" component={SellGoods} />
-        <Route path="/raffle-terms" component={RaffleTerms} />
         <Route path="/shipping" component={ShippingPolicy} />
         <Route path="/returns" component={ReturnsPolicy} />
         <Route path="/authenticity-guarantee" component={AuthenticityGuarantee} />
@@ -224,7 +207,6 @@ function Router() {
         <Route path="/privacy-policy" component={PrivacyPolicy} />
         <Route path="/cookie-policy" component={CookiePolicy} />
         <Route path="/buyers-terms" component={BuyersTerms} />
-        <Route path="/paypal-test" component={PayPalTest} />
         <Route path="/admin-login" component={AdminLogin} />
         <Route path="/blog" component={Blog} />
         <Route path="/blog/:slug" component={BlogPost} />
@@ -241,7 +223,6 @@ function Router() {
         <Route path="/admin" component={() => <ProtectedAdminRoute><AdminDashboard /></ProtectedAdminRoute>} />
         <Route path="/admin/streams" component={() => <ProtectedAdminRoute><AdminStreams /></ProtectedAdminRoute>} />
         <Route path="/admin/live-auction/:catalogId" component={() => <ProtectedAdminRoute><AdminLiveAuctionControl /></ProtectedAdminRoute>} />
-        <Route path="/admin/raffles" component={() => <ProtectedAdminRoute><AdminRaffles /></ProtectedAdminRoute>} />
         <Route path="/admin/submissions" component={() => <ProtectedAdminRoute><AdminSubmissions /></ProtectedAdminRoute>} />
         <Route path="/admin/blog-fixed" component={() => <ProtectedAdminRoute><AdminBlog /></ProtectedAdminRoute>} />
         <Route path="/admin/customers" component={() => <ProtectedAdminRoute><AdminCustomers /></ProtectedAdminRoute>} />
@@ -256,7 +237,6 @@ function Router() {
         <Route path="/admin/customer-requests" component={() => <ProtectedAdminRoute><CustomerRequestsAdmin /></ProtectedAdminRoute>} />
         <Route path="/admin/environmental-impact" component={() => <ProtectedAdminRoute><AdminEnvironmentalImpact /></ProtectedAdminRoute>} />
         <Route path="/admin/withdrawals" component={() => <ProtectedAdminRoute><AdminWithdrawals /></ProtectedAdminRoute>} />
-        <Route path="/admin/raffle-winners" component={() => <ProtectedAdminRoute><RaffleWinnersAdmin /></ProtectedAdminRoute>} />
         <Route path="/admin/before-after" component={() => <ProtectedAdminRoute><BeforeAfterAdmin /></ProtectedAdminRoute>} />
         <Route path="/admin/auction-catalogs" component={() => <ProtectedAdminRoute><AdminAuctionCatalogs /></ProtectedAdminRoute>} />
         <Route path="/admin/auction-lots" component={() => <ProtectedAdminRoute><AdminAuctionLots /></ProtectedAdminRoute>} />

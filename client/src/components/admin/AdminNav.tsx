@@ -22,11 +22,6 @@ const navItems = [
     icon: FiHome,
   },
   {
-    title: "Raffles",
-    href: "/admin/raffles",
-    icon: FiAward,
-  },
-  {
     title: "Auction Catalogs",
     href: "/admin/auction-catalogs",
     icon: FiMap,

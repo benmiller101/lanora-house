@@ -248,10 +248,9 @@ export default function Footer() {
               <li className="flex items-start">
                 <i className="ri-map-pin-line mr-2 mt-1"></i>
                 <div className="opacity-70">
-                  <div className="font-semibold">Viewing Room & Office</div>
-                  <div>First Floor (rear of building)</div>
-                  <div>The Old Foundry Chapel</div>
-                  <div>11–13 Chapel Terrace, Hayle TR27 4AB</div>
+                  <div className="font-semibold">Unit 12b, The Old Foundry Chapel</div>
+                  <div>Chapel Terrace</div>
+                  <div>Hayle, Cornwall TR27 4AB</div>
                 </div>
               </li>
               <li className="flex items-center">

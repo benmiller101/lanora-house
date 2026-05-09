@@ -247,8 +247,8 @@ export default function AuctionsPage() {
   return (
     <>
       <SEOHead
-        title="Auctions - Browse Catalogues & Bid Online"
-        description="Browse our auction catalogues featuring fine antiques, collectibles, and more. Participate in live auctions and discover unique treasures at Lanora House."
+        title="Auctions & eBay Live Sales | Lanora House, Hayle Cornwall"
+        description="Monthly in-person auctions at The Old Foundry Chapel, Hayle. Antiques, collectibles, furniture & more — bid online or in person. Plus eBay Live sales of clearance stock."
         path="/auctions"
         jsonLd={{
           "@context": "https://schema.org",
@@ -582,6 +582,56 @@ export default function AuctionsPage() {
           <Separator className="my-0" />
         </div>
 
+        {/* eBay Live Sales Section */}
+        <section className="py-16 bg-neutral-ivory dark:bg-neutral-900">
+          <div className="container mx-auto px-4">
+            <div className="max-w-4xl mx-auto">
+              <div className="text-center mb-10">
+                <span className="inline-flex items-center gap-2 bg-secondary/20 text-primary px-4 py-2 rounded-full mb-5 text-sm font-semibold uppercase tracking-wide">
+                  <FiGlobe className="w-4 h-4" />
+                  eBay Live Sales
+                </span>
+                <h2 className="font-display text-3xl md:text-4xl text-primary mb-4">Cleared Items, Sold Live on eBay</h2>
+                <p className="text-lg text-neutral-700 dark:text-neutral-300 max-w-2xl mx-auto leading-relaxed">
+                  Items recovered from house clearances are sold through our interactive live selling format on eBay — giving buyers across the UK a chance to bid in real time on antiques, collectibles, retro goods, and household finds.
+                </p>
+              </div>
+              <div className="grid md:grid-cols-3 gap-6">
+                <Card className="bg-white dark:bg-neutral-800 border-primary/20 text-center p-6">
+                  <FiCamera className="w-8 h-8 text-primary mx-auto mb-3" />
+                  <h3 className="font-semibold text-primary mb-2">Live & Interactive</h3>
+                  <p className="text-sm text-neutral-600 dark:text-neutral-400">Watch items go under the hammer in real time, ask questions, and bid from anywhere in the UK.</p>
+                </Card>
+                <Card className="bg-white dark:bg-neutral-800 border-primary/20 text-center p-6">
+                  <FiPackage className="w-8 h-8 text-primary mx-auto mb-3" />
+                  <h3 className="font-semibold text-primary mb-2">Clearance Stock</h3>
+                  <p className="text-sm text-neutral-600 dark:text-neutral-400">All items come directly from our clearance jobs — antiques, retro items, collectibles, and everyday household goods.</p>
+                </Card>
+                <Card className="bg-white dark:bg-neutral-800 border-primary/20 text-center p-6">
+                  <FiShield className="w-8 h-8 text-primary mx-auto mb-3" />
+                  <h3 className="font-semibold text-primary mb-2">Fully Insured Shipping</h3>
+                  <p className="text-sm text-neutral-600 dark:text-neutral-400">Winning lots are carefully packed and shipped with tracking and insurance included.</p>
+                </Card>
+              </div>
+              <div className="text-center mt-8">
+                <p className="text-sm text-neutral-500 dark:text-neutral-400 mb-4">Follow us on eBay to be notified when our next live sale goes live.</p>
+                <Button
+                  size="lg"
+                  className="bg-primary hover:bg-primary/90 text-white"
+                  onClick={() => setLocationNav('/contact')}
+                >
+                  Ask About eBay Live Sales <FiArrowRight className="ml-2" />
+                </Button>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        {/* Separator */}
+        <div className="container mx-auto px-4">
+          <Separator className="my-0" />
+        </div>
+
         {/* Sellers Tab Group */}
         <section className="py-12">
           <div className="container mx-auto px-4">
@@ -634,22 +684,22 @@ export default function AuctionsPage() {
                           {/* Tier 1 */}
                           <div className="bg-primary rounded-xl px-4 py-8 flex flex-col items-center text-center shadow-md">
                             <div className="font-display text-5xl font-bold text-white leading-none">11%</div>
-                            <div className="text-secondary/90 text-base font-semibold mt-3 leading-tight">Up to £500</div>
+                            <div className="text-secondary/90 text-base font-semibold mt-3 leading-tight">Up to £100</div>
                           </div>
                           {/* Tier 2 */}
                           <div className="bg-primary rounded-xl px-4 py-8 flex flex-col items-center text-center shadow-md">
                             <div className="font-display text-5xl font-bold text-white leading-none">9%</div>
-                            <div className="text-secondary/90 text-base font-semibold mt-3 leading-tight">£500 – £1,000</div>
+                            <div className="text-secondary/90 text-base font-semibold mt-3 leading-tight">£100 – £999</div>
                           </div>
                           {/* Tier 3 */}
                           <div className="bg-primary rounded-xl px-4 py-8 flex flex-col items-center text-center shadow-md">
                             <div className="font-display text-5xl font-bold text-white leading-none">6.5%</div>
-                            <div className="text-secondary/90 text-base font-semibold mt-3 leading-tight">£1,000 – £3,000</div>
+                            <div className="text-secondary/90 text-base font-semibold mt-3 leading-tight">£1,000 – £4,999</div>
                           </div>
                           {/* Tier 4 */}
                           <div className="bg-primary rounded-xl px-4 py-8 flex flex-col items-center text-center shadow-md">
                             <div className="font-display text-5xl font-bold text-white leading-none">4.5%</div>
-                            <div className="text-secondary/90 text-base font-semibold mt-3 leading-tight">Over £3,000</div>
+                            <div className="text-secondary/90 text-base font-semibold mt-3 leading-tight">Over £5,000</div>
                           </div>
                         </div>
 
@@ -776,7 +826,7 @@ export default function AuctionsPage() {
                           </CardHeader>
                           <CardContent className="text-center">
                             <p className="text-neutral-700 dark:text-neutral-300 text-base">
-                              Within fourteen working days of the sale you receive a post-sale statement and payment by bank transfer.
+                              Within 14 days of the sale you receive a post-sale statement and payment by bank transfer or cash.
                             </p>
                           </CardContent>
                         </Card>
@@ -897,7 +947,7 @@ export default function AuctionsPage() {
                       </CardHeader>
                       <CardContent>
                         <p className="text-neutral-700 dark:text-neutral-300 text-base">
-                          Within fourteen working days of the auction you'll receive a post-sale statement detailing the prices achieved, followed by a bank transfer for the full amount due.
+                          Within 14 days of the auction you'll receive a post-sale statement detailing the prices achieved, followed by payment by bank transfer or cash.
                         </p>
                       </CardContent>
                     </Card>
@@ -974,9 +1024,9 @@ export default function AuctionsPage() {
                           <div className="flex items-start gap-3">
                             <MapPin className="w-5 h-5 text-primary mt-0.5 flex-shrink-0" />
                             <div>
-                              <p className="font-semibold">The Old Foundry Chapel</p>
-                              <p className="text-sm">First Floor (rear of building)</p>
-                              <p className="text-sm">11–13 Chapel Terrace, Hayle TR27 4AB</p>
+                              <p className="font-semibold">Unit 12b, The Old Foundry Chapel</p>
+                              <p className="text-sm">Chapel Terrace</p>
+                              <p className="text-sm">Hayle, Cornwall TR27 4AB</p>
                             </div>
                           </div>
                           <div className="flex items-start gap-3">
@@ -1089,7 +1139,7 @@ export default function AuctionsPage() {
                           </div>
                           <div className="flex items-start gap-3">
                             <FiMapPin className="w-5 h-5 flex-shrink-0 mt-0.5" />
-                            <span>First Floor (rear of building), The Old Foundry Chapel, 11–13 Chapel Terrace, Hayle TR27 4AB</span>
+                            <span>Unit 12b, The Old Foundry Chapel, Chapel Terrace, Hayle, Cornwall TR27 4AB</span>
                           </div>
                         </div>
                       </div>
