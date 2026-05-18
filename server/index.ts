@@ -6,6 +6,9 @@ import { setupVite, serveStatic, log } from "./vite";
 import cookieParser from "cookie-parser";
 import cors from "cors";
 import path from "path";
+import { fileURLToPath } from "url";
+import { migrate } from "drizzle-orm/postgres-js/migrator";
+import { db } from "./db";
 
 const app = express();
 
@@ -43,6 +46,12 @@ app.get("/apple-touch-icon.png", (req, res) => {
 
 async function startServer() {
   try {
+    // Run migrations on startup to ensure tables exist
+    const __dirname = path.dirname(fileURLToPath(import.meta.url));
+    const migrationsFolder = path.join(__dirname, "migrations");
+    await migrate(db, { migrationsFolder });
+    log("Database migrations applied");
+
     const server = await registerRoutes(app);
 
     app.use("/api/clearance-stories", clearanceRoutes);
