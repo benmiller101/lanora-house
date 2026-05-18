@@ -80,29 +80,8 @@ function BeforeAfterSlider({ before, after, title, location }: SliderItem) {
   );
 }
 
-const DEFAULT_TRANSFORMATIONS: SliderItem[] = [
-  {
-    before: "https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=800&h=600&fit=crop&q=80",
-    after:  "https://images.unsplash.com/photo-1484154218962-a197022b5858?w=800&h=600&fit=crop&q=80",
-    title: "Full House Clearance",
-    location: "Truro, Cornwall"
-  },
-  {
-    before: "https://images.unsplash.com/photo-1505409628601-edc9af17fda6?w=800&h=600&fit=crop&q=80",
-    after:  "https://images.unsplash.com/photo-1586023492125-27b2c045efd7?w=800&h=600&fit=crop&q=80",
-    title: "Living Room Clearance",
-    location: "Falmouth, Cornwall"
-  },
-  {
-    before: "https://images.unsplash.com/photo-1618221469555-7f3ad97540d6?w=800&h=600&fit=crop&q=80",
-    after:  "https://images.unsplash.com/photo-1631679706909-1844bbd07221?w=800&h=600&fit=crop&q=80",
-    title: "Estate Clearance",
-    location: "Plymouth, Devon"
-  }
-];
-
 export default function DifferenceWeMake() {
-  const { data: beforeAfterImages } = useQuery({
+  const { data: beforeAfterImages, isLoading } = useQuery({
     queryKey: ["/api/before-after"],
     queryFn: async () => {
       const res = await fetch("/api/before-after");
@@ -123,10 +102,7 @@ export default function DifferenceWeMake() {
   );
   const featuredItems  = allValid.filter((i: any) => i.featured).slice(0, 3).map(toSliderItem);
   const remainingItems = allValid.filter((i: any) => !i.featured).map(toSliderItem);
-  const apiItems = [...featuredItems, ...remainingItems].slice(0, 3);
-  const items: SliderItem[] = apiItems.length >= 3
-    ? apiItems
-    : [...apiItems, ...DEFAULT_TRANSFORMATIONS].slice(0, 3);
+  const items: SliderItem[] = [...featuredItems, ...remainingItems].slice(0, 3);
 
   return (
     <section className="py-20 bg-gray-50">
@@ -146,28 +122,36 @@ export default function DifferenceWeMake() {
           </p>
         </motion.div>
 
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-          {items.map((item, i) => (
-            <motion.div
-              key={i}
-              initial={{ opacity: 0, y: 16 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.4, delay: i * 0.1 }}
-            >
-              <BeforeAfterSlider {...item} />
-            </motion.div>
-          ))}
-        </div>
+        {isLoading ? (
+          <div className="flex items-center justify-center h-48 text-gray-400 text-sm">
+            Loading transformations…
+          </div>
+        ) : items.length === 0 ? null : (
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+            {items.map((item, i) => (
+              <motion.div
+                key={i}
+                initial={{ opacity: 0, y: 16 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ duration: 0.4, delay: i * 0.1 }}
+              >
+                <BeforeAfterSlider {...item} />
+              </motion.div>
+            ))}
+          </div>
+        )}
 
-        <div className="text-center mt-10">
-          <Link href="/before-after">
-            <Button variant="outline" className="border-primary text-primary hover:bg-primary/5">
-              View All Transformations
-              <ArrowRight className="w-4 h-4 ml-2" />
-            </Button>
-          </Link>
-        </div>
+        {!isLoading && items.length > 0 && (
+          <div className="text-center mt-10">
+            <Link href="/before-after">
+              <Button variant="outline" className="border-primary text-primary hover:bg-primary/5">
+                View All Transformations
+                <ArrowRight className="w-4 h-4 ml-2" />
+              </Button>
+            </Link>
+          </div>
+        )}
       </div>
     </section>
   );
