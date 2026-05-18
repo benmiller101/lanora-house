@@ -38,16 +38,6 @@ export const users = pgTable("users", {
   updatedAt: timestamp("updated_at").defaultNow(),
 });
 
-// Password Reset Tokens
-export const passwordResetTokens = pgTable("password_reset_tokens", {
-  id: serial("id").primaryKey(),
-  userId: varchar("user_id").notNull().references(() => users.id),
-  token: varchar("token").notNull().unique(),
-  expiresAt: timestamp("expires_at").notNull(),
-  used: boolean("used").default(false),
-  createdAt: timestamp("created_at").defaultNow(),
-});
-
 // Environmental Impact Tracking
 export const environmentalImpact = pgTable("environmental_impact", {
   id: serial("id").primaryKey(),
@@ -120,15 +110,15 @@ export type TeamMember = typeof teamMembers.$inferSelect;
 export const customerReviews = pgTable("customer_reviews", {
   id: serial("id").primaryKey(),
   customerName: varchar("customer_name", { length: 255 }).notNull(),
-  platform: varchar("platform", { length: 100 }).notNull(), // "Google", "Facebook", "Instagram", "TrustPilot", etc.
-  rating: integer("rating").notNull(), // 1-5 stars
+  platform: varchar("platform", { length: 100 }).notNull(),
+  rating: integer("rating").notNull(),
   reviewText: text("review_text").notNull(),
-  reviewDate: timestamp("review_date").notNull(), // Date the review was originally posted
-  location: varchar("location", { length: 255 }), // Customer location if available
-  serviceType: varchar("service_type", { length: 255 }), // What service they reviewed
-  platformUrl: varchar("platform_url", { length: 500 }), // Link to original review
+  reviewDate: timestamp("review_date").notNull(),
+  location: varchar("location", { length: 255 }),
+  serviceType: varchar("service_type", { length: 255 }),
+  platformUrl: varchar("platform_url", { length: 500 }),
   isActive: boolean("is_active").default(true),
-  displayOrder: integer("display_order").default(0), // For custom ordering
+  displayOrder: integer("display_order").default(0),
   createdAt: timestamp("created_at").defaultNow(),
   updatedAt: timestamp("updated_at").defaultNow(),
 });
@@ -145,8 +135,8 @@ export type CustomerReview = typeof customerReviews.$inferSelect;
 export const galleryImages = pgTable("gallery_images", {
   id: serial("id").primaryKey(),
   title: varchar("title", { length: 255 }).notNull(),
-  estimate: varchar("estimate", { length: 100 }), // e.g. "£200 - £400"
-  soldPrice: varchar("sold_price", { length: 100 }), // e.g. "£350" - shown on hover
+  estimate: varchar("estimate", { length: 100 }),
+  soldPrice: varchar("sold_price", { length: 100 }),
   imageUrl: text("image_url").notNull(),
   displayOrder: integer("display_order").default(0),
   isActive: boolean("is_active").default(true),
@@ -198,137 +188,19 @@ export const resetPasswordSchema = z.object({
   path: ["confirmPassword"],
 });
 
-export const insertPasswordResetTokenSchema = createInsertSchema(passwordResetTokens).pick({
-  userId: true,
-  token: true,
-  expiresAt: true,
-});
-
 export type User = typeof users.$inferSelect;
-
-// Character avatars table for admin-managed characters
-export const characterAvatars = pgTable("character_avatars", {
-  id: varchar("id").primaryKey().notNull(),
-  name: varchar("name").notNull(),
-  imageUrl: varchar("image_url").notNull(),
-  isActive: boolean("is_active").default(true),
-  createdAt: timestamp("created_at").defaultNow(),
-  updatedAt: timestamp("updated_at").defaultNow(),
-});
-
-export type CharacterAvatar = typeof characterAvatars.$inferSelect;
-export type InsertCharacterAvatar = typeof characterAvatars.$inferInsert;
-
-// Member Wallet System
-export const memberWallets = pgTable("member_wallets", {
-  id: serial("id").primaryKey(),
-  userId: varchar("user_id").notNull().references(() => users.id),
-  balance: decimal("balance", { precision: 10, scale: 2 }).default("0.00").notNull(),
-  createdAt: timestamp("created_at").defaultNow(),
-  updatedAt: timestamp("updated_at").defaultNow(),
-});
-
-export const walletTransactions = pgTable("wallet_transactions", {
-  id: serial("id").primaryKey(),
-  userId: varchar("user_id").notNull().references(() => users.id),
-  walletId: integer("wallet_id").notNull().references(() => memberWallets.id),
-  type: varchar("type").notNull(), // 'credit', 'debit', 'topup', 'withdrawal', 'purchase', 'instant_win', 'raffle_win'
-  amount: decimal("amount", { precision: 10, scale: 2 }).notNull(),
-  description: text("description").notNull(),
-  referenceId: varchar("reference_id"), // Order ID, instant win ID, raffle ID, etc.
-  referenceType: varchar("reference_type"), // 'order', 'instant_win', 'raffle_win', 'topup', 'withdrawal'
-  status: varchar("status").default("completed").notNull(), // 'pending', 'completed', 'failed', 'cancelled'
-  paymentMethod: varchar("payment_method"), // For topups/withdrawals: 'paytriot', 'paypal', 'bank_transfer'
-  externalTransactionId: varchar("external_transaction_id"), // PayPal, Paytriot transaction ID
-  createdAt: timestamp("created_at").defaultNow(),
-  updatedAt: timestamp("updated_at").defaultNow(),
-});
-
-export const walletTopups = pgTable("wallet_topups", {
-  id: serial("id").primaryKey(),
-  userId: varchar("user_id").notNull().references(() => users.id),
-  amount: decimal("amount", { precision: 10, scale: 2 }).notNull(),
-  paymentMethod: varchar("payment_method").notNull(), // 'paytriot', 'paypal'
-  paymentStatus: varchar("payment_status").default("pending").notNull(), // 'pending', 'completed', 'failed'
-  externalPaymentId: varchar("external_payment_id"), // Paytriot/PayPal transaction ID
-  transactionId: integer("transaction_id").references(() => walletTransactions.id),
-  createdAt: timestamp("created_at").defaultNow(),
-  updatedAt: timestamp("updated_at").defaultNow(),
-});
-
-export const walletWithdrawals = pgTable("wallet_withdrawals", {
-  id: serial("id").primaryKey(),
-  userId: varchar("user_id").notNull().references(() => users.id),
-  amount: decimal("amount", { precision: 10, scale: 2 }).notNull(),
-  withdrawalMethod: varchar("withdrawal_method").notNull(), // 'paypal', 'bank_transfer', 'paytriot'
-  withdrawalDetails: jsonb("withdrawal_details"), // PayPal email, bank details, etc.
-  status: varchar("status").default("pending").notNull(), // 'pending', 'processing', 'completed', 'failed'
-  externalTransactionId: varchar("external_transaction_id"),
-  transactionId: integer("transaction_id").references(() => walletTransactions.id),
-  processedAt: timestamp("processed_at"),
-  createdAt: timestamp("created_at").defaultNow(),
-  updatedAt: timestamp("updated_at").defaultNow(),
-});
-
-// Wallet Schema Types
-export type MemberWallet = typeof memberWallets.$inferSelect;
-export type WalletTransaction = typeof walletTransactions.$inferSelect;
-export type WalletTopup = typeof walletTopups.$inferSelect;
-export type WalletWithdrawal = typeof walletWithdrawals.$inferSelect;
-
-export type InsertWalletTransaction = typeof walletTransactions.$inferInsert;
-export type InsertWalletTopup = typeof walletTopups.$inferInsert;
-export type InsertWalletWithdrawal = typeof walletWithdrawals.$inferInsert;
-
-// Wallet Schema Validations
-export const walletTopupSchema = z.object({
-  amount: z.number().min(5, "Minimum topup amount is £5").max(1000, "Maximum topup amount is £1000"),
-  paymentMethod: z.enum(["paytriot", "paypal"]),
-});
-
-export const walletWithdrawalSchema = z.object({
-  amount: z.number().min(5, "Minimum withdrawal amount is £5"),
-  withdrawalMethod: z.enum(["paypal", "bank_transfer", "paytriot"]),
-  withdrawalDetails: z.object({
-    paypalEmail: z.string().email().optional(),
-    bankDetails: z.object({
-      accountName: z.string(),
-      sortCode: z.string(),
-      accountNumber: z.string(),
-    }).optional(),
-  }).optional(),
-});
 export type InsertUser = z.infer<typeof insertUserSchema>;
 export type UpsertUser = typeof users.$inferInsert;
-
-// User Wallet for deposits/balances
-export const wallets = pgTable("wallets", {
-  id: serial("id").primaryKey(),
-  userId: varchar("user_id").notNull().references(() => users.id),
-  balance: decimal("balance", { precision: 10, scale: 2 }).notNull().default("0"),
-  createdAt: timestamp("created_at").defaultNow(),
-  updatedAt: timestamp("updated_at").defaultNow(),
-});
-
-export const insertWalletSchema = createInsertSchema(wallets).pick({
-  userId: true,
-  balance: true,
-});
-
-export type Wallet = typeof wallets.$inferSelect;
-export type InsertWallet = z.infer<typeof insertWalletSchema>;
-
-
 
 // Withdrawals table for instant win prize withdrawals
 export const withdrawals = pgTable("withdrawals", {
   id: serial("id").primaryKey(),
   userId: varchar("user_id").notNull().references(() => users.id),
   amount: decimal("amount", { precision: 10, scale: 2 }).notNull(),
-  withdrawalMethod: varchar("withdrawal_method").notNull(), // 'paypal', 'bank_transfer', 'stripe'
-  withdrawalDetails: jsonb("withdrawal_details"), // account details (encrypted/hashed)
-  status: varchar("status").default("pending").notNull(), // 'pending', 'processing', 'completed', 'failed'
-  instantWinIds: integer("instant_win_ids").array().notNull(), // array of claimed instant win IDs
+  withdrawalMethod: varchar("withdrawal_method").notNull(),
+  withdrawalDetails: jsonb("withdrawal_details"),
+  status: varchar("status").default("pending").notNull(),
+  instantWinIds: integer("instant_win_ids").array().notNull(),
   createdAt: timestamp("created_at").defaultNow(),
   processedAt: timestamp("processed_at"),
   transactionId: varchar("transaction_id"),
@@ -347,35 +219,7 @@ export const insertWithdrawalSchema = createInsertSchema(withdrawals).pick({
 export type Withdrawal = typeof withdrawals.$inferSelect;
 export type InsertWithdrawal = z.infer<typeof insertWithdrawalSchema>;
 
-
-
-// Financial transactions
-export const transactions = pgTable("transactions", {
-  id: serial("id").primaryKey(),
-  userId: varchar("user_id").notNull().references(() => users.id),
-  type: varchar("type").notNull(), // deposit, withdrawal, payment
-  amount: decimal("amount", { precision: 10, scale: 2 }).notNull(),
-  status: varchar("status").notNull().default("pending"), // pending, completed, failed
-  description: text("description"),
-  metadata: json("metadata"),
-  createdAt: timestamp("created_at").defaultNow(),
-  updatedAt: timestamp("updated_at").defaultNow(),
-});
-
-export const insertTransactionSchema = createInsertSchema(transactions).pick({
-  userId: true,
-  type: true,
-  amount: true,
-  status: true,
-  description: true,
-  metadata: true,
-});
-
-export type Transaction = typeof transactions.$inferSelect;
-export type InsertTransaction = z.infer<typeof insertTransactionSchema>;
-
-// Session storage table.
-// (IMPORTANT) This table is mandatory for Replit Auth, don't drop it.
+// Session storage table — required for express-session PostgreSQL store
 export const sessions = pgTable(
   "sessions",
   {
@@ -409,37 +253,14 @@ export const insertCategorySchema = createInsertSchema(categories).pick({
 export type Category = typeof categories.$inferSelect;
 export type InsertCategory = z.infer<typeof insertCategorySchema>;
 
-// Product-Category junction table for many-to-many relationship
-export const productCategories = pgTable("product_categories", {
-  id: serial("id").primaryKey(),
-  productId: integer("product_id")
-    .notNull()
-    .references(() => products.id, { onDelete: "cascade" }),
-  categoryId: integer("category_id")
-    .notNull()
-    .references(() => categories.id, { onDelete: "cascade" }),
-  createdAt: timestamp("created_at").defaultNow(),
-}, (table) => [
-  // Ensure unique product-category combinations
-  uniqueIndex("product_category_unique").on(table.productId, table.categoryId),
-]);
-
-export const insertProductCategorySchema = createInsertSchema(productCategories).pick({
-  productId: true,
-  categoryId: true,
-});
-
-export type ProductCategory = typeof productCategories.$inferSelect;
-export type InsertProductCategory = z.infer<typeof insertProductCategorySchema>;
-
 // Products (antiques)
 export const products = pgTable("products", {
   id: serial("id").primaryKey(),
   name: varchar("name").notNull(),
   description: text("description").notNull(),
   detailedDescription: text("detailed_description"),
-  sku: varchar("sku").unique(), // Adding SKU for inventory management
-  vendorNumber: varchar("vendor_number"), // Optional vendor reference number
+  sku: varchar("sku").unique(),
+  vendorNumber: varchar("vendor_number"),
   price: decimal("price", { precision: 10, scale: 2 }).notNull(),
   originalPrice: decimal("original_price", { precision: 10, scale: 2 }),
   categoryId: integer("category_id")
@@ -457,18 +278,13 @@ export const products = pgTable("products", {
   provenance: text("provenance"),
   inStock: boolean("in_stock").default(true),
   stockQuantity: integer("stock_quantity").default(1),
-  status: varchar("status").default("published"), // draft, published
-  // Shipping fields
-  weightGrams: integer("weight_grams").default(0), // Weight in grams
-  parcelType: varchar("parcel_type").default("small_parcel"), // letter, large_letter, small_parcel, medium_parcel, large_parcel
+  status: varchar("status").default("published"),
+  weightGrams: integer("weight_grams").default(0),
+  parcelType: varchar("parcel_type").default("small_parcel"),
   createdAt: timestamp("created_at").defaultNow(),
   updatedAt: timestamp("updated_at").defaultNow(),
 });
 
-// Create a base schema first
-const baseProductSchema = createInsertSchema(products);
-
-// Create a custom product schema that properly handles type conversions for the form data
 export const insertProductSchema = z.object({
   name: z.string().min(1),
   description: z.string().min(1),
@@ -477,12 +293,12 @@ export const insertProductSchema = z.object({
   vendorNumber: z.string().optional(),
   price: z.string().min(1),
   originalPrice: z.string().optional(),
-  categoryId: z.union([z.string(), z.number()]).transform(val => 
+  categoryId: z.union([z.string(), z.number()]).transform(val =>
     typeof val === 'string' ? parseInt(val) : val
-  ).optional(), // Make optional for backward compatibility
+  ).optional(),
   categoryIds: z.union([
     z.string().transform(s => s.split(',').map(item => parseInt(item.trim())).filter(Boolean)),
-    z.array(z.union([z.string(), z.number()])).transform(arr => 
+    z.array(z.union([z.string(), z.number()])).transform(arr =>
       arr.map(val => typeof val === 'string' ? parseInt(val) : val)
     ),
     z.number().transform(n => [n])
@@ -504,12 +320,11 @@ export const insertProductSchema = z.object({
   ]).optional(),
   provenance: z.string().optional(),
   inStock: z.boolean().default(true),
-  stockQuantity: z.union([z.string(), z.number()]).transform(val => 
+  stockQuantity: z.union([z.string(), z.number()]).transform(val =>
     typeof val === 'string' ? parseInt(val) : val
   ),
   status: z.enum(['draft', 'published']).default('published'),
-  // Shipping fields
-  weightGrams: z.union([z.string(), z.number()]).transform(val => 
+  weightGrams: z.union([z.string(), z.number()]).transform(val =>
     typeof val === 'string' ? parseInt(val) || 0 : val
   ).default(0),
   parcelType: z.enum(['letter', 'large_letter', 'small_parcel', 'medium_parcel', 'large_parcel']).default('small_parcel'),
@@ -523,7 +338,7 @@ export const raffles = pgTable("raffles", {
   id: serial("id").primaryKey(),
   name: varchar("name").notNull(),
   description: text("description").notNull(),
-  excerpt: varchar("excerpt", { length: 200 }), // Short description for front page
+  excerpt: varchar("excerpt", { length: 200 }),
   itemDescription: text("item_description").notNull(),
   retailPrice: decimal("retail_price", { precision: 10, scale: 2 }).notNull(),
   ticketPrice: decimal("ticket_price", { precision: 10, scale: 2 }).notNull(),
@@ -531,22 +346,21 @@ export const raffles = pgTable("raffles", {
   endDate: timestamp("end_date").notNull(),
   maxTickets: integer("max_tickets").notNull(),
   ticketsSold: integer("tickets_sold").default(0),
-  status: varchar("status").notNull().default("active"), // active, completed
+  status: varchar("status").notNull().default("active"),
   imageUrl: varchar("image_url").notNull(),
-  additionalImages: varchar("additional_images").array(), // Array of additional image URLs
+  additionalImages: varchar("additional_images").array(),
   winnerId: varchar("winner_id").references(() => users.id),
   winningTicketNumber: integer("winning_ticket_number"),
-  // Instant win configuration
   instantWinEnabled: boolean("instant_win_enabled").default(false),
-  instantWinCount: integer("instant_win_count").default(0), // How many instant win tickets to generate
-  instantWinAmount: decimal("instant_win_amount", { precision: 10, scale: 2 }).default("5"), // Default reward is £5
-  instantWinNumbers: integer("instant_win_numbers").array(), // Store the specific instant win ticket numbers
-  instantWinTitle: varchar("instant_win_title"), // E.g., "COSMIC CASH"
-  instantWinPrizeType: varchar("instant_win_prize_type").default("cash"), // cash, product, ticket, etc.
-  instantWinPrizes: jsonb("instant_win_prizes"), // Store array of instant win prize configs (type, count, amount)
-  isFeatured: boolean("is_featured").default(false), // Flag to indicate if this raffle should be featured on the homepage
-  socialSharingEnabled: boolean("social_sharing_enabled").default(false), // Enable social sharing rewards for this raffle
-  socialSharingRewards: jsonb("social_sharing_rewards").default('[]'), // Array of social platform rewards specific to this raffle
+  instantWinCount: integer("instant_win_count").default(0),
+  instantWinAmount: decimal("instant_win_amount", { precision: 10, scale: 2 }).default("5"),
+  instantWinNumbers: integer("instant_win_numbers").array(),
+  instantWinTitle: varchar("instant_win_title"),
+  instantWinPrizeType: varchar("instant_win_prize_type").default("cash"),
+  instantWinPrizes: jsonb("instant_win_prizes"),
+  isFeatured: boolean("is_featured").default(false),
+  socialSharingEnabled: boolean("social_sharing_enabled").default(false),
+  socialSharingRewards: jsonb("social_sharing_rewards").default('[]'),
   createdAt: timestamp("created_at").defaultNow(),
   updatedAt: timestamp("updated_at").defaultNow(),
 });
@@ -600,39 +414,6 @@ export const insertRaffleEntrySchema = createInsertSchema(raffleEntries).pick({
 export type RaffleEntry = typeof raffleEntries.$inferSelect;
 export type InsertRaffleEntry = z.infer<typeof insertRaffleEntrySchema>;
 
-// Raffle Winners - stores the main raffle winners
-export const raffleWinners = pgTable("raffle_winners", {
-  id: serial("id").primaryKey(),
-  raffleId: integer("raffle_id")
-    .notNull()
-    .references(() => raffles.id),
-  userId: varchar("user_id")
-    .notNull()
-    .references(() => users.id),
-  winningTicketNumber: integer("winning_ticket_number").notNull(),
-  prizeValue: decimal("prize_value", { precision: 10, scale: 2 }).notNull(),
-  prizeName: varchar("prize_name").notNull(),
-  claimed: boolean("claimed").default(false),
-  claimedAt: timestamp("claimed_at"),
-  claimType: varchar("claim_type").default("cash"), // 'cash' or 'delivery'
-  deliveryAddress: jsonb("delivery_address"),
-  deliveryStatus: varchar("delivery_status").default("pending"), // 'pending', 'processing', 'shipped', 'delivered'
-  notificationSent: boolean("notification_sent").default(false),
-  createdAt: timestamp("created_at").defaultNow(),
-});
-
-export const insertRaffleWinnerSchema = createInsertSchema(raffleWinners).pick({
-  raffleId: true,
-  userId: true,
-  winningTicketNumber: true,
-  prizeValue: true,
-  prizeName: true,
-  claimed: true,
-});
-
-export type RaffleWinner = typeof raffleWinners.$inferSelect;
-export type InsertRaffleWinner = z.infer<typeof insertRaffleWinnerSchema>;
-
 // Instant win table to track winners
 export const instantWinners = pgTable("instant_winners", {
   id: serial("id").primaryKey(),
@@ -661,7 +442,7 @@ export const insertInstantWinnerSchema = createInsertSchema(instantWinners).pick
 export type InstantWinner = typeof instantWinners.$inferSelect;
 export type InsertInstantWinner = z.infer<typeof insertInstantWinnerSchema>;
 
-// Cart items - supports both raffle tickets and products
+// Cart items
 export const cartItems = pgTable("cart_items", {
   id: serial("id").primaryKey(),
   userId: varchar("user_id")
@@ -672,8 +453,8 @@ export const cartItems = pgTable("cart_items", {
   productId: integer("product_id")
     .references(() => products.id),
   quantity: integer("quantity").notNull().default(1),
-  type: varchar("type").notNull().default("raffle_ticket"), // 'raffle_ticket' or 'product'
-  shippingMethod: varchar("shipping_method"), // 'standard_shipping' or 'local_delivery'
+  type: varchar("type").notNull().default("raffle_ticket"),
+  shippingMethod: varchar("shipping_method"),
   createdAt: timestamp("created_at").defaultNow(),
   updatedAt: timestamp("updated_at").defaultNow(),
 });
@@ -692,10 +473,10 @@ export type InsertCartItem = z.infer<typeof insertCartItemSchema>;
 
 // Orders
 export const orders = pgTable("orders", {
-  id: varchar("id").primaryKey(), // Changed from serial to varchar to handle string IDs like "order_1753100252274"
+  id: varchar("id").primaryKey(),
   userId: varchar("user_id")
     .references(() => users.id),
-  status: varchar("status").notNull().default("pending"), // pending, processing, shipped, delivered, cancelled
+  status: varchar("status").notNull().default("pending"),
   subtotal: decimal("subtotal", { precision: 10, scale: 2 }).notNull(),
   shipping: decimal("shipping", { precision: 10, scale: 2 }).notNull(),
   tax: decimal("tax", { precision: 10, scale: 2 }).notNull(),
@@ -704,23 +485,23 @@ export const orders = pgTable("orders", {
   shippingAddress: json("shipping_address").notNull(),
   billingAddress: json("billing_address").notNull(),
   paymentMethod: varchar("payment_method").notNull(),
-  paymentStatus: varchar("payment_status").notNull().default("pending"), // pending, paid, failed
+  paymentStatus: varchar("payment_status").notNull().default("pending"),
   paytriotPaymentId: varchar("paytriot_payment_id"),
-  deliveryPostcode: varchar("delivery_postcode"), // For local delivery cost calculation
-  deliveryDistance: decimal("delivery_distance", { precision: 10, scale: 2 }), // Distance in miles
-  deliveryCost: decimal("delivery_cost", { precision: 10, scale: 2 }), // Calculated delivery cost
+  deliveryPostcode: varchar("delivery_postcode"),
+  deliveryDistance: decimal("delivery_distance", { precision: 10, scale: 2 }),
+  deliveryCost: decimal("delivery_cost", { precision: 10, scale: 2 }),
   trackingNumber: varchar("tracking_number"),
-  carrier: varchar("carrier"), // Royal Mail, DPD, Evri, etc.
+  carrier: varchar("carrier"),
   estimatedDelivery: timestamp("estimated_delivery"),
   shippedAt: timestamp("shipped_at"),
   deliveredAt: timestamp("delivered_at"),
-  cryptoTransactionHash: varchar("crypto_transaction_hash"), // User-provided transaction hash
-  cryptoConfirmedAt: timestamp("crypto_confirmed_at"), // When admin confirmed crypto payment
-  cryptoAmount: varchar("crypto_amount"), // Amount in cryptocurrency (e.g., "0.00123456 BTC")
-  cryptoWalletAddress: varchar("crypto_wallet_address"), // Wallet address for crypto payment
-  fulfillmentMethod: varchar("fulfillment_method").default("delivery"), // 'delivery' or 'click_collect'
-  collectionDate: timestamp("collection_date"), // Date for click & collect pickup
-  collectionTimeSlot: varchar("collection_time_slot"), // Time slot for pickup e.g. "12:00-13:00"
+  cryptoTransactionHash: varchar("crypto_transaction_hash"),
+  cryptoConfirmedAt: timestamp("crypto_confirmed_at"),
+  cryptoAmount: varchar("crypto_amount"),
+  cryptoWalletAddress: varchar("crypto_wallet_address"),
+  fulfillmentMethod: varchar("fulfillment_method").default("delivery"),
+  collectionDate: timestamp("collection_date"),
+  collectionTimeSlot: varchar("collection_time_slot"),
   createdAt: timestamp("created_at").defaultNow(),
   updatedAt: timestamp("updated_at").defaultNow(),
 });
@@ -753,8 +534,8 @@ export const orderItems = pgTable("order_items", {
   name: varchar("name").notNull(),
   price: decimal("price", { precision: 10, scale: 2 }).notNull(),
   quantity: integer("quantity").notNull(),
-  type: varchar("type").notNull().default("product"), // product, raffle_ticket
-  shippingMethod: varchar("shipping_method"), // 'standard_shipping' or 'local_delivery'
+  type: varchar("type").notNull().default("product"),
+  shippingMethod: varchar("shipping_method"),
   createdAt: timestamp("created_at").defaultNow(),
 });
 
@@ -792,16 +573,13 @@ export const insertWishlistItemSchema = createInsertSchema(wishlistItems).pick({
 export type WishlistItem = typeof wishlistItems.$inferSelect;
 export type InsertWishlistItem = z.infer<typeof insertWishlistItemSchema>;
 
-
-
-
-// User Item Submissions - for sales or raffle prize donations
+// User Item Submissions
 export const itemSubmissions = pgTable("item_submissions", {
   id: serial("id").primaryKey(),
   userId: varchar("user_id")
     .notNull()
     .references(() => users.id),
-  type: varchar("type").notNull(), // "sale", "raffle_prize"
+  type: varchar("type").notNull(),
   title: varchar("title").notNull(),
   description: text("description").notNull(),
   condition: varchar("condition"),
@@ -813,12 +591,11 @@ export const itemSubmissions = pgTable("item_submissions", {
   origin: varchar("origin"),
   provenance: text("provenance"),
   photos: text("photos").array(),
-  status: varchar("status").notNull().default("pending"), // "pending", "approved", "rejected", "completed", "negotiating", "accepted", "shipping"
+  status: varchar("status").notNull().default("pending"),
   adminFeedback: text("admin_feedback"),
   adminValuation: decimal("admin_valuation", { precision: 10, scale: 2 }),
-  // New fields for offer negotiation
   offerAmount: decimal("offer_amount", { precision: 10, scale: 2 }),
-  negotiationStatus: varchar("negotiation_status"), // "offered", "user_accepted", "user_rejected", "user_countered", "admin_accepted", "admin_rejected", "admin_countered", "finalized"
+  negotiationStatus: varchar("negotiation_status"),
   currentOffer: decimal("current_offer", { precision: 10, scale: 2 }),
   userCounterOffer: decimal("user_counter_offer", { precision: 10, scale: 2 }),
   adminCounterOffer: decimal("admin_counter_offer", { precision: 10, scale: 2 }),
@@ -848,150 +625,13 @@ export const insertItemSubmissionSchema = createInsertSchema(itemSubmissions).pi
 export type ItemSubmission = typeof itemSubmissions.$inferSelect;
 export type InsertItemSubmission = z.infer<typeof insertItemSubmissionSchema>;
 
-
-// Payment Methods (for users with stored credit cards)
-export const paymentMethods = pgTable("payment_methods", {
-  id: serial("id").primaryKey(),
-  userId: varchar("user_id").notNull().references(() => users.id),
-  stripeCustomerId: varchar("stripe_customer_id"),
-  stripePaymentMethodId: varchar("stripe_payment_method_id"),
-  cardBrand: varchar("card_brand"), // visa, mastercard, amex, etc.
-  cardLast4: varchar("card_last4"), // Last 4 digits of card
-  expiryMonth: integer("expiry_month"),
-  expiryYear: integer("expiry_year"),
-  isDefault: boolean("is_default").default(false),
-  createdAt: timestamp("created_at").defaultNow(),
-  updatedAt: timestamp("updated_at").defaultNow(),
-});
-
-export const insertPaymentMethodSchema = createInsertSchema(paymentMethods).pick({
-  userId: true,
-  stripeCustomerId: true,
-  stripePaymentMethodId: true,
-  cardBrand: true,
-  cardLast4: true,
-  expiryMonth: true,
-  expiryYear: true,
-  isDefault: true,
-});
-
-export type PaymentMethod = typeof paymentMethods.$inferSelect;
-export type InsertPaymentMethod = z.infer<typeof insertPaymentMethodSchema>;
-
-// Simple Notifications for users
-export const notifications = pgTable("notifications", {
-  id: serial("id").primaryKey(),
-  userId: varchar("user_id").notNull().references(() => users.id),
-  message: text("message").notNull(),
-  type: varchar("type").default("info").notNull(), // info, success, warning, error
-  isRead: boolean("is_read").default(false).notNull(),
-  createdAt: timestamp("created_at").defaultNow(),
-});
-
-export type InsertNotification = typeof notifications.$inferInsert;
-export type SelectNotification = typeof notifications.$inferSelect;
-
-// Blog Posts
-export const blogPosts = pgTable("blog_posts", {
-  id: serial("id").primaryKey(),
-  title: varchar("title").notNull(),
-  slug: varchar("slug").unique().notNull(),
-  excerpt: text("excerpt"),
-  content: text("content").notNull(),
-  sections: json("sections").$type<any[]>(), // Store original section structure
-  coverImage: varchar("cover_image"),
-  category: varchar("category").notNull(),
-  tags: json("tags").$type<string[]>(),
-  status: varchar("status").notNull().default("draft"), // draft, published, archived
-  featured: boolean("featured").default(false),
-  authorId: varchar("author_id"),
-  authorName: varchar("author_name"),
-  authorImage: varchar("author_image"),
-  authorBio: text("author_bio"),
-  metaTitle: varchar("meta_title"),
-  metaDescription: text("meta_description"),
-  publishedAt: timestamp("published_at"),
-  createdAt: timestamp("created_at").defaultNow(),
-  updatedAt: timestamp("updated_at").defaultNow(),
-});
-
-export const insertBlogPostSchema = createInsertSchema(blogPosts).pick({
-  title: true,
-  slug: true,
-  excerpt: true,
-  content: true,
-  sections: true,
-  coverImage: true,
-  category: true,
-  tags: true,
-  status: true,
-  featured: true,
-  authorId: true,
-  authorName: true,
-  authorImage: true,
-  authorBio: true,
-  metaTitle: true,
-  metaDescription: true,
-  publishedAt: true,
-});
-
-export type BlogPost = typeof blogPosts.$inferSelect;
-export type InsertBlogPost = z.infer<typeof insertBlogPostSchema>;
-
-// Blog Comments
-export const blogComments: ReturnType<typeof pgTable<"blog_comments", any>> = pgTable("blog_comments", {
-  id: serial("id").primaryKey(),
-  postId: integer("post_id").notNull().references(() => blogPosts.id),
-  userId: varchar("user_id").references(() => users.id),
-  authorName: varchar("author_name").notNull(),
-  authorEmail: varchar("author_email").notNull(),
-  content: text("content").notNull(),
-  status: varchar("status").notNull().default("pending"), // pending, approved, rejected
-  parentId: integer("parent_id"),
-  createdAt: timestamp("created_at").defaultNow(),
-  updatedAt: timestamp("updated_at").defaultNow(),
-});
-
-export const insertBlogCommentSchema = createInsertSchema(blogComments).pick({
-  postId: true,
-  userId: true,
-  authorName: true,
-  authorEmail: true,
-  content: true,
-  status: true,
-  parentId: true,
-});
-
-export type BlogComment = typeof blogComments.$inferSelect;
-export type InsertBlogComment = z.infer<typeof insertBlogCommentSchema>;
-
-// Blog Categories
-export const blogCategories = pgTable("blog_categories", {
-  id: serial("id").primaryKey(),
-  name: varchar("name").notNull().unique(),
-  slug: varchar("slug").notNull().unique(),
-  description: text("description"),
-  color: varchar("color").default("#3b82f6"),
-  createdAt: timestamp("created_at").defaultNow(),
-});
-
-export const insertBlogCategorySchema = createInsertSchema(blogCategories).pick({
-  name: true,
-  slug: true,
-  description: true,
-  color: true,
-});
-
-export type BlogCategory = typeof blogCategories.$inferSelect;
-export type InsertBlogCategory = z.infer<typeof insertBlogCategorySchema>;
-
 // Clearance Success Stories
 export const clearanceStories = pgTable("clearance_stories", {
   id: serial("id").primaryKey(),
   title: varchar("title").notNull(),
   description: text("description").notNull(),
   amountSaved: varchar("amount_saved"),
-  wasteDiverted: varchar("waste_diverted"), // e.g., "0.5 tonnes"
+  wasteDiverted: varchar("waste_diverted"),
   imageUrl: varchar("image_url"),
   beforeImageUrl: varchar("before_image_url"),
   afterImageUrl: varchar("after_image_url"),
@@ -1016,7 +656,7 @@ export const insertClearanceStorySchema = createInsertSchema(clearanceStories).p
 export type ClearanceStory = typeof clearanceStories.$inferSelect;
 export type InsertClearanceStory = z.infer<typeof insertClearanceStorySchema>;
 
-// Clearance Quote Requests Table
+// Clearance Quote Requests
 export const clearanceQuotes = pgTable("clearance_quotes", {
   id: serial("id").primaryKey(),
   name: varchar("name").notNull(),
@@ -1027,9 +667,9 @@ export const clearanceQuotes = pgTable("clearance_quotes", {
   clearanceType: varchar("clearance_type"),
   timeframe: varchar("timeframe"),
   additionalInfo: text("additional_info"),
-  imageUrls: text("image_urls").array(), // Array of image URLs
-  status: varchar("status").default("pending").notNull(), // pending, responded
-  requestType: varchar("request_type").default("clearance").notNull(), // clearance, contact, general
+  imageUrls: text("image_urls").array(),
+  status: varchar("status").default("pending").notNull(),
+  requestType: varchar("request_type").default("clearance").notNull(),
   createdAt: timestamp("created_at").defaultNow().notNull(),
   updatedAt: timestamp("updated_at").defaultNow().notNull(),
 });
@@ -1050,123 +690,7 @@ export const insertClearanceQuoteSchema = createInsertSchema(clearanceQuotes).pi
 export type ClearanceQuote = typeof clearanceQuotes.$inferSelect;
 export type InsertClearanceQuote = z.infer<typeof insertClearanceQuoteSchema>;
 
-// Social Share Rewards Configuration
-export const socialShareRewards = pgTable("social_share_rewards", {
-  id: serial("id").primaryKey(),
-  platform: varchar("platform").notNull(), // 'facebook', 'instagram_story', 'instagram_post', 'twitter', 'tiktok', 'whatsapp', 'linkedin', 'snapchat'
-  rewardType: varchar("reward_type").default("tickets").notNull(), // 'tickets', 'credits', 'discounts'
-  rewardAmount: integer("reward_amount").default(1).notNull(), // number of tickets/credits
-  isActive: boolean("is_active").default(true),
-  maxRewardsPerUser: integer("max_rewards_per_user").default(1), // null = unlimited
-  maxRewardsPerRaffle: integer("max_rewards_per_raffle").default(1), // null = unlimited  
-  description: text("description"),
-  createdAt: timestamp("created_at").defaultNow(),
-  updatedAt: timestamp("updated_at").defaultNow(),
-});
-
-export const insertSocialShareRewardSchema = createInsertSchema(socialShareRewards).pick({
-  platform: true,
-  rewardType: true,
-  rewardAmount: true,
-  isActive: true,
-  maxRewardsPerUser: true,
-  maxRewardsPerRaffle: true,
-  description: true,
-});
-
-export type SocialShareReward = typeof socialShareRewards.$inferSelect;
-export type InsertSocialShareReward = z.infer<typeof insertSocialShareRewardSchema>;
-
-// Social Shares Tracking
-export const socialShares = pgTable("social_shares", {
-  id: serial("id").primaryKey(),
-  userId: varchar("user_id").notNull().references(() => users.id),
-  raffleId: integer("raffle_id").notNull().references(() => raffles.id),
-  platform: varchar("platform").notNull(), // matches socialShareRewards.platform
-  shareUrl: text("share_url"), // the URL that was shared
-  verified: boolean("verified").default(false), // whether the share was verified
-  rewardGranted: boolean("reward_granted").default(false),
-  rewardTickets: integer("reward_tickets").default(0), // tickets granted for this share
-  shareData: jsonb("share_data"), // store platform-specific share metadata
-  ipAddress: varchar("ip_address"),
-  userAgent: text("user_agent"),
-  createdAt: timestamp("created_at").defaultNow(),
-  verifiedAt: timestamp("verified_at"),
-});
-
-export const insertSocialShareSchema = createInsertSchema(socialShares).pick({
-  userId: true,
-  raffleId: true,
-  platform: true,
-  shareUrl: true,
-  shareData: true,
-  ipAddress: true,
-  userAgent: true,
-});
-
-export type SocialShare = typeof socialShares.$inferSelect;
-export type InsertSocialShare = z.infer<typeof insertSocialShareSchema>;
-
-// Customer Requests Table - Unified table for all customer form submissions
-export const customerRequests = pgTable("customer_requests", {
-  id: serial("id").primaryKey(),
-  name: varchar("name").notNull(),
-  email: varchar("email").notNull(),
-  phone: varchar("phone"),
-  subject: varchar("subject"),
-  message: text("message"),
-  inquiryType: varchar("inquiry_type"), // 'general', 'quote', 'clearance', 'item_submission', 'prize_draw'
-  location: varchar("location"), // Optional location field from contact form
-  
-  // Clearance-specific fields (optional)
-  address: text("address"),
-  propertyType: varchar("property_type"),
-  clearanceType: varchar("clearance_type"),
-  timeframe: varchar("timeframe"),
-  additionalInfo: text("additional_info"),
-  
-  // General fields
-  imageUrls: text("image_urls").array(), // Array of image URLs
-  formType: varchar("form_type").notNull(), // 'contact', 'clearance_quote', 'item_submission'
-  sourceUrl: varchar("source_url"), // Which page the form was submitted from
-  
-  // Admin management
-  status: varchar("status").default("pending").notNull(), // pending, contacted, quoted, accepted, declined, resolved
-  adminNotes: text("admin_notes"), // Internal notes for admin
-  assignedTo: varchar("assigned_to"), // Admin user ID who is handling this request
-  
-  // Metadata
-  userAgent: text("user_agent"),
-  ipAddress: varchar("ip_address"),
-  
-  createdAt: timestamp("created_at").defaultNow().notNull(),
-  updatedAt: timestamp("updated_at").defaultNow().notNull(),
-});
-
-export const insertCustomerRequestSchema = createInsertSchema(customerRequests).pick({
-  name: true,
-  email: true,
-  phone: true,
-  subject: true,
-  message: true,
-  inquiryType: true,
-  location: true,
-  address: true,
-  propertyType: true,
-  clearanceType: true,
-  timeframe: true,
-  additionalInfo: true,
-  imageUrls: true,
-  formType: true,
-  sourceUrl: true,
-  userAgent: true,
-  ipAddress: true,
-});
-
-export type CustomerRequest = typeof customerRequests.$inferSelect;
-export type InsertCustomerRequest = z.infer<typeof insertCustomerRequestSchema>;
-
-// Before and After Posts for admin content management
+// Before and After Posts
 export const beforeAfterPosts = pgTable("before_after_posts", {
   id: serial("id").primaryKey(),
   title: varchar("title").notNull(),
@@ -1195,19 +719,19 @@ export const insertBeforeAfterPostSchema = createInsertSchema(beforeAfterPosts).
 export type BeforeAfterPost = typeof beforeAfterPosts.$inferSelect;
 export type InsertBeforeAfterPost = z.infer<typeof insertBeforeAfterPostSchema>;
 
-// Auction Catalogues (matching existing database structure)
+// Auction Catalogues
 export const auctionCatalogues = pgTable("auction_catalogs", {
   id: varchar("id").primaryKey().notNull(),
   name: varchar("name").notNull(),
   description: text("description"),
   startDate: timestamp("start_date").notNull(),
-  endDate: timestamp("end_date"), // Optional - end time varies
-  status: varchar("status").notNull().default("draft"), // draft, active, completed, archived
+  endDate: timestamp("end_date"),
+  status: varchar("status").notNull().default("draft"),
   imageUrl: varchar("image_url"),
   viewingStartDate: timestamp("viewing_start_date"),
   viewingEndDate: timestamp("viewing_end_date"),
   location: varchar("location"),
-  auctionType: varchar("auction_type"), // live, timed, silent
+  auctionType: varchar("auction_type"),
   createdAt: timestamp("created_at").defaultNow(),
   updatedAt: timestamp("updated_at").defaultNow(),
 });
@@ -1229,7 +753,7 @@ export type AuctionCatalogue = typeof auctionCatalogues.$inferSelect;
 export type InsertAuctionCatalogue = z.infer<typeof insertAuctionCatalogueSchema>;
 export type UpdateAuctionCatalogue = z.infer<typeof updateAuctionCatalogueSchema>;
 
-// Auction Lots (matching existing database structure)
+// Auction Lots
 export const auctionLots = pgTable("auction_lots", {
   id: varchar("id").primaryKey().notNull(),
   catalogId: varchar("catalog_id")
@@ -1247,7 +771,7 @@ export const auctionLots = pgTable("auction_lots", {
   provenance: text("provenance"),
   imageUrl: varchar("image_url").notNull(),
   additionalImages: text("additional_images").array(),
-  status: varchar("status").notNull().default("available"), // available, sold, withdrawn
+  status: varchar("status").notNull().default("available"),
   winnerId: varchar("winner_id"),
   hammerPrice: decimal("hammer_price", { precision: 10, scale: 2 }),
   totalBids: integer("total_bids").default(0),
@@ -1276,7 +800,7 @@ export type AuctionLot = typeof auctionLots.$inferSelect;
 export type InsertAuctionLot = z.infer<typeof insertAuctionLotSchema>;
 export type UpdateAuctionLot = z.infer<typeof updateAuctionLotSchema>;
 
-// Auction Bids - customers can bid on lots before auction is live
+// Auction Bids
 export const auctionBids = pgTable("auction_bids", {
   id: varchar("id").primaryKey(),
   lotId: varchar("lot_id")
@@ -1286,9 +810,9 @@ export const auctionBids = pgTable("auction_bids", {
     .notNull()
     .references(() => users.id),
   bidAmount: decimal("bid_amount", { precision: 10, scale: 2 }).notNull(),
-  maxBid: decimal("max_bid", { precision: 10, scale: 2 }), // For auto-bidding
+  maxBid: decimal("max_bid", { precision: 10, scale: 2 }),
   bidType: varchar("bid_type"),
-  status: varchar("status").notNull().default("active"), // active, outbid, winning, won, lost
+  status: varchar("status").notNull().default("active"),
   isWinning: boolean("is_winning").default(false),
   createdAt: timestamp("created_at").defaultNow(),
 });
@@ -1301,7 +825,7 @@ export const insertAuctionBidSchema = createInsertSchema(auctionBids).omit({
 export type AuctionBid = typeof auctionBids.$inferSelect;
 export type InsertAuctionBid = z.infer<typeof insertAuctionBidSchema>;
 
-// Auction Wishlist - customers can watch lots they're interested in
+// Auction Wishlist
 export const auctionWishlist = pgTable("auction_wishlist", {
   id: serial("id").primaryKey(),
   lotId: varchar("lot_id")
@@ -1310,10 +834,9 @@ export const auctionWishlist = pgTable("auction_wishlist", {
   userId: varchar("user_id")
     .notNull()
     .references(() => users.id),
-  notes: text("notes"), // Personal notes about the lot
+  notes: text("notes"),
   addedAt: timestamp("added_at").defaultNow(),
 }, (table) => [
-  // Ensure a user can't add the same lot to wishlist multiple times
   uniqueIndex("auction_wishlist_user_lot_unique").on(table.userId, table.lotId),
 ]);
 
@@ -1325,92 +848,19 @@ export const insertAuctionWishlistSchema = createInsertSchema(auctionWishlist).o
 export type AuctionWishlistItem = typeof auctionWishlist.$inferSelect;
 export type InsertAuctionWishlistItem = z.infer<typeof insertAuctionWishlistSchema>;
 
-// Live Auction Sessions - Tracks the current state of a live auction
-export const liveAuctionSessions = pgTable("live_auction_sessions", {
-  id: serial("id").primaryKey(),
-  catalogId: varchar("catalog_id")
-    .notNull()
-    .references(() => auctionCatalogues.id, { onDelete: "cascade" }),
-  currentLotId: varchar("current_lot_id")
-    .references(() => auctionLots.id, { onDelete: "set null" }),
-  status: varchar("status").notNull().default("pending"), // pending, active, paused, completed
-  startedAt: timestamp("started_at"),
-  endedAt: timestamp("ended_at"),
-  createdAt: timestamp("created_at").defaultNow(),
-  updatedAt: timestamp("updated_at").defaultNow(),
-});
-
-export const insertLiveAuctionSessionSchema = createInsertSchema(liveAuctionSessions).omit({
-  id: true,
-  createdAt: true,
-  updatedAt: true,
-});
-
-export type LiveAuctionSession = typeof liveAuctionSessions.$inferSelect;
-export type InsertLiveAuctionSession = z.infer<typeof insertLiveAuctionSessionSchema>;
-
-// Skip Bag Bookings
-export const skipBagBookings = pgTable("skip_bag_bookings", {
-  id: serial("id").primaryKey(),
-  userId: varchar("user_id").references(() => users.id),
-  customerName: varchar("customer_name").notNull(),
-  email: varchar("email").notNull(),
-  phone: varchar("phone").notNull(),
-  address: text("address").notNull(),
-  postcode: varchar("postcode").notNull(),
-  wasteType: varchar("waste_type").notNull(), // rubble, soil, green_waste, wood, mixed_household, plasterboard
-  price: decimal("price", { precision: 10, scale: 2 }).notNull(),
-  dropOffDate: timestamp("drop_off_date").notNull(),
-  dropOffTimeSlot: varchar("drop_off_time_slot").notNull(), // morning, afternoon, evening
-  collectionDate: timestamp("collection_date").notNull(),
-  collectionTimeSlot: varchar("collection_time_slot").notNull(), // morning, afternoon, evening
-  specialInstructions: text("special_instructions"),
-  paymentStatus: varchar("payment_status").default("pending").notNull(), // pending, paid, failed
-  paymentMethod: varchar("payment_method"), // stripe, paypal
-  stripePaymentIntentId: varchar("stripe_payment_intent_id"),
-  bookingStatus: varchar("booking_status").default("pending").notNull(), // pending, confirmed, collected, cancelled
-  createdAt: timestamp("created_at").defaultNow(),
-  updatedAt: timestamp("updated_at").defaultNow(),
-});
-
-export const insertSkipBagBookingSchema = createInsertSchema(skipBagBookings).omit({
-  id: true,
-  createdAt: true,
-  updatedAt: true,
-});
-
-export type SkipBagBooking = typeof skipBagBookings.$inferSelect;
-export type InsertSkipBagBooking = z.infer<typeof insertSkipBagBookingSchema>;
-
-export const skipBagBookingFormSchema = z.object({
-  customerName: z.string().min(2, "Name must be at least 2 characters"),
-  email: z.string().email("Please enter a valid email address"),
-  phone: z.string().min(10, "Please enter a valid phone number"),
-  address: z.string().min(5, "Please enter your full address"),
-  postcode: z.string().min(3, "Please enter a valid postcode"),
-  wasteType: z.enum(["rubble", "soil", "green_waste", "wood", "mixed_household", "plasterboard"]),
-  dropOffDate: z.date(),
-  dropOffTimeSlot: z.enum(["morning", "afternoon", "evening"]),
-  collectionDate: z.date(),
-  collectionTimeSlot: z.enum(["morning", "afternoon", "evening"]),
-  specialInstructions: z.string().optional(),
-});
-
-export type SkipBagBookingFormData = z.infer<typeof skipBagBookingFormSchema>;
-
-// Calendar Events for Homepage Auction Calendar
+// Calendar Events
 export const calendarEvents = pgTable("calendar_events", {
   id: serial("id").primaryKey(),
   eventDate: timestamp("event_date").notNull(),
   title: varchar("title", { length: 255 }).notNull(),
   description: text("description"),
-  eventType: varchar("event_type", { length: 50 }).notNull(), // auction, viewing, collection, special
-  eventTime: varchar("event_time", { length: 20 }), // e.g., "10:00" or "17:30"
-  eventEndTime: varchar("event_end_time", { length: 20 }), // e.g., "18:00" for viewing end time
-  location: varchar("location", { length: 255 }), // e.g., "The Old Foundry Chapel, Hayle"
-  catalogUrl: text("catalog_url"), // link to auction catalog
-  imageUrl: text("image_url"), // small image for the event
-  color: varchar("color", { length: 20 }).default("#2e2d7d"), // hex color for display
+  eventType: varchar("event_type", { length: 50 }).notNull(),
+  eventTime: varchar("event_time", { length: 20 }),
+  eventEndTime: varchar("event_end_time", { length: 20 }),
+  location: varchar("location", { length: 255 }),
+  catalogUrl: text("catalog_url"),
+  imageUrl: text("image_url"),
+  color: varchar("color", { length: 20 }).default("#2e2d7d"),
   isActive: boolean("is_active").default(true),
   createdAt: timestamp("created_at").defaultNow(),
   updatedAt: timestamp("updated_at").defaultNow(),
@@ -1425,16 +875,16 @@ export const insertCalendarEventSchema = createInsertSchema(calendarEvents).omit
 export type CalendarEvent = typeof calendarEvents.$inferSelect;
 export type InsertCalendarEvent = z.infer<typeof insertCalendarEventSchema>;
 
-// Auction Highlights for Browse Tab (admin-managed auction listings)
+// Auction Highlights
 export const auctionHighlights = pgTable("auction_highlights", {
   id: serial("id").primaryKey(),
   title: varchar("title", { length: 255 }).notNull(),
   description: text("description"),
   imageUrl: text("image_url"),
-  ctaUrl: text("cta_url").notNull(), // URL to redirect when clicked
+  ctaUrl: text("cta_url").notNull(),
   auctionDate: timestamp("auction_date").notNull(),
-  auctionTime: varchar("auction_time", { length: 20 }), // e.g., "17:30"
-  viewingInfo: text("viewing_info"), // e.g., "15th & 16th December, 9am - 7pm"
+  auctionTime: varchar("auction_time", { length: 20 }),
+  viewingInfo: text("viewing_info"),
   badgeText: varchar("badge_text", { length: 50 }).default("Featured Auction"),
   displayOrder: integer("display_order").default(0),
   isActive: boolean("is_active").default(true),
@@ -1450,82 +900,3 @@ export const insertAuctionHighlightSchema = createInsertSchema(auctionHighlights
 
 export type AuctionHighlight = typeof auctionHighlights.$inferSelect;
 export type InsertAuctionHighlight = z.infer<typeof insertAuctionHighlightSchema>;
-
-// Marketing Email Templates
-export const marketingEmailTemplates = pgTable("marketing_email_templates", {
-  id: serial("id").primaryKey(),
-  name: varchar("name", { length: 255 }).notNull(),
-  subject: varchar("subject", { length: 500 }).notNull(),
-  preheader: varchar("preheader", { length: 255 }),
-  heroImageUrl: varchar("hero_image_url", { length: 1000 }),
-  contentHtml: text("content_html").notNull(),
-  status: varchar("status", { length: 50 }).default("draft"),
-  createdBy: varchar("created_by", { length: 255 }),
-  createdAt: timestamp("created_at").defaultNow(),
-  updatedAt: timestamp("updated_at").defaultNow(),
-});
-
-export const insertMarketingEmailTemplateSchema = createInsertSchema(marketingEmailTemplates).omit({
-  id: true,
-  createdAt: true,
-  updatedAt: true,
-});
-
-export type MarketingEmailTemplate = typeof marketingEmailTemplates.$inferSelect;
-export type InsertMarketingEmailTemplate = z.infer<typeof insertMarketingEmailTemplateSchema>;
-
-// Marketing Email Dispatches (send history)
-export const marketingEmailDispatches = pgTable("marketing_email_dispatches", {
-  id: serial("id").primaryKey(),
-  templateId: integer("template_id").notNull(),
-  initiatedByUserId: varchar("initiated_by_user_id", { length: 255 }).notNull(),
-  sentAt: timestamp("sent_at").defaultNow(),
-  recipientCount: integer("recipient_count").default(0),
-  successfulCount: integer("successful_count").default(0),
-  failedCount: integer("failed_count").default(0),
-  status: varchar("status", { length: 50 }).default("pending"),
-  errorLog: jsonb("error_log"),
-  createdAt: timestamp("created_at").defaultNow(),
-});
-
-export const insertMarketingEmailDispatchSchema = createInsertSchema(marketingEmailDispatches).omit({
-  id: true,
-  createdAt: true,
-});
-
-export type MarketingEmailDispatch = typeof marketingEmailDispatches.$inferSelect;
-export type InsertMarketingEmailDispatch = z.infer<typeof insertMarketingEmailDispatchSchema>;
-
-// Marketing Subscribers (Business and Customer lists)
-export const marketingSubscribers = pgTable("marketing_subscribers", {
-  id: serial("id").primaryKey(),
-  email: varchar("email", { length: 255 }).notNull(),
-  name: varchar("name", { length: 255 }),
-  companyName: varchar("company_name", { length: 255 }),
-  subscriberType: varchar("subscriber_type", { length: 50 }).notNull(), // 'business' or 'customer'
-  source: varchar("source", { length: 100 }), // where they signed up from
-  consentDate: timestamp("consent_date").defaultNow(),
-  isActive: boolean("is_active").default(true),
-  notes: text("notes"),
-  createdAt: timestamp("created_at").defaultNow(),
-});
-
-export const insertMarketingSubscriberSchema = createInsertSchema(marketingSubscribers).omit({
-  id: true,
-  createdAt: true,
-});
-
-export type MarketingSubscriber = typeof marketingSubscribers.$inferSelect;
-export type InsertMarketingSubscriber = z.infer<typeof insertMarketingSubscriberSchema>;
-
-export const auctionHomepageSettings = pgTable("auction_homepage_settings", {
-  id: serial("id").primaryKey(),
-  nextAuctionDate: varchar("next_auction_date").notNull(),
-  catalogueImageUrl: varchar("catalogue_image_url"),
-  catalogueLink: varchar("catalogue_link"),
-  auctionScheduleText: varchar("auction_schedule_text").default("Auctions Held Fortnightly On A Saturday at 10AM"),
-  locationText: varchar("location_text").default("The Old Foundry Chapel, Hayle, Cornwall"),
-  updatedAt: timestamp("updated_at").defaultNow(),
-});
-
-export type AuctionHomepageSettings = typeof auctionHomepageSettings.$inferSelect;

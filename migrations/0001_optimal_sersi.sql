@@ -1,0 +1,24 @@
+DROP TABLE "auction_homepage_settings" CASCADE;--> statement-breakpoint
+DROP TABLE "blog_categories" CASCADE;--> statement-breakpoint
+DROP TABLE "blog_comments" CASCADE;--> statement-breakpoint
+DROP TABLE "blog_posts" CASCADE;--> statement-breakpoint
+DROP TABLE "character_avatars" CASCADE;--> statement-breakpoint
+DROP TABLE "customer_requests" CASCADE;--> statement-breakpoint
+DROP TABLE "live_auction_sessions" CASCADE;--> statement-breakpoint
+DROP TABLE "marketing_email_dispatches" CASCADE;--> statement-breakpoint
+DROP TABLE "marketing_email_templates" CASCADE;--> statement-breakpoint
+DROP TABLE "marketing_subscribers" CASCADE;--> statement-breakpoint
+DROP TABLE "member_wallets" CASCADE;--> statement-breakpoint
+DROP TABLE "notifications" CASCADE;--> statement-breakpoint
+DROP TABLE "password_reset_tokens" CASCADE;--> statement-breakpoint
+DROP TABLE "payment_methods" CASCADE;--> statement-breakpoint
+DROP TABLE "product_categories" CASCADE;--> statement-breakpoint
+DROP TABLE "raffle_winners" CASCADE;--> statement-breakpoint
+DROP TABLE "skip_bag_bookings" CASCADE;--> statement-breakpoint
+DROP TABLE "social_share_rewards" CASCADE;--> statement-breakpoint
+DROP TABLE "social_shares" CASCADE;--> statement-breakpoint
+DROP TABLE "transactions" CASCADE;--> statement-breakpoint
+DROP TABLE "wallet_topups" CASCADE;--> statement-breakpoint
+DROP TABLE "wallet_transactions" CASCADE;--> statement-breakpoint
+DROP TABLE "wallet_withdrawals" CASCADE;--> statement-breakpoint
+DROP TABLE "wallets" CASCADE;
