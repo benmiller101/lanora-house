@@ -8,6 +8,12 @@ import cors from "cors";
 import path from "path";
 
 const app = express();
+
+// Trust Railway's (and other reverse-proxy) X-Forwarded-* headers so that
+// req.secure / req.protocol reflect the original HTTPS connection, and secure
+// session cookies are set correctly.
+app.set('trust proxy', 1);
+
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 
