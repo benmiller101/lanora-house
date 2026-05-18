@@ -80,10 +80,10 @@ const ClearancePage = () => {
         images: []
       });
     },
-    onError: () => {
+    onError: (error: Error) => {
       toast({
         title: "Error",
-        description: "Failed to submit quote request. Please try again.",
+        description: error.message || "Failed to submit quote request. Please try again.",
         variant: "destructive",
       });
     },
