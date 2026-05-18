@@ -5,24 +5,18 @@ import {
   ChevronDownIcon,
   ChevronRightIcon,
   LayoutDashboardIcon,
-  UsersIcon,
   SettingsIcon,
-  ClipboardIcon,
   FileTextIcon,
   ImageIcon,
   MessageSquareIcon,
-  VideoIcon,
   UserCheckIcon,
   TreePineIcon,
   CameraIcon,
   StarIcon,
   HammerIcon,
   CalendarIcon,
-  ShoppingBagIcon,
-  TagIcon,
-  HandshakeIcon,
-  PackageIcon,
   MailIcon,
+  ClipboardListIcon,
 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { cn } from '@/lib/utils';
@@ -49,73 +43,44 @@ export function AdminNavigation() {
       items: [
         {
           href: '/admin/auction-highlights',
-          label: 'Auction Listings',
+          label: 'Featured Listings',
           icon: <HammerIcon className="w-4 h-4 mr-2" />,
           active: location === '/admin/auction-highlights',
         },
         {
-          href: '/admin/auction-catalogs',
-          label: 'Auction Catalogs',
-          icon: <HammerIcon className="w-4 h-4 mr-2" />,
-          active: location.startsWith('/admin/auction-catalog') || location.startsWith('/admin/auction-lots'),
-        },
-        {
-          href: '/admin/streams',
-          label: 'Live Streams',
-          icon: <VideoIcon className="w-4 h-4 mr-2" />,
-          active: location === '/admin/streams',
+          href: '/admin/calendar-events',
+          label: 'Auction Calendar',
+          icon: <CalendarIcon className="w-4 h-4 mr-2" />,
+          active: location === '/admin/calendar-events',
         },
         {
           href: '/admin/settings?tab=auction',
           label: 'Auction Settings',
           icon: <SettingsIcon className="w-4 h-4 mr-2" />,
-          active: location === '/admin/settings' && window.location.search.includes('tab=auction'),
+          active: location === '/admin/settings' && typeof window !== 'undefined' && window.location.search.includes('tab=auction'),
         },
       ],
     },
     {
-      title: 'Shop & Products',
+      title: 'Clearances',
       items: [
-        {
-          href: '/admin/products',
-          label: 'Products',
-          icon: <ShoppingBagIcon className="w-4 h-4 mr-2" />,
-          active: location === '/admin/products',
-        },
-        {
-          href: '/admin/categories',
-          label: 'Categories',
-          icon: <TagIcon className="w-4 h-4 mr-2" />,
-          active: location === '/admin/categories',
-        },
-        {
-          href: '/admin/offers',
-          label: 'Offers',
-          icon: <HandshakeIcon className="w-4 h-4 mr-2" />,
-          active: location === '/admin/offers',
-        },
-        {
-          href: '/admin/orders',
-          label: 'Orders',
-          icon: <PackageIcon className="w-4 h-4 mr-2" />,
-          active: location === '/admin/orders',
-        },
-      ],
-    },
-    {
-      title: 'Submissions & Requests',
-      items: [
-        {
-          href: '/admin/submissions',
-          label: 'Item Submissions',
-          icon: <ClipboardIcon className="w-4 h-4 mr-2" />,
-          active: location === '/admin/submissions',
-        },
         {
           href: '/admin/customer-requests',
-          label: 'Customer Requests',
+          label: 'Enquiries',
           icon: <MessageSquareIcon className="w-4 h-4 mr-2" />,
           active: location === '/admin/customer-requests',
+        },
+        {
+          href: '/admin/clearance-stories',
+          label: 'Success Stories',
+          icon: <ClipboardListIcon className="w-4 h-4 mr-2" />,
+          active: location === '/admin/clearance-stories',
+        },
+        {
+          href: '/admin/before-after',
+          label: 'Before & After',
+          icon: <CameraIcon className="w-4 h-4 mr-2" />,
+          active: location === '/admin/before-after',
         },
       ],
     },
@@ -124,21 +89,9 @@ export function AdminNavigation() {
       items: [
         {
           href: '/admin/blog-fixed',
-          label: 'Blog Management',
+          label: 'Blog',
           icon: <FileTextIcon className="w-4 h-4 mr-2" />,
           active: location === '/admin/blog-fixed',
-        },
-        {
-          href: '/admin/before-after',
-          label: 'Before & After',
-          icon: <CameraIcon className="w-4 h-4 mr-2" />,
-          active: location === '/admin/before-after',
-        },
-        {
-          href: '/admin/clearance-stories',
-          label: 'Clearance Stories',
-          icon: <ImageIcon className="w-4 h-4 mr-2" />,
-          active: location === '/admin/clearance-stories',
         },
         {
           href: '/admin/gallery-images',
@@ -148,7 +101,7 @@ export function AdminNavigation() {
         },
         {
           href: '/admin/customer-reviews',
-          label: 'Customer Reviews',
+          label: 'Reviews',
           icon: <StarIcon className="w-4 h-4 mr-2" />,
           active: location === '/admin/customer-reviews',
         },
@@ -161,20 +114,8 @@ export function AdminNavigation() {
       ],
     },
     {
-      title: 'People & Settings',
+      title: 'Team & Settings',
       items: [
-        {
-          href: '/admin/users',
-          label: 'Users',
-          icon: <UsersIcon className="w-4 h-4 mr-2" />,
-          active: location === '/admin/users',
-        },
-        {
-          href: '/admin/customers',
-          label: 'Customers',
-          icon: <UserCheckIcon className="w-4 h-4 mr-2" />,
-          active: location === '/admin/customers',
-        },
         {
           href: '/admin/team-members',
           label: 'Team Members',
@@ -188,16 +129,10 @@ export function AdminNavigation() {
           active: location === '/admin/environmental-impact',
         },
         {
-          href: '/admin/calendar-events',
-          label: 'Calendar Events',
-          icon: <CalendarIcon className="w-4 h-4 mr-2" />,
-          active: location === '/admin/calendar-events',
-        },
-        {
           href: '/admin/settings',
           label: 'Settings',
           icon: <SettingsIcon className="w-4 h-4 mr-2" />,
-          active: location === '/admin/settings' && !window.location.search.includes('tab=auction'),
+          active: location === '/admin/settings' && (typeof window === 'undefined' || !window.location.search.includes('tab=auction')),
         },
       ],
     },
@@ -235,7 +170,7 @@ export function AdminNavigation() {
           </Link>
         </div>
 
-        <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-2">
+        <div className="grid grid-cols-2 md:grid-cols-4 gap-2">
           {sections.map((section) => {
             const expanded = isSectionExpanded(section);
             const active = hasActiveItem(section);
@@ -258,7 +193,7 @@ export function AdminNavigation() {
                   )}
                 </button>
                 {expanded && (
-                  <div className="absolute z-50 top-full left-0 mt-1 w-56 bg-white rounded-lg shadow-lg border border-neutral-200 py-1">
+                  <div className="absolute z-50 top-full left-0 mt-1 w-52 bg-white rounded-lg shadow-lg border border-neutral-200 py-1">
                     {section.items.map((item) => (
                       <Link key={item.href} href={item.href}>
                         <button

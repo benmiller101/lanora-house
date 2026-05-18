@@ -9,7 +9,7 @@ export default function About() {
     <>
       <SEOHead
         title="About Lanora House | House Clearance & Auctions, Hayle Cornwall"
-        description="Lanora House is a sustainable house clearance and auction company based in Hayle, Cornwall. We serve Cornwall, Devon, and the wider South West, combining clearances, monthly auctions, and eBay Live sales."
+        description="Lanora House is a sustainable house clearance and auction company based in Hayle, Cornwall. We serve Cornwall, Devon, and the wider South West, combining clearances and monthly auctions."
         path="/about"
       />
 

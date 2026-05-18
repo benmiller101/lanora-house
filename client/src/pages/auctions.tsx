@@ -23,8 +23,6 @@ import {
 import { Coins, Clock, MapPin, Eye, Package, Gavel } from "lucide-react";
 import chapelImagePath from "@assets/Hayle-Foundry-Chapel_1771883333378.jpg";
 import auctionHeroBg from "@assets/Downstairs_Auction_1774377787346.png";
-import AuctionCountdown from "@/components/auction/AuctionCountdown";
-import { getAllShippingBands } from "@shared/shipping-bands";
 import { FindUsModal } from "@/components/location/FindUsModal";
 
 import {
@@ -43,37 +41,6 @@ import {
   TabsList,
   TabsTrigger,
 } from "@/components/ui/tabs";
-
-type AuctionCatalogue = {
-  id: string;
-  name: string;
-  description: string | null;
-  startDate: string;
-  endDate?: string | null; // Optional - end time varies during live auction
-  status: 'draft' | 'scheduled' | 'active' | 'completed' | 'cancelled';
-  imageUrl: string | null;
-  location: string | null;
-  viewingStartDate: string | null;
-  viewingEndDate: string | null;
-  auctionType: string | null;
-  createdAt: string;
-  updatedAt: string;
-};
-
-type AuctionLot = {
-  id: string;
-  title: string;
-  description: string;
-  imageUrl: string;
-  lotNumber: number;
-  catalogId: string;
-  status: string | null;
-  era: string | null;
-  condition: string | null;
-  provenance: string | null;
-  estimatedValueLow: string | null;
-  estimatedValueHigh: string | null;
-};
 
 type AuctionHighlight = {
   id: number;
@@ -118,12 +85,6 @@ export default function AuctionsPage() {
     if (tab === 'selling' || tab === 'commission' || tab === 'shipping') setSellerTab(tab);
   }, [location]);
 
-  // Fetch all active catalogues
-  const { data: catalogues = [], isLoading } = useQuery<AuctionCatalogue[]>({
-    queryKey: ['/api/auction-catalogues'],
-    staleTime: 10000,
-  });
-
   const { data: upcomingHighlights = [], isLoading: highlightsLoading } = useQuery<AuctionHighlight[]>({
     queryKey: ['/api/auction-highlights', 'upcoming'],
     queryFn: () => fetch('/api/auction-highlights?type=upcoming').then(r => r.json()),
@@ -145,110 +106,12 @@ export default function AuctionsPage() {
     }
   };
 
-  // Sort all catalogues by date (most recent first)
-  const sortedCatalogues = [...catalogues].sort((a, b) => {
-    const dateA = new Date(a.startDate).getTime();
-    const dateB = new Date(b.startDate).getTime();
-    return dateB - dateA; // Most recent first
-  });
-
-  const getStatusBadge = (status: string) => {
-    switch (status) {
-      case 'active':
-        return <Badge className="bg-green-500 text-white" data-testid={`badge-status-active`}>Live Now</Badge>;
-      case 'scheduled':
-        return <Badge variant="secondary" data-testid={`badge-status-scheduled`}>Upcoming</Badge>;
-      case 'completed':
-        return <Badge variant="outline" data-testid={`badge-status-completed`}>Completed</Badge>;
-      default:
-        return <Badge variant="outline" data-testid={`badge-status-${status}`}>{status}</Badge>;
-    }
-  };
-
-  const CatalogueCard = ({ catalogue }: { catalogue: AuctionCatalogue }) => (
-    <Card className="overflow-hidden hover:shadow-lg transition-shadow duration-300" data-testid={`card-catalogue-${catalogue.id}`}>
-      <div className="aspect-video w-full bg-neutral-100 relative overflow-hidden">
-        <div className="absolute inset-0 flex items-center justify-center flex-col gap-2">
-          <Gavel className="w-12 h-12 text-primary/25" />
-          <p className="text-primary/30 text-xs font-medium">Lanora House Auctions</p>
-        </div>
-        {catalogue.imageUrl && (
-          <img
-            src={catalogue.imageUrl}
-            alt={catalogue.name}
-            className="absolute inset-0 w-full h-full object-cover"
-            data-testid={`img-catalogue-${catalogue.id}`}
-            onError={(e) => { e.currentTarget.style.display = 'none'; }}
-          />
-        )}
-        <div className="absolute top-4 right-4">
-          {getStatusBadge(catalogue.status)}
-        </div>
-      </div>
-      <CardHeader>
-        <CardTitle className="text-2xl font-display" data-testid={`text-catalogue-name-${catalogue.id}`}>
-          {catalogue.name}
-        </CardTitle>
-        <CardDescription data-testid={`text-catalogue-desc-${catalogue.id}`}>
-          {catalogue.description || 'No description available'}
-        </CardDescription>
-      </CardHeader>
-      <CardContent>
-        <div className="space-y-3">
-          {catalogue.status === 'scheduled' ? (
-            <div className="flex flex-col gap-2 p-4 bg-primary/5 rounded-lg border border-primary/20">
-              <div className="text-sm font-medium text-neutral-700 dark:text-neutral-300">
-                Auction starts in:
-              </div>
-              <AuctionCountdown startDate={catalogue.startDate} showIcon={false} auctionLink={`/auctions/${catalogue.id}`} />
-            </div>
-          ) : catalogue.status === 'active' ? (
-            <div className="flex items-center text-sm text-green-600 dark:text-green-400 font-semibold">
-              <FiClock className="mr-2 animate-pulse" />
-              <span data-testid={`text-date-${catalogue.id}`}>
-                LIVE NOW - Started {formatDate(catalogue.startDate)}
-              </span>
-            </div>
-          ) : (
-            <div className="flex items-center text-sm text-neutral-600 dark:text-neutral-400">
-              <FiCalendar className="mr-2" />
-              <span data-testid={`text-date-${catalogue.id}`}>
-                {catalogue.status === 'completed' ? 'Completed' : 'Starts'}: {formatDate(catalogue.startDate)}
-              </span>
-            </div>
-          )}
-          {catalogue.location && (
-            <div className="flex items-center text-sm text-neutral-600 dark:text-neutral-400">
-              <FiPackage className="mr-2" />
-              <span data-testid={`text-location-${catalogue.id}`}>{catalogue.location}</span>
-            </div>
-          )}
-          {catalogue.viewingStartDate && catalogue.viewingEndDate && (
-            <div className="flex items-center text-sm text-neutral-600 dark:text-neutral-400">
-              <FiClock className="mr-2" />
-              <span data-testid={`text-viewing-${catalogue.id}`}>
-                Viewing: {formatDate(catalogue.viewingStartDate)} - {formatDate(catalogue.viewingEndDate)}
-              </span>
-            </div>
-          )}
-          <Separator className="my-4" />
-          <Button 
-            className="w-full" 
-            onClick={() => setLocationNav(`/auctions/${catalogue.id}`)}
-            data-testid={`button-view-catalogue-${catalogue.id}`}
-          >
-            View Catalogue <FiArrowRight className="ml-2" />
-          </Button>
-        </div>
-      </CardContent>
-    </Card>
-  );
 
   return (
     <>
       <SEOHead
-        title="Auctions & eBay Live Sales | Lanora House, Hayle Cornwall"
-        description="Monthly in-person auctions at The Old Foundry Chapel, Hayle. Antiques, collectibles, furniture & more — bid online or in person. Plus eBay Live sales of clearance stock."
+        title="Auctions | Lanora House, Hayle Cornwall"
+        description="Monthly in-person auctions at The Old Foundry Chapel, Hayle. Antiques, collectibles, furniture & more — bid online or in person."
         path="/auctions"
         jsonLd={{
           "@context": "https://schema.org",
@@ -582,56 +445,6 @@ export default function AuctionsPage() {
           <Separator className="my-0" />
         </div>
 
-        {/* eBay Live Sales Section */}
-        <section className="py-16 bg-neutral-ivory dark:bg-neutral-900">
-          <div className="container mx-auto px-4">
-            <div className="max-w-4xl mx-auto">
-              <div className="text-center mb-10">
-                <span className="inline-flex items-center gap-2 bg-secondary/20 text-primary px-4 py-2 rounded-full mb-5 text-sm font-semibold uppercase tracking-wide">
-                  <FiGlobe className="w-4 h-4" />
-                  eBay Live Sales
-                </span>
-                <h2 className="font-display text-3xl md:text-4xl text-primary mb-4">Cleared Items, Sold Live on eBay</h2>
-                <p className="text-lg text-neutral-700 dark:text-neutral-300 max-w-2xl mx-auto leading-relaxed">
-                  Items recovered from house clearances are sold through our interactive live selling format on eBay — giving buyers across the UK a chance to bid in real time on antiques, collectibles, retro goods, and household finds.
-                </p>
-              </div>
-              <div className="grid md:grid-cols-3 gap-6">
-                <Card className="bg-white dark:bg-neutral-800 border-primary/20 text-center p-6">
-                  <FiCamera className="w-8 h-8 text-primary mx-auto mb-3" />
-                  <h3 className="font-semibold text-primary mb-2">Live & Interactive</h3>
-                  <p className="text-sm text-neutral-600 dark:text-neutral-400">Watch items go under the hammer in real time, ask questions, and bid from anywhere in the UK.</p>
-                </Card>
-                <Card className="bg-white dark:bg-neutral-800 border-primary/20 text-center p-6">
-                  <FiPackage className="w-8 h-8 text-primary mx-auto mb-3" />
-                  <h3 className="font-semibold text-primary mb-2">Clearance Stock</h3>
-                  <p className="text-sm text-neutral-600 dark:text-neutral-400">All items come directly from our clearance jobs — antiques, retro items, collectibles, and everyday household goods.</p>
-                </Card>
-                <Card className="bg-white dark:bg-neutral-800 border-primary/20 text-center p-6">
-                  <FiShield className="w-8 h-8 text-primary mx-auto mb-3" />
-                  <h3 className="font-semibold text-primary mb-2">Fully Insured Shipping</h3>
-                  <p className="text-sm text-neutral-600 dark:text-neutral-400">Winning lots are carefully packed and shipped with tracking and insurance included.</p>
-                </Card>
-              </div>
-              <div className="text-center mt-8">
-                <p className="text-sm text-neutral-500 dark:text-neutral-400 mb-4">Follow us on eBay to be notified when our next live sale goes live.</p>
-                <Button
-                  size="lg"
-                  className="bg-primary hover:bg-primary/90 text-white"
-                  onClick={() => setLocationNav('/contact')}
-                >
-                  Ask About eBay Live Sales <FiArrowRight className="ml-2" />
-                </Button>
-              </div>
-            </div>
-          </div>
-        </section>
-
-        {/* Separator */}
-        <div className="container mx-auto px-4">
-          <Separator className="my-0" />
-        </div>
-
         {/* Sellers Tab Group */}
         <section className="py-12">
           <div className="container mx-auto px-4">
@@ -684,22 +497,22 @@ export default function AuctionsPage() {
                           {/* Tier 1 */}
                           <div className="bg-primary rounded-xl px-4 py-8 flex flex-col items-center text-center shadow-md">
                             <div className="font-display text-5xl font-bold text-white leading-none">11%</div>
-                            <div className="text-secondary/90 text-base font-semibold mt-3 leading-tight">Up to £100</div>
+                            <div className="text-secondary/90 text-base font-semibold mt-3 leading-tight">Up to £500</div>
                           </div>
                           {/* Tier 2 */}
                           <div className="bg-primary rounded-xl px-4 py-8 flex flex-col items-center text-center shadow-md">
                             <div className="font-display text-5xl font-bold text-white leading-none">9%</div>
-                            <div className="text-secondary/90 text-base font-semibold mt-3 leading-tight">£100 – £999</div>
+                            <div className="text-secondary/90 text-base font-semibold mt-3 leading-tight">£500 – £1,000</div>
                           </div>
                           {/* Tier 3 */}
                           <div className="bg-primary rounded-xl px-4 py-8 flex flex-col items-center text-center shadow-md">
                             <div className="font-display text-5xl font-bold text-white leading-none">6.5%</div>
-                            <div className="text-secondary/90 text-base font-semibold mt-3 leading-tight">£1,000 – £4,999</div>
+                            <div className="text-secondary/90 text-base font-semibold mt-3 leading-tight">£1,000 – £3,000</div>
                           </div>
                           {/* Tier 4 */}
                           <div className="bg-primary rounded-xl px-4 py-8 flex flex-col items-center text-center shadow-md">
                             <div className="font-display text-5xl font-bold text-white leading-none">4.5%</div>
-                            <div className="text-secondary/90 text-base font-semibold mt-3 leading-tight">Over £5,000</div>
+                            <div className="text-secondary/90 text-base font-semibold mt-3 leading-tight">Over £3,000</div>
                           </div>
                         </div>
 

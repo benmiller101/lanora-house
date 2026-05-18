@@ -131,7 +131,7 @@ export default function Contact() {
     <>
       <SEOHead
         title="Contact Lanora House | House Clearance & Auctions, Hayle Cornwall"
-        description="Get in touch with Lanora House for house clearance quotes, probate clearance enquiries, auction valuations, or eBay Live questions. Based in Hayle, serving Cornwall, Devon & the South West."
+        description="Get in touch with Lanora House for house clearance quotes, probate clearance enquiries, or auction valuations. Based in Hayle, serving Cornwall, Devon & the South West."
         path="/contact"
       />
       
@@ -275,7 +275,6 @@ export default function Contact() {
                                 <SelectItem value="clearance-quote">House Clearance Quote</SelectItem>
                                 <SelectItem value="probate-clearance">Probate / Estate Clearance</SelectItem>
                                 <SelectItem value="auction-valuation">Auction Valuation</SelectItem>
-                                <SelectItem value="ebay-live">eBay Live Sales Enquiry</SelectItem>
                                 <SelectItem value="commercial-clearance">Commercial Clearance</SelectItem>
                                 <SelectItem value="general-inquiry">General Enquiry</SelectItem>
                                 <SelectItem value="feedback">Feedback</SelectItem>

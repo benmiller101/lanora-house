@@ -40,19 +40,21 @@ function BeforeAfterSlider({ before, after, title, location }: SliderItem) {
         onMouseLeave={onMouseUp}
       >
         <img src={before} alt={`Before: ${title}`} className="absolute inset-0 w-full h-full object-cover" draggable={false} />
-        <span className="absolute bottom-3 left-3 z-10 bg-black/60 text-white text-xs font-bold uppercase px-2.5 py-1 rounded-full tracking-wide pointer-events-none">
-          Before
-        </span>
 
         <div
-          className="absolute inset-0 overflow-hidden"
+          className="absolute inset-0 overflow-hidden z-10"
           style={{ clipPath: `inset(0 ${100 - position}% 0 0)` }}
         >
           <img src={after} alt={`After: ${title}`} className="absolute inset-0 w-full h-full object-cover" draggable={false} />
-          <span className="absolute bottom-3 right-3 z-10 bg-primary text-white text-xs font-bold uppercase px-2.5 py-1 rounded-full tracking-wide pointer-events-none">
-            After
-          </span>
         </div>
+
+        {/* Badges always on top, outside the clipped layer */}
+        <span className="absolute bottom-3 left-3 z-[15] bg-black/60 text-white text-xs font-bold uppercase px-2.5 py-1 rounded-full tracking-wide pointer-events-none">
+          Before
+        </span>
+        <span className="absolute bottom-3 right-3 z-[15] bg-primary text-white text-xs font-bold uppercase px-2.5 py-1 rounded-full tracking-wide pointer-events-none">
+          After
+        </span>
 
         <div
           className="absolute top-0 bottom-0 z-20 flex flex-col items-center"

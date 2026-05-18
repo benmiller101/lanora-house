@@ -1065,7 +1065,7 @@ export const clearanceQuotes = pgTable("clearance_quotes", {
   timeframe: varchar("timeframe"),
   additionalInfo: text("additional_info"),
   imageUrls: text("image_urls").array(), // Array of image URLs
-  status: varchar("status").default("pending").notNull(), // pending, contacted, quoted, accepted, declined
+  status: varchar("status").default("pending").notNull(), // pending, responded
   requestType: varchar("request_type").default("clearance").notNull(), // clearance, contact, general
   createdAt: timestamp("created_at").defaultNow().notNull(),
   updatedAt: timestamp("updated_at").defaultNow().notNull(),
@@ -1362,72 +1362,12 @@ export const insertAuctionWishlistSchema = createInsertSchema(auctionWishlist).o
 export type AuctionWishlistItem = typeof auctionWishlist.$inferSelect;
 export type InsertAuctionWishlistItem = z.infer<typeof insertAuctionWishlistSchema>;
 
-// Live Streams - Cloudflare Stream integration for live auction streaming
-export const liveStreams = pgTable("live_streams", {
-  id: serial("id").primaryKey(),
-  catalogId: varchar("catalog_id").references(() => auctionCatalogues.id, { onDelete: "set null" }),
-  name: varchar("name").notNull(),
-  cloudflareUid: varchar("cloudflare_uid").notNull().unique(), // Cloudflare Stream Live Input UID
-  rtmpsUrl: varchar("rtmps_url").notNull(), // RTMPS URL for OBS
-  streamKey: text("stream_key").notNull(), // Stream key for OBS (sensitive)
-  srtUrl: varchar("srt_url"), // SRT URL (alternative protocol)
-  srtStreamId: varchar("srt_stream_id"), // SRT Stream ID
-  webrtcUrl: varchar("webrtc_url"), // WebRTC playback URL
-  status: varchar("status").notNull().default("offline"), // offline, live, error
-  isActive: boolean("is_active").default(true), // Can be deactivated without deletion
-  recordingEnabled: boolean("recording_enabled").default(true), // Auto-record streams
-  recordingMode: varchar("recording_mode").default("automatic"), // automatic, off
-  deleteRecordingAfterDays: integer("delete_recording_after_days").default(30),
-  metadata: jsonb("metadata"), // Additional Cloudflare metadata
-  createdAt: timestamp("created_at").defaultNow(),
-  updatedAt: timestamp("updated_at").defaultNow(),
-  lastConnectedAt: timestamp("last_connected_at"),
-  lastDisconnectedAt: timestamp("last_disconnected_at"),
-});
-
-export const insertLiveStreamSchema = createInsertSchema(liveStreams).omit({
-  id: true,
-  createdAt: true,
-  updatedAt: true,
-  lastConnectedAt: true,
-  lastDisconnectedAt: true,
-});
-
-export type LiveStream = typeof liveStreams.$inferSelect;
-export type InsertLiveStream = z.infer<typeof insertLiveStreamSchema>;
-
-// Stream Recordings - Tracks recorded streams from Cloudflare
-export const streamRecordings = pgTable("stream_recordings", {
-  id: serial("id").primaryKey(),
-  liveStreamId: integer("live_stream_id")
-    .notNull()
-    .references(() => liveStreams.id, { onDelete: "cascade" }),
-  cloudflareVideoUid: varchar("cloudflare_video_uid").notNull().unique(), // Cloudflare Video UID
-  duration: integer("duration"), // Duration in seconds
-  playbackUrl: varchar("playback_url"), // Cloudflare playback URL
-  thumbnailUrl: varchar("thumbnail_url"),
-  fileSize: integer("file_size"), // Size in bytes
-  status: varchar("status").default("ready"), // processing, ready, error
-  recordedAt: timestamp("recorded_at").notNull(),
-  createdAt: timestamp("created_at").defaultNow(),
-});
-
-export const insertStreamRecordingSchema = createInsertSchema(streamRecordings).omit({
-  id: true,
-  createdAt: true,
-});
-
-export type StreamRecording = typeof streamRecordings.$inferSelect;
-export type InsertStreamRecording = z.infer<typeof insertStreamRecordingSchema>;
-
 // Live Auction Sessions - Tracks the current state of a live auction
 export const liveAuctionSessions = pgTable("live_auction_sessions", {
   id: serial("id").primaryKey(),
   catalogId: varchar("catalog_id")
     .notNull()
     .references(() => auctionCatalogues.id, { onDelete: "cascade" }),
-  liveStreamId: integer("live_stream_id")
-    .references(() => liveStreams.id, { onDelete: "set null" }),
   currentLotId: varchar("current_lot_id")
     .references(() => auctionLots.id, { onDelete: "set null" }),
   status: varchar("status").notNull().default("pending"), // pending, active, paused, completed
@@ -1445,41 +1385,6 @@ export const insertLiveAuctionSessionSchema = createInsertSchema(liveAuctionSess
 
 export type LiveAuctionSession = typeof liveAuctionSessions.$inferSelect;
 export type InsertLiveAuctionSession = z.infer<typeof insertLiveAuctionSessionSchema>;
-
-// Auction Invoices - For won lots with buyer's premium
-export const auctionInvoices = pgTable("auction_invoices", {
-  id: serial("id").primaryKey(),
-  invoiceNumber: varchar("invoice_number").notNull().unique(),
-  catalogId: varchar("catalog_id")
-    .notNull()
-    .references(() => auctionCatalogues.id, { onDelete: "cascade" }),
-  userId: varchar("user_id")
-    .notNull()
-    .references(() => users.id, { onDelete: "cascade" }),
-  lotIds: text("lot_ids").array().notNull(), // Array of lot IDs included in this invoice
-  subtotal: decimal("subtotal", { precision: 10, scale: 2 }).notNull(), // Sum of hammer prices
-  buyersPremiumRate: decimal("buyers_premium_rate", { precision: 5, scale: 2 }).default("15.00"), // 15%
-  buyersPremium: decimal("buyers_premium", { precision: 10, scale: 2 }).notNull(), // Calculated premium
-  total: decimal("total", { precision: 10, scale: 2 }).notNull(), // Subtotal + premium
-  status: varchar("status").default("unpaid").notNull(), // unpaid, paid, partially_paid
-  paidAmount: decimal("paid_amount", { precision: 10, scale: 2 }).default("0"),
-  paymentMethod: varchar("payment_method"), // bank_transfer, card, cash
-  paidAt: timestamp("paid_at"),
-  notes: text("notes"),
-  createdAt: timestamp("created_at").defaultNow(),
-  updatedAt: timestamp("updated_at").defaultNow(),
-}, (table) => ({
-  uniqueCatalogUser: uniqueIndex("auction_invoices_catalog_user_unique").on(table.catalogId, table.userId),
-}));
-
-export const insertAuctionInvoiceSchema = createInsertSchema(auctionInvoices).omit({
-  id: true,
-  createdAt: true,
-  updatedAt: true,
-});
-
-export type AuctionInvoice = typeof auctionInvoices.$inferSelect;
-export type InsertAuctionInvoice = z.infer<typeof insertAuctionInvoiceSchema>;
 
 // Skip Bag Bookings
 export const skipBagBookings = pgTable("skip_bag_bookings", {

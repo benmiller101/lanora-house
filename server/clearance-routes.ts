@@ -4,58 +4,33 @@ import { clearanceStories, insertClearanceStorySchema, clearanceQuotes, insertCl
 import { eq, desc } from "drizzle-orm";
 import { z } from "zod";
 import multer from "multer";
-import path from "path";
-import fs from "fs";
 import sharp from "sharp";
-
-// Convert an uploaded file to a compressed base64 data URL, then delete the temp file
-async function fileToDataUrl(file: Express.Multer.File): Promise<string> {
-  try {
-    const compressed = await sharp(file.path)
-      .rotate() // auto-rotate from EXIF
-      .resize({ width: 1400, height: 1400, fit: "inside", withoutEnlargement: true })
-      .jpeg({ quality: 82 })
-      .toBuffer();
-    const base64 = compressed.toString("base64");
-    return `data:image/jpeg;base64,${base64}`;
-  } finally {
-    // Always clean up the temp file regardless of success/failure
-    try { fs.unlinkSync(file.path); } catch {}
-  }
-}
+import crypto from "crypto";
+import { uploadFile } from "./lib/r2";
 import { sendContactFormAdminNotification, sendContactFormConfirmation, sendClearanceQuoteAdminNotification, sendClearanceQuoteConfirmation } from "./email-service";
+
+async function uploadImage(file: Express.Multer.File, folder: string): Promise<string> {
+  const buffer = await sharp(file.buffer)
+    .rotate()
+    .resize({ width: 1400, height: 1400, fit: "inside", withoutEnlargement: true })
+    .jpeg({ quality: 82 })
+    .toBuffer();
+  const key = `${folder}/clearance-${Date.now()}-${crypto.randomBytes(6).toString("hex")}.jpg`;
+  return uploadFile(buffer, key, "image/jpeg");
+}
 
 const router = Router();
 
-// Configure multer for file uploads
-const storage = multer.diskStorage({
-  destination: function (req, file, cb) {
-    const uploadDir = path.join(process.cwd(), "public", "uploads", "clearance");
-    if (!fs.existsSync(uploadDir)) {
-      fs.mkdirSync(uploadDir, { recursive: true });
-    }
-    cb(null, uploadDir);
-  },
-  filename: function (req, file, cb) {
-    const uniqueSuffix = Date.now() + "-" + Math.round(Math.random() * 1e9);
-    cb(null, `clearance-${uniqueSuffix}${path.extname(file.originalname)}`);
-  },
-});
-
-const upload = multer({ 
-  storage: storage,
-  limits: { fileSize: 10 * 1024 * 1024 }, // 10MB limit
+const upload = multer({
+  storage: multer.memoryStorage(),
+  limits: { fileSize: 10 * 1024 * 1024 },
   fileFilter: (req, file, cb) => {
-    const allowedTypes = /jpeg|jpg|png|gif|webp/;
-    const extname = allowedTypes.test(path.extname(file.originalname).toLowerCase());
-    const mimetype = allowedTypes.test(file.mimetype);
-    
-    if (mimetype && extname) {
-      return cb(null, true);
+    if (file.mimetype.startsWith("image/")) {
+      cb(null, true);
     } else {
       cb(new Error("Only image files are allowed"));
     }
-  }
+  },
 });
 
 // GET /api/clearance-stories - Get all clearance stories
@@ -91,14 +66,20 @@ router.post("/", upload.fields([
   try {
     const files = req.files as { [fieldname: string]: Express.Multer.File[] };
     
+    const [imageUrl, beforeImageUrl, afterImageUrl] = await Promise.all([
+      files.image ? uploadImage(files.image[0], "clearance") : Promise.resolve(null),
+      files.beforeImage ? uploadImage(files.beforeImage[0], "clearance") : Promise.resolve(null),
+      files.afterImage ? uploadImage(files.afterImage[0], "clearance") : Promise.resolve(null),
+    ]);
+
     const storyData = {
       title: req.body.title,
       description: req.body.description,
       amountSaved: req.body.amountSaved || null,
       wasteDiverted: req.body.wasteDiverted || null,
-      imageUrl: files.image ? `/uploads/clearance/${files.image[0].filename}` : null,
-      beforeImageUrl: files.beforeImage ? `/uploads/clearance/${files.beforeImage[0].filename}` : null,
-      afterImageUrl: files.afterImage ? `/uploads/clearance/${files.afterImage[0].filename}` : null,
+      imageUrl,
+      beforeImageUrl,
+      afterImageUrl,
       isActive: req.body.isActive !== undefined ? req.body.isActive === "true" : true,
       sortOrder: req.body.sortOrder ? parseInt(req.body.sortOrder) : 0,
     };
@@ -132,15 +113,14 @@ router.put("/:id", upload.fields([
       sortOrder: req.body.sortOrder ? parseInt(req.body.sortOrder) : 0,
     };
 
-    // Only update image URLs if new files were uploaded
     if (files.image) {
-      storyData.imageUrl = `/uploads/clearance/${files.image[0].filename}`;
+      storyData.imageUrl = await uploadImage(files.image[0], "clearance");
     }
     if (files.beforeImage) {
-      storyData.beforeImageUrl = `/uploads/clearance/${files.beforeImage[0].filename}`;
+      storyData.beforeImageUrl = await uploadImage(files.beforeImage[0], "clearance");
     }
     if (files.afterImage) {
-      storyData.afterImageUrl = `/uploads/clearance/${files.afterImage[0].filename}`;
+      storyData.afterImageUrl = await uploadImage(files.afterImage[0], "clearance");
     }
 
     const validatedData = insertClearanceStorySchema.partial().parse(storyData);
@@ -171,26 +151,6 @@ router.delete("/:id", async (req, res) => {
     
     if (!story) {
       return res.status(404).json({ error: "Story not found" });
-    }
-    
-    // Clean up uploaded files
-    if (story.imageUrl) {
-      const imagePath = path.join(process.cwd(), "public", story.imageUrl);
-      if (fs.existsSync(imagePath)) {
-        fs.unlinkSync(imagePath);
-      }
-    }
-    if (story.beforeImageUrl) {
-      const beforeImagePath = path.join(process.cwd(), "public", story.beforeImageUrl);
-      if (fs.existsSync(beforeImagePath)) {
-        fs.unlinkSync(beforeImagePath);
-      }
-    }
-    if (story.afterImageUrl) {
-      const afterImagePath = path.join(process.cwd(), "public", story.afterImageUrl);
-      if (fs.existsSync(afterImagePath)) {
-        fs.unlinkSync(afterImagePath);
-      }
     }
     
     res.json({ message: "Story deleted successfully" });
@@ -238,7 +198,7 @@ router.post("/quotes", upload.array("images", 5), async (req, res) => {
       additionalInfoText += `\n\nDescription: ${req.body.description}`;
     }
     
-    const imageUrls = files ? await Promise.all(files.map(fileToDataUrl)) : [];
+    const imageUrls = files ? await Promise.all(files.map(f => uploadImage(f, "clearance-quotes"))) : [];
 
     const quoteData = {
       name: req.body.name,
@@ -329,8 +289,7 @@ router.post("/contact-form", upload.array("images", 10), async (req, res) => {
       });
     }
     
-    // Process uploaded images — convert to base64 data URLs for persistent storage
-    const imageUrls = files ? await Promise.all(files.map(fileToDataUrl)) : [];
+    const imageUrls = files ? await Promise.all(files.map(f => uploadImage(f, "contact-form"))) : [];
     
     const contactData = {
       name: req.body.name,
