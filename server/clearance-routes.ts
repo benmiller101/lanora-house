@@ -237,9 +237,9 @@ router.post("/quotes", upload.array("images", 5), async (req, res) => {
     ]).catch(err => console.error("Email notification error:", err));
 
     res.status(201).json(quote);
-  } catch (error) {
+  } catch (error: any) {
     console.error("Error creating clearance quote:", error);
-    res.status(500).json({ error: "Failed to submit quote request" });
+    res.status(500).json({ error: error?.message || "Failed to submit quote request" });
   }
 });
 
