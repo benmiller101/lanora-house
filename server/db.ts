@@ -1,9 +1,6 @@
-import { neon, neonConfig } from '@neondatabase/serverless';
-import { drizzle } from 'drizzle-orm/neon-http';
+import postgres from "postgres";
+import { drizzle } from "drizzle-orm/postgres-js";
 import * as schema from "@shared/schema";
-
-// Set up neon config for better compatibility
-neonConfig.fetchConnectionCache = true;
 
 if (!process.env.DATABASE_URL) {
   throw new Error(
@@ -11,23 +8,24 @@ if (!process.env.DATABASE_URL) {
   );
 }
 
-// Use HTTP client instead of WebSocket for more reliable connections
-const sql = neon(process.env.DATABASE_URL);
-export const db = drizzle(sql, { schema });
+const url = process.env.DATABASE_URL;
+const ssl = url.includes("neon.tech") || url.includes("sslmode=require")
+  ? "require"
+  : undefined;
 
-// For backward compatibility, create a simple pool interface
+const client = postgres(url, { ssl, max: 10 });
+export const db = drizzle(client, { schema });
+
 export const pool = {
   query: async (text: string, params?: any[]) => {
     try {
-      const result = await sql(text, params || []);
+      const result = await client.unsafe(text, params as any[]);
       return { rows: result };
     } catch (error) {
-      console.error('Database query error:', error);
+      console.error("Database query error:", error);
       throw error;
     }
   },
-  end: () => Promise.resolve(),
-  on: (event: string, handler: Function) => {
-    // No-op for compatibility
-  }
+  end: () => client.end(),
+  on: (_event: string, _handler: Function) => {},
 };
