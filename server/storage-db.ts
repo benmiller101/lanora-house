@@ -9,7 +9,6 @@ import {
   raffles,
   raffleEntries,
   itemSubmissions,
-  productOffers,
   withdrawals,
   instantWinners,
   teamMembers,
@@ -35,8 +34,6 @@ import {
   type InsertRaffleEntry,
   type ItemSubmission,
   type InsertItemSubmission,
-  type ProductOffer,
-  type InsertProductOffer,
   type TeamMember,
   type InsertTeamMember,
   type CustomerReview,
@@ -121,20 +118,6 @@ export interface IStorage {
     response: string,
     adminNotes?: string,
   ): Promise<ItemSubmission>;
-
-  // Product offer operations
-  createProductOffer(data: InsertProductOffer): Promise<ProductOffer>;
-  getProductOfferById(id: number): Promise<ProductOffer | undefined>;
-  getOffersForProduct(productId: number): Promise<ProductOffer[]>;
-  getUserOffers(userId: string): Promise<any[]>;
-  updateOfferStatus(
-    offerId: number,
-    status: string,
-    adminResponse?: string,
-  ): Promise<ProductOffer>;
-  acceptOffer(offerId: number): Promise<ProductOffer>;
-  rejectOffer(offerId: number, adminResponse?: string): Promise<ProductOffer>;
-  markOfferNotificationRead(offerId: number): Promise<ProductOffer>;
 
   // Withdrawal operations for admin
   getAllWithdrawalsForAdmin(): Promise<any[]>;
@@ -786,121 +769,6 @@ export class DatabaseStorage implements IStorage {
     return sub;
   }
 
-  // ----- Product Offer methods -----
-  async createProductOffer(data: InsertProductOffer): Promise<ProductOffer> {
-    const [offer] = await db
-      .insert(productOffers)
-      .values(data)
-      .returning();
-    return offer;
-  }
-
-  async getProductOfferById(id: number): Promise<ProductOffer | undefined> {
-    const [offer] = await db
-      .select()
-      .from(productOffers)
-      .where(eq(productOffers.id, id));
-    return offer;
-  }
-
-  async getOffersForProduct(productId: number): Promise<ProductOffer[]> {
-    return await db
-      .select()
-      .from(productOffers)
-      .where(eq(productOffers.productId, productId))
-      .orderBy(desc(productOffers.createdAt));
-  }
-
-  async getOffersByStatus(status: string): Promise<ProductOffer[]> {
-    return await db
-      .select()
-      .from(productOffers)
-      .where(eq(productOffers.status, status))
-      .orderBy(desc(productOffers.createdAt));
-  }
-
-  async getUserOffers(userId: string): Promise<any[]> {
-    const offers = await db
-      .select({
-        id: productOffers.id,
-        productId: productOffers.productId,
-        userId: productOffers.userId,
-        offerAmount: productOffers.offerAmount,
-        message: productOffers.message,
-        status: productOffers.status,
-        adminResponse: productOffers.adminResponse,
-        counterOfferAmount: productOffers.counterOfferAmount,
-        counterOfferMessage: productOffers.counterOfferMessage,
-        counterOfferAt: productOffers.counterOfferAt,
-        userRespondedAt: productOffers.userRespondedAt,
-        expiresAt: productOffers.expiresAt,
-        createdAt: productOffers.createdAt,
-        updatedAt: productOffers.updatedAt,
-        acceptedAt: productOffers.acceptedAt,
-        rejectedAt: productOffers.rejectedAt,
-        notificationRead: productOffers.notificationRead,
-        product: {
-          id: products.id,
-          name: products.name,
-          price: products.price,
-          imageUrl: products.imageUrl,
-          description: products.description,
-        },
-      })
-      .from(productOffers)
-      .leftJoin(products, eq(productOffers.productId, products.id))
-      .where(eq(productOffers.userId, userId))
-      .orderBy(desc(productOffers.createdAt));
-    return offers;
-  }
-
-  async updateOfferStatus(
-    offerId: number,
-    status: string,
-    adminResponse?: string,
-  ): Promise<ProductOffer> {
-    const updateData: any = {
-      status,
-      updatedAt: new Date(),
-    };
-
-    if (adminResponse) {
-      updateData.adminResponse = adminResponse;
-    }
-
-    if (status === 'accepted') {
-      updateData.acceptedAt = new Date();
-    } else if (status === 'rejected') {
-      updateData.rejectedAt = new Date();
-    }
-
-    const [offer] = await db
-      .update(productOffers)
-      .set(updateData)
-      .where(eq(productOffers.id, offerId))
-      .returning();
-    return offer;
-  }
-
-  async acceptOffer(offerId: number): Promise<ProductOffer> {
-    return this.updateOfferStatus(offerId, 'accepted');
-  }
-
-  async rejectOffer(offerId: number, adminResponse?: string): Promise<ProductOffer> {
-    return this.updateOfferStatus(offerId, 'rejected', adminResponse);
-  }
-
-  async markOfferNotificationRead(offerId: number): Promise<ProductOffer> {
-    const [offer] = await db
-      .update(productOffers)
-      .set({
-        notificationRead: true,
-        updatedAt: new Date(),
-      })
-      .where(eq(productOffers.id, offerId))
-      .returning();
-    return offer;
-  }
 
   // ----- Withdrawal methods for admin -----
   async getAllWithdrawalsForAdmin(): Promise<any[]> {
