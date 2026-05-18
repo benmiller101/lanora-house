@@ -848,43 +848,6 @@ export const insertItemSubmissionSchema = createInsertSchema(itemSubmissions).pi
 export type ItemSubmission = typeof itemSubmissions.$inferSelect;
 export type InsertItemSubmission = z.infer<typeof insertItemSubmissionSchema>;
 
-// Product Offers - users can send custom offers for products
-export const productOffers = pgTable("product_offers", {
-  id: serial("id").primaryKey(),
-  productId: integer("product_id")
-    .notNull()
-    .references(() => products.id),
-  userId: varchar("user_id")
-    .notNull()
-    .references(() => users.id),
-  offerAmount: decimal("offer_amount", { precision: 10, scale: 2 }).notNull(),
-  message: text("message"), // Optional message from the user
-  status: varchar("status").notNull().default("pending"), // "pending", "accepted", "rejected", "expired", "counter_sent", "user_accepted", "user_declined"
-  adminResponse: text("admin_response"), // Optional response from admin
-  counterOfferAmount: decimal("counter_offer_amount", { precision: 10, scale: 2 }), // Admin's counter offer price
-  counterOfferMessage: text("counter_offer_message"), // Admin's message with counter offer
-  counterOfferAt: timestamp("counter_offer_at"), // When counter offer was sent
-  userRespondedAt: timestamp("user_responded_at"), // When user responded to counter offer
-  expiresAt: timestamp("expires_at"), // Optional expiration date
-  createdAt: timestamp("created_at").defaultNow(),
-  updatedAt: timestamp("updated_at").defaultNow(),
-  acceptedAt: timestamp("accepted_at"), // When the offer was accepted
-  rejectedAt: timestamp("rejected_at"), // When the offer was rejected
-  notificationRead: boolean("notification_read").default(false), // Whether user has seen acceptance notification
-  wishlistIds: integer("wishlist_ids").array(), // Array of wishlist item IDs for wishlist offers
-  isWishlistOffer: boolean("is_wishlist_offer").default(false), // Flag to indicate if this is a wishlist offer
-});
-
-export const insertProductOfferSchema = createInsertSchema(productOffers).pick({
-  productId: true,
-  userId: true,
-  offerAmount: true,
-  message: true,
-  expiresAt: true,
-});
-
-export type ProductOffer = typeof productOffers.$inferSelect;
-export type InsertProductOffer = z.infer<typeof insertProductOfferSchema>;
 
 // Payment Methods (for users with stored credit cards)
 export const paymentMethods = pgTable("payment_methods", {
