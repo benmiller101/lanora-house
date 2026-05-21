@@ -7,4 +7,9 @@ google-business-tokens.json
 server/public
 vite.config.ts.*
 *.tar.gz
-before_after_originals.zip
+*.zip
+*.ai
+before_after_originals/
+seed*.ts
+test-*.ts
+debug-*.ts
