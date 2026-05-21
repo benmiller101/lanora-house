@@ -57,13 +57,8 @@ export default function BeforeAfterAdmin() {
   });
 
   // Fetch before/after posts
-  const { data: posts = [], isLoading, error } = useQuery({
+  const { data: posts = [], isLoading, error } = useQuery<BeforeAfterPost[]>({
     queryKey: ['/api/admin/before-after'],
-    queryFn: async () => {
-      const res = await fetch('/api/admin/before-after');
-      if (!res.ok) throw new Error('Failed to fetch before/after posts');
-      return res.json();
-    }
   });
 
   // Create post mutation
