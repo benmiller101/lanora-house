@@ -125,7 +125,7 @@ async function startServer() {
   try {
     // Run migrations on startup to ensure tables exist
     const __dirname = path.dirname(fileURLToPath(import.meta.url));
-    const migrationsFolder = path.join(__dirname, "migrations");
+    const migrationsFolder = path.join(__dirname, "..", "migrations");
     await migrate(db, { migrationsFolder });
     log("Database migrations applied");
 
@@ -152,7 +152,7 @@ async function startServer() {
       res.status(status).json({ message });
     });
 
-    const PORT = process.env.PORT || 5000;
+    const PORT = Number(process.env.PORT) || 5000;
     server.listen(PORT, "0.0.0.0", () => {
       log(`serving on port ${PORT}`);
     });
