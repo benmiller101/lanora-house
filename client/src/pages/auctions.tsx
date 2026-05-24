@@ -209,43 +209,37 @@ export default function AuctionsPage() {
                   ) : upcomingHighlights.length === 0 ? (
                     <div className="space-y-8">
                       <a
-                        href="https://www.easyliveauction.com/catalogue/4659b5315cc528191cf8220eebc60549/0af8d24542e81eb9357e7ef448a6646f/general-auction-to-include-jewellery-gold-silver-antiques/"
+                        href="https://www.easyliveauction.com/catalogue/4659b5315cc528191cf8220eebc60549/curated-estate-auction-1000-egg-cups-xena-and-star-wars-collectibles-silver-plate-bronze-and-porcelain-figurines/"
                         target="_blank"
                         rel="noopener noreferrer"
                         className="block"
                       >
                         <Card className="overflow-hidden hover:shadow-xl transition-all duration-300 border-2 border-primary/20 hover:border-primary/40 cursor-pointer">
-                          <div className="flex flex-col md:flex-row md:h-[320px]">
-                            <div className="md:w-2/5 flex-shrink-0 h-[200px] md:h-full">
+                          <div className="flex flex-col md:flex-row">
+                            <div className="w-full h-[260px] md:w-[260px] md:h-[260px] flex-shrink-0 relative overflow-hidden bg-neutral-100">
                               <img
-                                src="https://d2zofuu73zurgl.cloudfront.net/lanora/auctionsImages/250_v1.jpg"
-                                alt="General Auction — Jewellery, Gold, Silver, Antiques, Artwork & More"
+                                src="/uploads/auction-catalogs/catalog-1779626061935-6e67fe4ab956.jpeg"
+                                alt="Curated Estate Auction: 1000+ Egg Cups, Xena and Star Wars Collectibles, Silver Plate, Bronze and Porcelain Figurines"
                                 className="w-full h-full object-cover"
                               />
                             </div>
-                            <CardContent className="p-6 flex flex-col justify-center md:w-3/5">
+                            <CardContent className="p-6 flex flex-col justify-center flex-1">
                               <div className="flex items-center gap-2 mb-3">
                                 <FiCalendar className="w-6 h-6 text-primary" />
                                 <span className="font-display text-2xl md:text-3xl text-primary font-bold">
-                                  6th May 2026
+                                  30th May 2026 at 10:00
                                 </span>
                               </div>
-                              <Badge className="bg-amber-500 text-white mb-3 w-fit">
-                                Coming Soon
+                              <Badge className="bg-primary text-white mb-3 w-fit">
+                                Featured Auction
                               </Badge>
                               <h2 className="font-display text-lg md:text-xl text-neutral-800 dark:text-neutral-200 mb-3">
-                                General Auction — Jewellery, Gold, Silver, Antiques, Artwork, Studio Pottery, Vintage Electronics, Furniture &amp; More
+                                Curated Estate Auction: 1000+ Egg Cups, Xena and Star Wars Collectibles, Silver Plate, Bronze and Porcelain Figurines
                               </h2>
                               <p className="text-base text-neutral-700 dark:text-neutral-300 mb-4">
-                                Browse the full catalogue and register to bid at our upcoming general auction. Lots include jewellery, gold, silver, antiques, artwork, studio pottery, vintage electronics and furniture.
+                                A rare opportunity to acquire pieces from a thoughtfully assembled private collection, spanning decades of devoted gathering and quirky enthusiasm. This curated estate auction brings together an eclectic mix of treasures with something for every kind of collector.
                               </p>
-                              <div className="flex flex-wrap items-center gap-4 text-neutral-600 dark:text-neutral-400">
-                                <div className="flex items-center gap-2">
-                                  <FiClock className="w-5 h-5" />
-                                  <span className="font-medium text-sm">5:00 PM — The Old Foundry Chapel, Hayle, Cornwall</span>
-                                </div>
-                                <span className="text-primary text-sm font-semibold underline underline-offset-2">View Full Catalogue →</span>
-                              </div>
+                              <span className="text-primary text-sm font-semibold underline underline-offset-2">View Full Catalogue →</span>
                             </CardContent>
                           </div>
                         </Card>
@@ -274,8 +268,8 @@ export default function AuctionsPage() {
                             data-testid={`link-auction-highlight-${highlight.id}`}
                           >
                             <Card className="overflow-hidden hover:shadow-xl transition-all duration-300 border-2 border-primary/20 hover:border-primary/40">
-                              <div className="flex flex-col md:flex-row md:h-[320px]">
-                                <div className="md:w-2/5 flex-shrink-0 h-[200px] md:h-full relative overflow-hidden bg-neutral-100">
+                              <div className="flex flex-col md:flex-row">
+                                <div className="w-full h-[260px] md:w-[260px] md:h-[260px] flex-shrink-0 relative overflow-hidden bg-neutral-100">
                                   <div className="absolute inset-0 flex items-center justify-center flex-col gap-2">
                                     <Gavel className="w-14 h-14 text-primary/25" />
                                     <p className="text-primary/30 text-xs font-medium">Lanora House Auctions</p>
@@ -289,7 +283,7 @@ export default function AuctionsPage() {
                                     />
                                   )}
                                 </div>
-                                <CardContent className="p-6 flex flex-col justify-center md:w-3/5">
+                                <CardContent className="p-6 flex flex-col justify-center flex-1">
                                   {formattedDate && (
                                     <div className="flex items-center gap-2 mb-3">
                                       <FiCalendar className="w-6 h-6 text-primary" />
@@ -366,8 +360,8 @@ export default function AuctionsPage() {
                             className="block"
                           >
                             <Card className="overflow-hidden hover:shadow-xl transition-all duration-300 border-2 border-neutral-200 hover:border-primary/40">
-                              <div className="flex flex-col md:flex-row md:h-[320px]">
-                                <div className="md:w-2/5 flex-shrink-0 h-[200px] md:h-full relative overflow-hidden bg-neutral-100">
+                              <div className="flex flex-col md:flex-row">
+                                <div className="w-full h-[260px] md:w-[260px] md:h-[260px] flex-shrink-0 relative overflow-hidden bg-neutral-100">
                                   <div className="absolute inset-0 flex items-center justify-center flex-col gap-2">
                                     <Gavel className="w-14 h-14 text-primary/25" />
                                     <p className="text-primary/30 text-xs font-medium">Lanora House Auctions</p>
@@ -381,7 +375,7 @@ export default function AuctionsPage() {
                                     />
                                   )}
                                 </div>
-                                <CardContent className="p-6 flex flex-col justify-center md:w-3/5">
+                                <CardContent className="p-6 flex flex-col justify-center flex-1">
                                   {formattedDate && (
                                     <div className="flex items-center gap-2 mb-3">
                                       <FiCalendar className="w-6 h-6 text-neutral-500" />
