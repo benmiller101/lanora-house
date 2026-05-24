@@ -52,8 +52,8 @@ async function seedBeforeAfterPosts() {
 
   const posts = [
     {
-      title: "House Clearance – Looe",
-      description: "Full house clearance of a furnished property in Looe, Cornwall.",
+      title: "House Clearance in Looe, Cornwall",
+      description: "Complete house clearance of a fully furnished property in the coastal town of Looe, Cornwall. Our team cleared every room — from bedroom furniture and personal effects to kitchen items and household belongings — sorting everything for reuse, donation or responsible disposal. Trusted house clearance specialists serving Looe and the wider South Cornwall area.",
       location: "Looe, Cornwall",
       category: "House Clearance",
       beforeImageUrls: [
@@ -76,8 +76,8 @@ async function seedBeforeAfterPosts() {
       published: true,
     },
     {
-      title: "House Clearance – Praze-an-Beeble",
-      description: "Complete clearance of a property in Praze-an-Beeble, Cornwall.",
+      title: "House Clearance in Praze-an-Beeble, Cornwall",
+      description: "Full property clearance in Praze-an-Beeble, a village near Camborne in West Cornwall. We cleared all rooms of a furnished home, removing furniture, clothing and household belongings efficiently and professionally. Every item was handled with care — salvageable goods donated or resold, with minimal waste sent to landfill.",
       location: "Praze-an-Beeble, Cornwall",
       category: "House Clearance",
       beforeImageUrls: [
@@ -98,8 +98,8 @@ async function seedBeforeAfterPosts() {
       published: true,
     },
     {
-      title: "House Clearance – Devon",
-      description: "Professional house clearance in Devon.",
+      title: "House Clearance in Devon",
+      description: "Professional house clearance carried out in Devon, clearing a fully occupied property from top to bottom. Our experienced team removed all furniture, appliances and personal belongings, leaving the property completely empty and ready for sale, rent or renovation. Eco-friendly clearance with responsible disposal throughout.",
       location: "Devon",
       category: "House Clearance",
       beforeImageUrls: [
@@ -115,10 +115,55 @@ async function seedBeforeAfterPosts() {
       featured: true,
       published: true,
     },
+    {
+      title: "House Clearance in Mount Hawk, Cornwall — The Egg Cup Collection",
+      description: "A remarkable full house clearance in Mount Hawk, near Redruth, Cornwall — home to an extraordinary collection of egg cups, vintage ceramics and decorative antiques accumulated over a lifetime. Our team cleared every room of this fully furnished property, including a conservatory, lounge, bedrooms, kitchen and garage packed with furniture, collectables, artwork and household effects. All items were carefully sorted for auction, donation and reuse — giving this unique collection a second life and diverting as much as possible from landfill.",
+      location: "Mount Hawk, Cornwall",
+      category: "House Clearance",
+      beforeImageUrls: [
+        "/uploads/before-after/img-1779392599022-baf62c0e.jpg",
+        "/uploads/before-after/img-1779392599075-a139847f.jpg",
+        "/uploads/before-after/img-1779392599090-385da74b.jpg",
+        "/uploads/before-after/img-1779392599105-d31507c8.jpg",
+        "/uploads/before-after/img-1779392599120-e0c8a71d.jpg",
+        "/uploads/before-after/img-1779392599136-4bf3e7cd.jpg",
+        "/uploads/before-after/img-1779392599151-d63a0cf5.jpg",
+        "/uploads/before-after/img-1779392599167-46ef9c10.jpg",
+        "/uploads/before-after/img-1779392599182-f0bdc756.jpg",
+        "/uploads/before-after/img-1779392599198-ae59b0d8.jpg",
+        "/uploads/before-after/img-1779392599214-7465afc1.jpg",
+        "/uploads/before-after/img-1779392599230-de983c07.jpg",
+        "/uploads/before-after/img-1779392599245-9b2ae057.jpg",
+        "/uploads/before-after/img-1779392599261-5a9b42c7.jpg",
+        "/uploads/before-after/img-1779392599277-7fe18239.jpg",
+        "/uploads/before-after/img-1779392599292-760bfd2a.jpg",
+        "/uploads/before-after/img-1779392599307-ac389b6e.jpg",
+        "/uploads/before-after/img-1779392599323-9c7b61ea.jpg",
+        "/uploads/before-after/img-1779392599339-5ec86a94.jpg",
+        "/uploads/before-after/img-1779392599355-c2a81fb6.jpg",
+        "/uploads/before-after/img-1779392599370-c74518eb.jpg",
+        "/uploads/before-after/img-1779392599386-3d14cf9a.jpg",
+        "/uploads/before-after/img-1779392599402-34fd8510.jpg",
+        "/uploads/before-after/img-1779392599418-a8f1ec45.jpg",
+      ],
+      afterImageUrls: [
+        "/uploads/before-after/img-1779392599434-e15723f8.jpg",
+        "/uploads/before-after/img-1779392599448-80e4d6a5.jpg",
+        "/uploads/before-after/img-1779392599463-2dc19fa6.jpg",
+        "/uploads/before-after/img-1779392599479-91a6284c.jpg",
+        "/uploads/before-after/img-1779392599496-5983f70d.jpg",
+        "/uploads/before-after/img-1779392599510-41fc8b2d.jpg",
+        "/uploads/before-after/img-1779392599525-8bc6d245.jpg",
+        "/uploads/before-after/img-1779392599540-2194ab36.jpg",
+        "/uploads/before-after/img-1779392599556-274d1e0b.jpg",
+      ],
+      featured: true,
+      published: true,
+    },
   ];
 
   await db.insert(beforeAfterPosts).values(posts);
-  log("Seeded 3 before/after posts");
+  log("Seeded 4 before/after posts");
 }
 
 async function startServer() {

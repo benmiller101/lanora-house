@@ -185,7 +185,7 @@ export default function Hero() {
             Professional, sustainable property clearances across Cornwall &amp; Devon. We recycle, rehome, and recover value from every clearance.
           </p>
           <p className="text-white/50 text-xs md:text-sm mb-8 tracking-wide">
-            First Wednesday Monthly · 5pm &middot; Old Foundry Chapel, Hayle
+            Monthly Saturday · 10am · Online Only &middot; Viewing Fridays 11am–4pm, Hayle
           </p>
 
           <div className="flex flex-col sm:flex-row justify-center gap-3 mb-6">

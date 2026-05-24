@@ -14,7 +14,7 @@ export default function AuctionLocationsHub() {
     <>
       <Helmet>
         <title>Auction Locations Across the UK | Lanora House Auctions</title>
-        <meta name="description" content="Find Lanora House auctions near you. We ship nationwide across the UK. Browse our auction coverage areas and bid online from anywhere. Monthly Wednesday auctions at 5pm." />
+        <meta name="description" content="Find Lanora House auctions near you. We ship nationwide across the UK. Browse our auction coverage areas and bid online from anywhere. Monthly Saturday auctions at 10am — online only." />
         <meta property="og:title" content="Auction Locations Across the UK | Lanora House" />
         <meta property="og:description" content="Find antique and collectible auctions near you. Lanora House ships nationwide with live online bidding available from anywhere in the UK." />
         <meta property="og:type" content="website" />
@@ -34,7 +34,7 @@ export default function AuctionLocationsHub() {
             <div className="flex flex-wrap justify-center gap-6 mt-8 text-white/90">
               <div className="flex items-center gap-2">
                 <Hammer className="h-5 w-5" />
-                <span>Monthly Wednesday Auctions at 5pm</span>
+                <span>Monthly Saturday Auctions at 10am — Online Only</span>
               </div>
               <div className="flex items-center gap-2">
                 <MapPin className="h-5 w-5" />

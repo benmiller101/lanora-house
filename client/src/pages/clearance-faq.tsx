@@ -27,7 +27,7 @@ const faqs = [
   },
   {
     question: "What happens to items I want to sell at auction?",
-    answer: "We photograph, catalogue, and include your items in our regular auctions held at The Old Foundry Chapel in Hayle. You can watch the auction online or attend in person. Once items sell, the proceeds are applied to your clearance invoice or paid to you directly if the clearance is already settled.",
+    answer: "We photograph, catalogue, and include your items in our regular Saturday auctions, held online every week at 10am. The auction catalogue is released one week before each sale. Once items sell, the proceeds are applied to your clearance invoice or paid to you directly if the clearance is already settled.",
     icon: <Package className="w-6 h-6" />,
     highlight: "Full Auction Service",
     color: "bg-purple-400"
@@ -76,9 +76,9 @@ const faqs = [
   },
   {
     question: "Where are your auctions held?",
-    answer: "Our auctions take place at Unit 12b, The Old Foundry Chapel, Chapel Terrace, Hayle, Cornwall TR27 4AB. You can bid in person, online, or via EasyLiveAuction or BidSpirit. We also offer shipping and local delivery for items you win at auction.",
+    answer: "Our auctions are held online monthly on a Saturday at 10:00am. Viewing of lots is available every Friday 11:00am–4:00pm at Unit 12b, The Old Foundry Chapel, Chapel Terrace, Hayle, Cornwall TR27 4AB. The auction catalogue is released one week before each sale. Consignment appointments are by arrangement — call us on 07843 930927 (phones open 7am–10pm, 7 days a week).",
     icon: <Home className="w-6 h-6" />,
-    highlight: "Hayle Auction House",
+    highlight: "Online Auctions",
     color: "bg-blue-500"
   },
   {

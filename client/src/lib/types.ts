@@ -5,10 +5,18 @@ export interface BlogPost {
   slug: string;
   excerpt: string;
   content: string;
+  sections?: any[];
   coverImage: string;
   publishedAt: string;
+  createdAt?: string;
+  updatedAt?: string;
   category: string;
   tags: string[];
+  metaTitle?: string;
+  metaDescription?: string;
+  authorName?: string;
+  authorImage?: string;
+  authorBio?: string;
   author: {
     id: string;
     name: string;

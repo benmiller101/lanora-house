@@ -28,7 +28,7 @@ export default function AuctionLocationPage() {
     .filter(Boolean);
 
   const pageTitle = `Auctions in ${location.name} | Antique & Collectible Auctions | Lanora House`;
-  const metaDescription = `Looking for auctions in ${location.name}, ${location.county}? Lanora House holds monthly Wednesday auctions at 5pm with nationwide shipping to ${location.name}. Bid online or in person on antiques, collectibles & unique treasures.`;
+  const metaDescription = `Looking for auctions in ${location.name}, ${location.county}? Lanora House holds monthly online auctions on a Saturday at 10am with nationwide shipping to ${location.name}. Bid online on antiques, collectibles & unique treasures.`;
   const canonicalUrl = `https://lanorahouse.com/auctions-in/${location.slug}`;
 
   const jsonLd = {
@@ -117,9 +117,9 @@ export default function AuctionLocationPage() {
                 Auctions in {location.name}
               </h1>
               <p className="text-xl text-white/90 leading-relaxed">
-                Looking for antique auctions near {location.name}? Lanora House holds monthly auctions 
-                on the first Wednesday of every month at 5pm, with full nationwide shipping directly to {location.name}, {location.county}. 
-                Bid online from the comfort of your home or visit us in person.
+                Looking for antique auctions near {location.name}? Lanora House holds online auctions
+                monthly on a Saturday at 10am, with full nationwide shipping directly to {location.name}, {location.county}.
+                Bid online from the comfort of your home.
               </p>
             </div>
           </div>
@@ -131,8 +131,8 @@ export default function AuctionLocationPage() {
               <div className="w-14 h-14 bg-primary/10 rounded-full flex items-center justify-center mx-auto mb-4">
                 <Calendar className="h-7 w-7 text-primary" />
               </div>
-              <h3 className="font-bold text-lg mb-2">Monthly Auctions</h3>
-              <p className="text-gray-600">First Wednesday of every month at 5pm at The Old Foundry Chapel, Hayle, Cornwall</p>
+              <h3 className="font-bold text-lg mb-2">Monthly Saturday Auctions</h3>
+              <p className="text-gray-600">Monthly on a Saturday at 10am — online only. Viewing Fridays 11am–4pm at The Old Foundry Chapel, Hayle, Cornwall</p>
             </div>
             <div className="bg-white rounded-xl shadow-sm border p-6 text-center">
               <div className="w-14 h-14 bg-primary/10 rounded-full flex items-center justify-center mx-auto mb-4">
@@ -167,9 +167,9 @@ export default function AuctionLocationPage() {
                   lot is just as easy from {location.name} as it is from our saleroom floor.
                 </p>
                 <p>
-                  Our auctions are held <strong>on the first Wednesday of every month at 5pm</strong>. Every auction features a carefully 
-                  curated catalogue of items, each authenticated and estimated by our team of expert specialists. Whether you're 
-                  a seasoned collector, a dealer looking for stock, or simply searching for something special, our auctions 
+                  Our auctions are held <strong>monthly on a Saturday at 10:00am online only</strong>. Every auction features a carefully
+                  curated catalogue of items, each authenticated and estimated by our team of expert specialists. Whether you're
+                  a seasoned collector, a dealer looking for stock, or simply searching for something special, our auctions
                   offer something for everyone.
                 </p>
 

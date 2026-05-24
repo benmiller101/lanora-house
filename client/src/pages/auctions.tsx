@@ -139,7 +139,7 @@ export default function AuctionsPage() {
           <div className="max-w-2xl mx-auto relative z-10">
             <span className="inline-flex items-center gap-1.5 mb-4 bg-secondary/20 text-secondary border border-secondary/60 text-xs font-semibold px-3 py-1 rounded-full tracking-wide">
               <FiMapPin className="w-3.5 h-3.5" />
-              First Wednesday Monthly &middot; Hayle, Cornwall
+              Monthly Saturday · 10am · Online Only
             </span>
             <h1 className="font-display text-3xl md:text-[3rem] leading-tight text-white mb-4 drop-shadow-lg" data-testid="text-page-title">
               Auction <span className="text-secondary">&amp; Fine Collectibles</span>
@@ -830,8 +830,8 @@ export default function AuctionsPage() {
                           <div className="flex items-start gap-3">
                             <FiCalendar className="w-5 h-5 text-primary mt-0.5 flex-shrink-0" />
                             <div>
-                              <p className="font-semibold text-primary">First Wednesday — Every Month at 5pm</p>
-                              <p className="text-sm">Online & In-Person</p>
+                              <p className="font-semibold text-primary">Monthly on a Saturday at 10:00am</p>
+                              <p className="text-sm">Online Only</p>
                             </div>
                           </div>
                           <div className="flex items-start gap-3">
@@ -845,15 +845,22 @@ export default function AuctionsPage() {
                           <div className="flex items-start gap-3">
                             <Eye className="w-5 h-5 text-primary mt-0.5 flex-shrink-0" />
                             <div>
-                              <p className="font-semibold">Viewing Days</p>
-                              <p className="text-sm">Monday & Tuesday before each auction</p>
+                              <p className="font-semibold">Viewing Day</p>
+                              <p className="text-sm">Friday before auction — 11:00 to 16:00</p>
                             </div>
                           </div>
                           <div className="flex items-start gap-3">
                             <Package className="w-5 h-5 text-primary mt-0.5 flex-shrink-0" />
                             <div>
+                              <p className="font-semibold">Auction Day</p>
+                              <p className="text-sm">Monthly on a Saturday at 10:00am — online only</p>
+                            </div>
+                          </div>
+                          <div className="flex items-start gap-3">
+                            <FiTruck className="w-5 h-5 text-primary mt-0.5 flex-shrink-0" />
+                            <div>
                               <p className="font-semibold">Collection Days</p>
-                              <p className="text-sm">Thursday & Friday after each auction</p>
+                              <p className="text-sm">Monday & Tuesday — by appointment preferred</p>
                             </div>
                           </div>
                         </div>
@@ -875,22 +882,22 @@ export default function AuctionsPage() {
                     <CardContent>
                       <div className="grid sm:grid-cols-2 gap-3">
                         {[
-                          { day: "Monday", hours: "11:00 – 18:00" },
-                          { day: "Tuesday", hours: "11:00 – 18:00" },
-                          { day: "Wednesday", hours: "Auction Day – 17:00" },
-                          { day: "Thursday", hours: "11:00 – 18:00" },
-                          { day: "Friday", hours: "11:00 – 18:00" },
-                          { day: "Saturday", hours: "Closed" },
-                          { day: "Sunday", hours: "Closed" },
+                          { day: "Monday", hours: "Collection (Appt)" },
+                          { day: "Tuesday", hours: "Collection (Appt)" },
+                          { day: "Wednesday", hours: "By Appointment" },
+                          { day: "Thursday", hours: "By Appointment" },
+                          { day: "Friday", hours: "Viewing 11:00 – 16:00" },
+                          { day: "Saturday", hours: "Auction 10:00am" },
+                          { day: "Sunday", hours: "By Appointment" },
                         ].map(({ day, hours }) => (
-                          <div key={day} className={`flex justify-between items-center px-4 py-3 rounded-lg ${hours === "Closed" ? "bg-neutral-100 dark:bg-neutral-800 text-neutral-400" : "bg-primary/5 border border-primary/15"}`}>
+                          <div key={day} className={`flex justify-between items-center px-4 py-3 rounded-lg ${hours === "By Appointment" ? "bg-neutral-100 dark:bg-neutral-800" : "bg-primary/5 border border-primary/15"}`}>
                             <span className="font-semibold text-neutral-800 dark:text-neutral-200">{day}</span>
-                            <span className={hours === "Closed" ? "text-neutral-400 italic" : "text-primary font-medium"}>{hours}</span>
+                            <span className={hours === "By Appointment" ? "text-neutral-500 dark:text-neutral-400 italic" : "text-primary font-medium text-sm"}>{hours}</span>
                           </div>
                         ))}
                       </div>
                       <p className="text-sm text-neutral-500 dark:text-neutral-400 mt-4">
-                        Wednesday hours are on auction days. Viewings take place on the Monday &amp; Tuesday before each auction.
+                        Auctions held monthly on a Saturday at 10:00am online only. Catalogues released one week prior. Viewing every Friday 11:00–16:00. Collection of won lots Monday & Tuesday by appointment preferred. Consignment visits by appointment — <strong>phones open 7am–10pm, seven days a week.</strong>
                       </p>
                     </CardContent>
                   </Card>

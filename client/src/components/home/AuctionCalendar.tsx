@@ -15,9 +15,9 @@ export default function AuctionCalendar() {
     queryKey: ["/api/auction-homepage-settings"],
   });
 
-  const scheduleText = settings?.auctionScheduleText || "Auctions Held On The First Wednesday Of Every Month at 5PM";
-  const locationText = settings?.locationText || "The Old Foundry Chapel, Hayle, Cornwall";
-  const nextDate = settings?.nextAuctionDate || "Wednesday 6th May 2026";
+  const scheduleText = settings?.auctionScheduleText || "Auctions Held Monthly On A Saturday at 10:00am Online";
+  const locationText = settings?.locationText || "Online Only — Viewing Fridays 11am–4pm, Hayle";
+  const nextDate = settings?.nextAuctionDate || "Saturday 24th May 2026";
   const catalogueLink = settings?.catalogueLink || "/auctions";
   const catalogueImage = settings?.catalogueImageUrl;
 
@@ -56,7 +56,7 @@ export default function AuctionCalendar() {
             <div className="hidden sm:block w-1 h-1 rounded-full bg-neutral-400" />
             <div className="flex items-center gap-2">
               <Clock className="w-5 h-5 text-primary" />
-              <span className="font-medium">Starts at 5:00 PM</span>
+              <span className="font-medium">Starts at 10:00 AM</span>
             </div>
           </div>
 

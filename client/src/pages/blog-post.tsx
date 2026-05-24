@@ -127,24 +127,37 @@ export default function BlogPostPage() {
     <>
       <Helmet>
         <title>{`${post.title} | Lanora House Blog`}</title>
-        <meta name="description" content={post.excerpt?.substring(0, 155)} />
+        <meta name="description" content={post.metaDescription || post.excerpt?.substring(0, 155)} />
         <meta name="robots" content="index, follow" />
         <link rel="canonical" href={`https://www.lanorahouse.com/blog/${post.slug}`} />
         <meta property="og:title" content={`${post.title} | Lanora House Blog`} />
-        <meta property="og:description" content={post.excerpt?.substring(0, 155)} />
+        <meta property="og:description" content={post.metaDescription || post.excerpt?.substring(0, 155)} />
         <meta property="og:url" content={`https://www.lanorahouse.com/blog/${post.slug}`} />
         <meta property="og:type" content="article" />
-        {post.coverImage && <meta property="og:image" content={post.coverImage} />}
+        {post.coverImage && <meta property="og:image" content={`https://www.lanorahouse.com${post.coverImage.startsWith('/') ? post.coverImage : '/' + post.coverImage}`} />}
         <meta property="article:published_time" content={post.publishedAt} />
-        <meta property="article:author" content={post.author?.name} />
+        <meta property="article:author" content={post.authorName || post.author?.name} />
         {post.category && <meta property="article:section" content={post.category} />}
         <script type="application/ld+json">
           {JSON.stringify({
             "@context": "https://schema.org",
             "@type": "Article",
             "headline": post.title,
-            "datePublished": post.createdAt,
-            "author": { "@type": "Organization", "name": "Lanora House" }
+            "description": post.metaDescription || post.excerpt,
+            "image": post.coverImage ? `https://www.lanorahouse.com${post.coverImage.startsWith('/') ? post.coverImage : '/' + post.coverImage}` : undefined,
+            "datePublished": post.createdAt || post.publishedAt,
+            "dateModified": post.updatedAt || post.createdAt || post.publishedAt,
+            "url": `https://www.lanorahouse.com/blog/${post.slug}`,
+            "author": { "@type": "Organization", "name": "Lanora House", "url": "https://www.lanorahouse.com" },
+            "publisher": {
+              "@type": "Organization",
+              "name": "Lanora House",
+              "url": "https://www.lanorahouse.com"
+            },
+            "mainEntityOfPage": {
+              "@type": "WebPage",
+              "@id": `https://www.lanorahouse.com/blog/${post.slug}`
+            }
           })}
         </script>
       </Helmet>
@@ -220,12 +233,29 @@ export default function BlogPostPage() {
                           ))}
                         </div>
                       );
+                    case 'html':
+                      return (
+                        <div
+                          key={section.id}
+                          className="text-neutral-700 mb-6 leading-relaxed"
+                          dangerouslySetInnerHTML={{ __html: section.content }}
+                        />
+                      );
+                    case 'testimonial':
+                      return (
+                        <blockquote key={section.id} className="border-l-4 border-primary pl-6 py-4 my-8 bg-primary/5 rounded-r-lg">
+                          <p className="text-neutral-700 text-lg italic mb-3">{section.content}</p>
+                          {section.attribution && (
+                            <footer className="text-sm text-neutral-500 font-medium">— {section.attribution}</footer>
+                          )}
+                        </blockquote>
+                      );
                     case 'image':
                       return (
                         <div key={section.id} className="my-8">
-                          <img 
-                            src={section.imageUrl || section.url} 
-                            alt={section.caption || "Blog image"} 
+                          <img
+                            src={section.imageUrl || section.url}
+                            alt={section.caption || "Blog image"}
                             className="w-full rounded-lg shadow-md"
                           />
                           {section.caption && (
@@ -235,17 +265,21 @@ export default function BlogPostPage() {
                           )}
                         </div>
                       );
-                    case 'cta':
+                    case 'cta': {
+                      const link = section.ctaLink || '';
+                      const isExternal = link.startsWith('http');
+                      const href = isExternal || link.startsWith('tel:') || link.startsWith('mailto:') || link.startsWith('/')
+                        ? link
+                        : `https://${link}`;
                       return (
                         <div key={section.id} className="my-8 text-center">
                           {section.content && (
                             <p className="text-lg mb-4 text-neutral-700">{section.content}</p>
                           )}
-                          {section.ctaLink && (
-                            <a 
-                              href={section.ctaLink.startsWith('http') ? section.ctaLink : `https://${section.ctaLink}`}
-                              target="_blank"
-                              rel="noopener noreferrer"
+                          {link && (
+                            <a
+                              href={href}
+                              {...(isExternal ? { target: "_blank", rel: "noopener noreferrer" } : {})}
                               className="inline-block bg-primary text-white px-8 py-4 text-sm rounded-md font-medium hover:bg-primary/90 transition-colors no-underline"
                             >
                               {section.ctaText || section.content || "Learn More"}
@@ -253,6 +287,7 @@ export default function BlogPostPage() {
                           )}
                         </div>
                       );
+                    }
                     default:
                       return null;
                   }

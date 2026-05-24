@@ -423,13 +423,13 @@ export default function Contact() {
                   
                   <div className="space-y-3 mb-6">
                     {[
-                      { day: "Monday", hours: "11:00 – 18:00", closed: false },
-                      { day: "Tuesday", hours: "11:00 – 18:00", closed: false },
-                      { day: "Wednesday", hours: "Auction Day – 17:00", closed: false },
-                      { day: "Thursday", hours: "11:00 – 18:00", closed: false },
-                      { day: "Friday", hours: "11:00 – 18:00", closed: false },
-                      { day: "Saturday", hours: "Closed", closed: true },
-                      { day: "Sunday", hours: "Closed", closed: true },
+                      { day: "Monday", hours: "Collection (Appt)", closed: false },
+                      { day: "Tuesday", hours: "Collection (Appt)", closed: false },
+                      { day: "Wednesday", hours: "By Appointment", closed: true },
+                      { day: "Thursday", hours: "By Appointment", closed: true },
+                      { day: "Friday", hours: "Viewing 11:00 – 16:00", closed: false },
+                      { day: "Saturday", hours: "Auction 10:00am", closed: false },
+                      { day: "Sunday", hours: "By Appointment", closed: true },
                     ].map(({ day, hours, closed }) => (
                       <div key={day} className="flex justify-between items-center">
                         <span className="font-medium text-neutral-wood">{day}</span>
@@ -438,7 +438,7 @@ export default function Contact() {
                     ))}
                     <div className="pt-3 border-t border-neutral-200">
                       <p className="text-sm text-neutral-600">
-                        Monday &amp; Tuesday are viewing days. Thursday &amp; Friday are collection days.
+                        Auctions held monthly on a Saturday at 10am online only. Viewing Fridays 11am–4pm. Collection Mon &amp; Tue by appointment. Phones open 7am–10pm, 7 days a week.
                       </p>
                     </div>
                   </div>

@@ -101,7 +101,7 @@ export default function AuctionShowcase() {
                       Buy at Auction
                     </h3>
                     <p className="text-white/90 text-lg mb-6 leading-relaxed">
-                      Browse our expertly curated catalogues featuring antiques, collectibles, and unique treasures. Bid online or in person.
+                      Browse our expertly curated catalogues featuring antiques, collectibles, and unique treasures. Bid online from anywhere.
                     </p>
                   </div>
 
@@ -109,7 +109,7 @@ export default function AuctionShowcase() {
                   <div className="space-y-3 mb-8 flex-grow">
                     <div className="flex items-center gap-3">
                       <ShoppingCart className="w-5 h-5 text-primary" />
-                      <span className="text-white/95">Live & online bidding available</span>
+                      <span className="text-white/95">Online bidding — bid from anywhere</span>
                     </div>
                     <div className="flex items-center gap-3">
                       <Award className="w-5 h-5 text-primary" />
@@ -127,7 +127,7 @@ export default function AuctionShowcase() {
 
                   <div className="text-center py-3 border-t border-white/20 mt-2">
                     <p className="text-white font-bold text-xl">Monthly Auctions</p>
-                    <p className="text-white/90 text-lg">First Wednesdays · 5pm</p>
+                    <p className="text-white/90 text-lg">Monthly Saturday · 10am · Online Only</p>
                   </div>
 
                   <Link href="/auctions" data-testid="link-auction-buy">
