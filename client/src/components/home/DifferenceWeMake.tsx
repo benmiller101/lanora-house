@@ -49,11 +49,11 @@ function BeforeAfterSlider({ before, after, title, location }: SliderItem) {
         </div>
 
         {/* Badges always on top, outside the clipped layer */}
-        <span className="absolute bottom-3 left-3 z-[15] bg-black/60 text-white text-xs font-bold uppercase px-2.5 py-1 rounded-full tracking-wide pointer-events-none">
-          Before
-        </span>
-        <span className="absolute bottom-3 right-3 z-[15] bg-primary text-white text-xs font-bold uppercase px-2.5 py-1 rounded-full tracking-wide pointer-events-none">
+        <span className="absolute bottom-3 left-3 z-[15] bg-primary text-white text-xs font-bold uppercase px-2.5 py-1 rounded-full tracking-wide pointer-events-none">
           After
+        </span>
+        <span className="absolute bottom-3 right-3 z-[15] bg-black/60 text-white text-xs font-bold uppercase px-2.5 py-1 rounded-full tracking-wide pointer-events-none">
+          Before
         </span>
 
         <div
