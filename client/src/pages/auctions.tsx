@@ -216,7 +216,7 @@ export default function AuctionsPage() {
                       >
                         <Card className="overflow-hidden hover:shadow-xl transition-all duration-300 border-2 border-primary/20 hover:border-primary/40 cursor-pointer">
                           <div className="flex flex-col md:flex-row">
-                            <div className="w-full h-[200px] md:w-[260px] md:h-auto md:self-stretch flex-shrink-0 relative overflow-hidden bg-neutral-100">
+                            <div className="w-full aspect-square md:w-[220px] md:aspect-square flex-shrink-0 relative overflow-hidden bg-neutral-100">
                               <img
                                 src="/uploads/auction-catalogs/catalog-1779626061935-6e67fe4ab956.jpeg"
                                 alt="Curated Estate Auction: 1000+ Egg Cups, Xena and Star Wars Collectibles, Silver Plate, Bronze and Porcelain Figurines"
@@ -236,7 +236,7 @@ export default function AuctionsPage() {
                               <h2 className="font-display text-lg md:text-xl text-neutral-800 dark:text-neutral-200 mb-3">
                                 Curated Estate Auction: 1000+ Egg Cups, Xena and Star Wars Collectibles, Silver Plate, Bronze and Porcelain Figurines
                               </h2>
-                              <p className="text-base text-neutral-700 dark:text-neutral-300 mb-4">
+                              <p className="text-base text-neutral-700 dark:text-neutral-300 mb-4 line-clamp-2">
                                 A rare opportunity to acquire pieces from a thoughtfully assembled private collection, spanning decades of devoted gathering and quirky enthusiasm. This curated estate auction brings together an eclectic mix of treasures with something for every kind of collector.
                               </p>
                               <span className="text-primary text-sm font-semibold underline underline-offset-2">View Full Catalogue →</span>
@@ -269,7 +269,7 @@ export default function AuctionsPage() {
                           >
                             <Card className="overflow-hidden hover:shadow-xl transition-all duration-300 border-2 border-primary/20 hover:border-primary/40">
                               <div className="flex flex-col md:flex-row">
-                                <div className="w-full h-[200px] md:w-[260px] md:h-auto md:self-stretch flex-shrink-0 relative overflow-hidden bg-neutral-100">
+                                <div className="w-full aspect-square md:w-[220px] md:aspect-square flex-shrink-0 relative overflow-hidden bg-neutral-100">
                                   <div className="absolute inset-0 flex items-center justify-center flex-col gap-2">
                                     <Gavel className="w-14 h-14 text-primary/25" />
                                     <p className="text-primary/30 text-xs font-medium">Lanora House Auctions</p>
@@ -300,7 +300,7 @@ export default function AuctionsPage() {
                                     {highlight.title}
                                   </h2>
                                   {highlight.description && (
-                                    <p className="text-base text-neutral-700 dark:text-neutral-300 mb-4">
+                                    <p className="text-base text-neutral-700 dark:text-neutral-300 mb-4 line-clamp-2">
                                       {highlight.description}
                                     </p>
                                   )}
@@ -361,7 +361,7 @@ export default function AuctionsPage() {
                           >
                             <Card className="overflow-hidden hover:shadow-xl transition-all duration-300 border-2 border-neutral-200 hover:border-primary/40">
                               <div className="flex flex-col md:flex-row">
-                                <div className="w-full h-[200px] md:w-[260px] md:h-auto md:self-stretch flex-shrink-0 relative overflow-hidden bg-neutral-100">
+                                <div className="w-full aspect-square md:w-[220px] md:aspect-square flex-shrink-0 relative overflow-hidden bg-neutral-100">
                                   <div className="absolute inset-0 flex items-center justify-center flex-col gap-2">
                                     <Gavel className="w-14 h-14 text-primary/25" />
                                     <p className="text-primary/30 text-xs font-medium">Lanora House Auctions</p>
@@ -391,7 +391,7 @@ export default function AuctionsPage() {
                                     {highlight.title}
                                   </h2>
                                   {highlight.description && (
-                                    <p className="text-base text-neutral-700 dark:text-neutral-300 mb-4">
+                                    <p className="text-base text-neutral-700 dark:text-neutral-300 mb-4 line-clamp-2">
                                       {highlight.description}
                                     </p>
                                   )}
