@@ -192,7 +192,7 @@ export default function AuctionsPage() {
 
               {/* Upcoming Auctions Tab */}
               <TabsContent value="upcoming" className="mt-0">
-                <div className="py-4">
+                <div className="py-4 max-w-5xl mx-auto">
                   {highlightsLoading ? (
                     <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
                       {[1, 2, 3].map((i) => (
@@ -216,11 +216,11 @@ export default function AuctionsPage() {
                       >
                         <Card className="overflow-hidden hover:shadow-xl transition-all duration-300 border-2 border-primary/20 hover:border-primary/40 cursor-pointer">
                           <div className="flex flex-col md:flex-row">
-                            <div className="w-full h-[260px] md:w-[260px] md:h-[260px] flex-shrink-0 relative overflow-hidden bg-neutral-100">
+                            <div className="w-full h-[200px] md:w-[260px] md:h-auto md:self-stretch flex-shrink-0 relative overflow-hidden bg-neutral-100">
                               <img
                                 src="/uploads/auction-catalogs/catalog-1779626061935-6e67fe4ab956.jpeg"
                                 alt="Curated Estate Auction: 1000+ Egg Cups, Xena and Star Wars Collectibles, Silver Plate, Bronze and Porcelain Figurines"
-                                className="w-full h-full object-cover"
+                                className="absolute inset-0 w-full h-full object-cover"
                               />
                             </div>
                             <CardContent className="p-6 flex flex-col justify-center flex-1">
@@ -269,7 +269,7 @@ export default function AuctionsPage() {
                           >
                             <Card className="overflow-hidden hover:shadow-xl transition-all duration-300 border-2 border-primary/20 hover:border-primary/40">
                               <div className="flex flex-col md:flex-row">
-                                <div className="w-full h-[260px] md:w-[260px] md:h-[260px] flex-shrink-0 relative overflow-hidden bg-neutral-100">
+                                <div className="w-full h-[200px] md:w-[260px] md:h-auto md:self-stretch flex-shrink-0 relative overflow-hidden bg-neutral-100">
                                   <div className="absolute inset-0 flex items-center justify-center flex-col gap-2">
                                     <Gavel className="w-14 h-14 text-primary/25" />
                                     <p className="text-primary/30 text-xs font-medium">Lanora House Auctions</p>
@@ -325,7 +325,7 @@ export default function AuctionsPage() {
 
               {/* Previous Auctions Tab */}
               <TabsContent value="previous" className="mt-0">
-                <div className="py-4">
+                <div className="py-4 max-w-5xl mx-auto">
                   {previousLoading ? (
                     <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
                       {[1, 2, 3].map((i) => (
@@ -361,7 +361,7 @@ export default function AuctionsPage() {
                           >
                             <Card className="overflow-hidden hover:shadow-xl transition-all duration-300 border-2 border-neutral-200 hover:border-primary/40">
                               <div className="flex flex-col md:flex-row">
-                                <div className="w-full h-[260px] md:w-[260px] md:h-[260px] flex-shrink-0 relative overflow-hidden bg-neutral-100">
+                                <div className="w-full h-[200px] md:w-[260px] md:h-auto md:self-stretch flex-shrink-0 relative overflow-hidden bg-neutral-100">
                                   <div className="absolute inset-0 flex items-center justify-center flex-col gap-2">
                                     <Gavel className="w-14 h-14 text-primary/25" />
                                     <p className="text-primary/30 text-xs font-medium">Lanora House Auctions</p>
@@ -409,7 +409,7 @@ export default function AuctionsPage() {
 
                   <div className="max-w-2xl mx-auto text-center mt-8">
                     <a
-                      href="https://auctions.lanorahouse.com/past-auctions"
+                      href="https://auctions.lanorahouse.com/archive/"
                       target="_blank"
                       rel="noopener noreferrer"
                       className="block"
