@@ -8,6 +8,7 @@ interface AuctionCountdownProps {
   className?: string;
   showIcon?: boolean;
   auctionLink?: string;
+  light?: boolean;
 }
 
 interface TimeRemaining {
@@ -45,7 +46,7 @@ function calculateTimeRemaining(startDate: string): TimeRemaining {
   };
 }
 
-export default function AuctionCountdown({ startDate, className = "", showIcon = true, auctionLink }: AuctionCountdownProps) {
+export default function AuctionCountdown({ startDate, className = "", showIcon = true, auctionLink, light = false }: AuctionCountdownProps) {
   const [timeRemaining, setTimeRemaining] = useState<TimeRemaining>(
     calculateTimeRemaining(startDate)
   );
@@ -78,33 +79,41 @@ export default function AuctionCountdown({ startDate, className = "", showIcon =
 
   const { days, hours, minutes, seconds } = timeRemaining;
 
+  const tileClass = light
+    ? "flex flex-col items-center bg-white/20 px-2 py-1 rounded"
+    : "flex flex-col items-center bg-primary/10 px-2 py-1 rounded";
+  const valueClass = light ? "font-bold text-white" : "font-bold text-primary";
+  const labelClass = light ? "text-xs text-white/70" : "text-xs text-muted-foreground";
+  const sepClass = light ? "text-white/50" : "text-muted-foreground";
+  const iconClass = light ? "w-4 h-4 text-white/80" : "w-4 h-4 text-primary";
+
   return (
     <div className={`flex flex-col gap-2 ${className}`}>
       <div className="flex items-center gap-2">
-        {showIcon && <Clock className="w-4 h-4 text-primary" />}
+        {showIcon && <Clock className={iconClass} />}
         <div className="flex items-center gap-1 font-mono text-sm">
           {days > 0 && (
             <>
-              <div className="flex flex-col items-center bg-primary/10 px-2 py-1 rounded">
-                <span className="font-bold text-primary">{days}</span>
-                <span className="text-xs text-muted-foreground">day{days !== 1 ? 's' : ''}</span>
+              <div className={tileClass}>
+                <span className={valueClass}>{days}</span>
+                <span className={labelClass}>day{days !== 1 ? 's' : ''}</span>
               </div>
-              <span className="text-muted-foreground">:</span>
+              <span className={sepClass}>:</span>
             </>
           )}
-          <div className="flex flex-col items-center bg-primary/10 px-2 py-1 rounded">
-            <span className="font-bold text-primary">{String(hours).padStart(2, '0')}</span>
-            <span className="text-xs text-muted-foreground">hrs</span>
+          <div className={tileClass}>
+            <span className={valueClass}>{String(hours).padStart(2, '0')}</span>
+            <span className={labelClass}>hrs</span>
           </div>
-          <span className="text-muted-foreground">:</span>
-          <div className="flex flex-col items-center bg-primary/10 px-2 py-1 rounded">
-            <span className="font-bold text-primary">{String(minutes).padStart(2, '0')}</span>
-            <span className="text-xs text-muted-foreground">min</span>
+          <span className={sepClass}>:</span>
+          <div className={tileClass}>
+            <span className={valueClass}>{String(minutes).padStart(2, '0')}</span>
+            <span className={labelClass}>min</span>
           </div>
-          <span className="text-muted-foreground">:</span>
-          <div className="flex flex-col items-center bg-primary/10 px-2 py-1 rounded">
-            <span className="font-bold text-primary">{String(seconds).padStart(2, '0')}</span>
-            <span className="text-xs text-muted-foreground">sec</span>
+          <span className={sepClass}>:</span>
+          <div className={tileClass}>
+            <span className={valueClass}>{String(seconds).padStart(2, '0')}</span>
+            <span className={labelClass}>sec</span>
           </div>
         </div>
       </div>

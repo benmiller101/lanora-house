@@ -12,6 +12,11 @@ interface SliderItem {
   location?: string;
 }
 
+const SLIDER_HEIGHT = 320;
+const ANGLE_DEG = 15;
+// Horizontal offset at each end from centre so the divider line sits at 15° from vertical
+const ANGLE_OFFSET_PX = Math.round((SLIDER_HEIGHT / 2) * Math.tan((ANGLE_DEG * Math.PI) / 180));
+
 function BeforeAfterSlider({ before, after, title, location }: SliderItem) {
   const [position, setPosition] = useState(50);
   const containerRef = useRef<HTMLDivElement>(null);
@@ -34,18 +39,20 @@ function BeforeAfterSlider({ before, after, title, location }: SliderItem) {
       <div
         ref={containerRef}
         className="relative overflow-hidden rounded-xl select-none cursor-ew-resize"
-        style={{ height: 320 }}
+        style={{ height: SLIDER_HEIGHT }}
         onMouseMove={onMouseMove}
         onMouseUp={onMouseUp}
         onMouseLeave={onMouseUp}
       >
-        <img src={before} alt={`Before: ${title}`} className="absolute inset-0 w-full h-full object-cover" draggable={false} />
+        <img src={after} alt={`After: ${title}`} className="absolute inset-0 w-full h-full object-cover" draggable={false} />
 
         <div
           className="absolute inset-0 overflow-hidden z-10"
-          style={{ clipPath: `inset(0 ${100 - position}% 0 0)` }}
+          style={{
+            clipPath: `polygon(0 0, calc(${position}% - ${ANGLE_OFFSET_PX}px) 0%, calc(${position}% + ${ANGLE_OFFSET_PX}px) 100%, 0 100%)`,
+          }}
         >
-          <img src={after} alt={`After: ${title}`} className="absolute inset-0 w-full h-full object-cover" draggable={false} />
+          <img src={before} alt={`Before: ${title}`} className="absolute inset-0 w-full h-full object-cover" draggable={false} />
         </div>
 
         {/* Badges always on top, outside the clipped layer */}
@@ -58,7 +65,7 @@ function BeforeAfterSlider({ before, after, title, location }: SliderItem) {
 
         <div
           className="absolute top-0 bottom-0 z-20 flex flex-col items-center"
-          style={{ left: `${position}%`, transform: "translateX(-50%)" }}
+          style={{ left: `${position}%`, transform: `translateX(-50%) rotate(-${ANGLE_DEG}deg)` }}
           onMouseDown={onMouseDown}
           onTouchStart={() => { dragging.current = true; }}
           onTouchMove={onTouchMove}
