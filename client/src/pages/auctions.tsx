@@ -209,7 +209,7 @@ export default function AuctionsPage() {
                   ) : upcomingHighlights.length === 0 ? (
                     <div className="space-y-8">
                       <a
-                        href="https://www.easyliveauction.com/catalogue/c9b7b4f12858297355470c3aa11cb54a/0af8d24542e81eb9357e7ef448a6646f/curated-estate-auction-1000-egg-cups-xena-and-star-wars-c/"
+                        href="https://auctions.lanorahouse.com/"
                         target="_blank"
                         rel="noopener noreferrer"
                         className="block"

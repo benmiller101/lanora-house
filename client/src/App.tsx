@@ -11,6 +11,7 @@ import Footer from "@/components/layout/Footer";
 import ProtectedAdminRoute from "@/components/admin/ProtectedAdminRoute";
 import CookieConsentBanner from "@/components/ui/CookieConsentBanner";
 import ScrollToTopButton from "@/components/ui/ScrollToTopButton";
+import CountdownPopup from "@/components/home/CountdownPopup";
 
 // Eager imports — core pages loaded immediately
 import Home from "@/pages/home";
@@ -215,6 +216,7 @@ function AppContent() {
       <ScrollToTopButton />
       <Toaster />
       <CookieConsentBanner />
+      <CountdownPopup />
     </>
   );
 }
