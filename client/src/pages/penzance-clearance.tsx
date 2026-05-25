@@ -666,6 +666,39 @@ const PenzanceClearancePage = () => {
         </div>
       </section>
 
+      {/* Recent Work Near Penzance */}
+      <section className="py-16 px-4 bg-gray-50">
+        <div className="max-w-6xl mx-auto">
+          <div className="text-center mb-10">
+            <Badge className="mb-4 bg-primary/10 text-primary border-primary/20">
+              <Star className="w-4 h-4 mr-1" />
+              Real Jobs, Real Results
+            </Badge>
+            <h2 className="text-3xl font-bold text-primary mb-3">Recent Work Near Penzance</h2>
+            <p className="text-gray-600 max-w-2xl mx-auto">
+              A large garden clearance carried out near Penzance — years of overgrowth cleared to give the client a blank canvas.
+            </p>
+          </div>
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
+            {[
+              "/uploads/before-after/image-1779696508795-60443509bb52.jpg",
+              "/uploads/before-after/image-1779696508795-c48d1a7e3008.jpg",
+              "/uploads/before-after/image-1779696508833-8ead23e27cb7.jpg",
+              "/uploads/before-after/image-1779696508828-4556da671514.jpg",
+            ].map((src, i) => (
+              <div key={i} className="aspect-square rounded-xl overflow-hidden shadow-md">
+                <img src={src} alt="Garden clearance near Penzance, Cornwall" loading="lazy" className="w-full h-full object-cover hover:scale-105 transition-transform duration-300" />
+              </div>
+            ))}
+          </div>
+          <div className="text-center mt-8">
+            <Button asChild variant="outline" className="border-primary text-primary hover:bg-primary/10">
+              <Link href="/before-after">See All Our Work</Link>
+            </Button>
+          </div>
+        </div>
+      </section>
+
       {/* Eco-Friendly Section */}
       <section className="py-16 px-4 bg-green-50">
         <div className="max-w-4xl mx-auto text-center">

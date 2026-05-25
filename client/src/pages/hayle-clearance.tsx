@@ -639,6 +639,39 @@ const HayleClearancePage = () => {
         </div>
       </section>
 
+      {/* Recent Work Near Hayle */}
+      <section className="py-16 px-4 bg-gray-50">
+        <div className="max-w-6xl mx-auto">
+          <div className="text-center mb-10">
+            <Badge className="mb-4 bg-primary/10 text-primary border-primary/20">
+              <Star className="w-4 h-4 mr-1" />
+              Real Jobs, Real Results
+            </Badge>
+            <h2 className="text-3xl font-bold text-primary mb-3">Recent Work Near Hayle</h2>
+            <p className="text-gray-600 max-w-2xl mx-auto">
+              Rubbish removal and soil clearance jobs carried out in Fraddam and Leedstown — both within the Hayle area of West Cornwall.
+            </p>
+          </div>
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
+            {[
+              "/uploads/before-after/image-1779696510412-913fe5017f9c.jpg",
+              "/uploads/before-after/image-1779696510421-05348c316d01.jpg",
+              "/uploads/before-after/image-1779696519245-680342762dfa.jpg",
+              "/uploads/before-after/image-1779696519243-98939a3e914e.jpg",
+            ].map((src, i) => (
+              <div key={i} className="aspect-square rounded-xl overflow-hidden shadow-md">
+                <img src={src} alt="Rubbish and soil removal near Hayle, Cornwall" loading="lazy" className="w-full h-full object-cover hover:scale-105 transition-transform duration-300" />
+              </div>
+            ))}
+          </div>
+          <div className="text-center mt-8">
+            <Button asChild variant="outline" className="border-primary text-primary hover:bg-primary/10">
+              <Link href="/before-after">See All Our Work</Link>
+            </Button>
+          </div>
+        </div>
+      </section>
+
       {/* Eco-Friendly Section */}
       <section className="py-16 px-4 bg-green-50">
         <div className="max-w-4xl mx-auto text-center">

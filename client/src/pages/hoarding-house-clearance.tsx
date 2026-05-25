@@ -729,6 +729,44 @@ export function HoardingHouseClearancePage() {
       </section>
 
 
+      {/* Recent Work — Hoarder Clean St Just */}
+      <section className="py-16 px-4 bg-gray-50">
+        <div className="max-w-6xl mx-auto">
+          <div className="text-center mb-10">
+            <Badge className="mb-4 bg-primary/10 text-primary border-primary/20">
+              <Star className="w-4 h-4 mr-1" />
+              Real Transformation
+            </Badge>
+            <h2 className="text-3xl font-bold text-primary mb-3">Hoarder Clean — St Just, Cornwall</h2>
+            <p className="text-gray-600 max-w-2xl mx-auto">
+              A severe hoarder clean carried out in St Just, West Cornwall. Every room cleared, cleaned and restored — including a heavily neglected bathroom, kitchen and mould-damaged bedrooms.
+            </p>
+          </div>
+          <div className="grid grid-cols-2 md:grid-cols-3 gap-3">
+            {[
+              "/uploads/before-after/image-1779711862205-8120fa8c1da8.jpg",
+              "/uploads/before-after/image-1779711866344-6aa4646ccf4e.jpg",
+              "/uploads/before-after/image-1779711862215-af3294fa4bc2.jpg",
+              "/uploads/before-after/image-1779711866347-1c4f2cfb2ded.jpg",
+              "/uploads/before-after/image-1779711862221-c4159688643a.jpg",
+              "/uploads/before-after/image-1779711866349-1cbf6690e783.jpg",
+            ].map((src, i) => (
+              <div key={i} className="aspect-square rounded-xl overflow-hidden shadow-md relative">
+                <img src={src} alt="Hoarder house clean St Just Cornwall" loading="lazy" className="w-full h-full object-cover hover:scale-105 transition-transform duration-300" />
+                <div className={`absolute top-2 left-2 text-xs font-bold px-2 py-1 rounded-full ${i % 2 === 0 ? "bg-red-500 text-white" : "bg-green-500 text-white"}`}>
+                  {i % 2 === 0 ? "Before" : "After"}
+                </div>
+              </div>
+            ))}
+          </div>
+          <div className="text-center mt-8">
+            <Button asChild variant="outline" className="border-primary text-primary hover:bg-primary/10">
+              <Link href="/before-after">See the Full Gallery</Link>
+            </Button>
+          </div>
+        </div>
+      </section>
+
       {/* Contact CTA Section */}
       <section className="py-16 px-4 bg-primary text-white">
         <div className="max-w-4xl mx-auto text-center">

@@ -672,6 +672,38 @@ const RedruthClearancePage = () => {
         </div>
       </section>
 
+      {/* Recent Work in Redruth */}
+      <section className="py-16 px-4 bg-gray-50">
+        <div className="max-w-6xl mx-auto">
+          <div className="text-center mb-10">
+            <Badge className="mb-4 bg-primary/10 text-primary border-primary/20">
+              <Star className="w-4 h-4 mr-1" />
+              Real Jobs, Real Results
+            </Badge>
+            <h2 className="text-3xl font-bold text-primary mb-3">Recent Work in Redruth</h2>
+            <p className="text-gray-600 max-w-2xl mx-auto">
+              Actual flat and property clearances carried out in Redruth — cleared efficiently and responsibly for landlords and homeowners alike.
+            </p>
+          </div>
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+            {[
+              "/uploads/before-after/image-1779693624386-5ef4bf8b7f71.jpg",
+              "/uploads/before-after/image-1779693624697-b69a12b403c1.jpg",
+              "/uploads/before-after/image-1779693625013-611cd9aa67ac.jpg",
+            ].map((src, i) => (
+              <div key={i} className="aspect-square rounded-xl overflow-hidden shadow-md">
+                <img src={src} alt="Flat clearance Redruth, Cornwall" loading="lazy" className="w-full h-full object-cover hover:scale-105 transition-transform duration-300" />
+              </div>
+            ))}
+          </div>
+          <div className="text-center mt-8">
+            <Button asChild variant="outline" className="border-primary text-primary hover:bg-primary/10">
+              <Link href="/before-after">See All Our Work</Link>
+            </Button>
+          </div>
+        </div>
+      </section>
+
       {/* Eco-Friendly Section */}
       <section className="py-16 px-4 bg-green-50">
         <div className="max-w-4xl mx-auto text-center">
