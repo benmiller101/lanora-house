@@ -674,6 +674,39 @@ const HelstonClearancePage = () => {
         </div>
       </section>
 
+      {/* Recent Work Near Helston */}
+      <section className="py-16 px-4 bg-gray-50">
+        <div className="max-w-6xl mx-auto">
+          <div className="text-center mb-10">
+            <Badge className="mb-4 bg-primary/10 text-primary border-primary/20">
+              <Star className="w-4 h-4 mr-1" />
+              Real Jobs, Real Results
+            </Badge>
+            <h2 className="text-3xl font-bold text-primary mb-3">Recent Work Near Helston</h2>
+            <p className="text-gray-600 max-w-2xl mx-auto">
+              Real clearance jobs carried out in Helston and the surrounding West Cornwall area — including construction waste collection and soft demolition strip-outs.
+            </p>
+          </div>
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
+            {[
+              "/uploads/before-after/image-1779693622436-4fc9ca112b7f.jpg",
+              "/uploads/before-after/image-1779693622795-e8054f78c2f6.jpg",
+              "/uploads/before-after/image-1779696515035-6738b990d39e.jpg",
+              "/uploads/before-after/image-1779696515016-9fefc54839a0.jpg",
+            ].map((src, i) => (
+              <div key={i} className="aspect-square rounded-xl overflow-hidden shadow-md">
+                <img src={src} alt="Clearance work near Helston, Cornwall" loading="lazy" className="w-full h-full object-cover hover:scale-105 transition-transform duration-300" />
+              </div>
+            ))}
+          </div>
+          <div className="text-center mt-8">
+            <Button asChild variant="outline" className="border-primary text-primary hover:bg-primary/10">
+              <Link href="/before-after">See All Our Work</Link>
+            </Button>
+          </div>
+        </div>
+      </section>
+
       {/* Eco-Friendly Section */}
       <section className="py-16 px-4 bg-green-50">
         <div className="max-w-4xl mx-auto text-center">
