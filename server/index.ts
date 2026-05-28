@@ -166,7 +166,7 @@ async function seedBeforeAfterPosts() {
   log("Seeded 4 before/after posts");
 }
 
-const BASE_EASYLIVE = 'https://www.easyliveauction.com';
+const BASE_EASYLIVE = 'https://auctions.lanorahouse.com';
 
 async function seedAuctionHighlights() {
   const [{ value: existing }] = await db.select({ value: count() }).from(auctionHighlights);

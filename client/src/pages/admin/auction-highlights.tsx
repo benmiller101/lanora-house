@@ -479,7 +479,7 @@ export default function AdminAuctionHighlights() {
                     <FormItem>
                       <FormLabel>Link URL (where clicking goes to)</FormLabel>
                       <FormControl>
-                        <Input placeholder="https://www.easyliveauction.com/catalogue/..." {...field} />
+                        <Input placeholder="https://auctions.lanorahouse.com/catalogue/..." {...field} />
                       </FormControl>
                       <FormMessage />
                     </FormItem>

@@ -450,7 +450,7 @@ export default function CalendarEventsPage() {
                   <FormItem>
                     <FormLabel>Catalog Link (optional)</FormLabel>
                     <FormControl>
-                      <Input placeholder="https://easyliveauction.com/..." {...field} data-testid="input-catalog-url" />
+                      <Input placeholder="https://auctions.lanorahouse.com/..." {...field} data-testid="input-catalog-url" />
                     </FormControl>
                     <FormMessage />
                   </FormItem>

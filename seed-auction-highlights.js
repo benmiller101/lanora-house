@@ -3,7 +3,7 @@ import { config } from 'dotenv';
 config();
 const sql = neon(process.env.DATABASE_URL);
 
-const BASE = 'https://www.easyliveauction.com';
+const BASE = 'https://auctions.lanorahouse.com';
 
 const highlights = [
   // Upcoming
