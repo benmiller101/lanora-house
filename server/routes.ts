@@ -2474,7 +2474,7 @@ Make it feel like a premium antique dealer's blog - professional, knowledgeable,
         auctionDate,
         auctionTime,
         ctaText = "View Full Catalogue",
-        ctaHref = "https://lanorahouse.com/auctions",
+        ctaHref = "https://auctions.lanorahouse.com/",
         viewingDates,
         lots,
         autoSave = true

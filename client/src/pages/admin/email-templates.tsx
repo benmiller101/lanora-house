@@ -277,7 +277,7 @@ const contentSnippets = [
     <td style="padding: 30px; text-align: center;">
       <h3 style="color: #ffffff; margin: 0 0 10px; font-size: 22px;">Upcoming Auction</h3>
       <p style="color: #ffe4c4; margin: 0 0 15px; font-size: 16px;">Wednesday, May 6th at 5:00 PM</p>
-      <a href="https://lanorahouse.com/auction" style="display: inline-block; background-color: #ffffff; color: #8B4513; padding: 12px 30px; text-decoration: none; border-radius: 5px; font-weight: bold;">View Catalog</a>
+      <a href="https://auctions.lanorahouse.com/" style="display: inline-block; background-color: #ffffff; color: #8B4513; padding: 12px 30px; text-decoration: none; border-radius: 5px; font-weight: bold;">View Catalog</a>
     </td>
   </tr>
 </table>`,
@@ -303,7 +303,7 @@ export default function AdminEmailTemplates() {
     auctionDate: "",
     auctionTime: "",
     ctaText: "View Full Catalogue",
-    ctaHref: "https://lanorahouse.com/auctions",
+    ctaHref: "https://auctions.lanorahouse.com/",
     viewingDates: [{ date: "", times: "" }, { date: "", times: "" }],
     lots: [
       { imageUrl: "", description: "", estimateLow: "", estimateHigh: "" },
@@ -548,7 +548,7 @@ export default function AdminEmailTemplates() {
         auctionDate: "",
         auctionTime: "",
         ctaText: "View Full Catalogue",
-        ctaHref: "https://lanorahouse.com/auctions",
+        ctaHref: "https://auctions.lanorahouse.com/",
         viewingDates: [{ date: "", times: "" }, { date: "", times: "" }],
         lots: [
           { imageUrl: "", description: "", estimateLow: "", estimateHigh: "" },
@@ -1414,7 +1414,7 @@ export default function AdminEmailTemplates() {
                     <Label htmlFor="ctaHref">Button Link URL</Label>
                     <Input
                       id="ctaHref"
-                      placeholder="https://lanorahouse.com/auctions"
+                      placeholder="https://auctions.lanorahouse.com/"
                       value={auctionForm.ctaHref}
                       onChange={(e) => setAuctionForm(prev => ({ ...prev, ctaHref: e.target.value }))}
                       data-testid="input-cta-href"

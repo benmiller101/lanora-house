@@ -7,9 +7,7 @@ export interface ScrapedLot {
   soldPrice: string;
 }
 
-const KNOWN_CATALOGUES = [
-  "https://www.easyliveauction.com/catalogue/4659b5315cc528191cf8220eebc60549/0af8d24542e81eb9357e7ef448a6646f/general-auction-to-include-jewellery-gold-silver-antiques/",
-];
+const KNOWN_CATALOGUES: string[] = [];
 
 let lastSyncAt: Date | null = null;
 let lastSyncResult: ScrapedLot[] = [];
