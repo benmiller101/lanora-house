@@ -51,17 +51,13 @@ const BeforeAfterImageUploader = ({
       const newUrls: string[] = data.urls || [];
 
       if (type === 'before') {
-        setBeforeImages(prev => {
-          const updated = [...prev, ...newUrls];
-          onImagesChanged(updated, afterImages);
-          return updated;
-        });
+        const updated = [...beforeImages, ...newUrls];
+        setBeforeImages(updated);
+        onImagesChanged(updated, afterImages);
       } else {
-        setAfterImages(prev => {
-          const updated = [...prev, ...newUrls];
-          onImagesChanged(beforeImages, updated);
-          return updated;
-        });
+        const updated = [...afterImages, ...newUrls];
+        setAfterImages(updated);
+        onImagesChanged(beforeImages, updated);
       }
 
       toast({ title: 'Uploaded', description: `${newUrls.length} photo${newUrls.length !== 1 ? 's' : ''} added` });

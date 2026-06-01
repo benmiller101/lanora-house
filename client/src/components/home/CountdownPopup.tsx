@@ -2,6 +2,7 @@ import { useState, useEffect } from "react";
 import { Clock, ChevronDown, ChevronUp, ExternalLink } from "lucide-react";
 
 const NEXT_AUCTION = new Date("2026-05-30T10:00:00");
+const AUCTION_END   = new Date("2026-05-30T20:00:00");
 const CATALOGUE_URL = "https://auctions.lanorahouse.com/";
 const STORAGE_KEY = "auction-countdown-minimised";
 
@@ -28,6 +29,7 @@ function getTimeLeft(): TimeLeft {
 }
 
 export default function CountdownPopup() {
+  const [now, setNow] = useState(Date.now());
   const [timeLeft, setTimeLeft] = useState<TimeLeft>(getTimeLeft());
   const [minimised, setMinimised] = useState<boolean>(() => {
     try {
@@ -38,9 +40,14 @@ export default function CountdownPopup() {
   });
 
   useEffect(() => {
-    const interval = setInterval(() => setTimeLeft(getTimeLeft()), 1000);
+    const interval = setInterval(() => {
+      setNow(Date.now());
+      setTimeLeft(getTimeLeft());
+    }, 1000);
     return () => clearInterval(interval);
   }, []);
+
+  if (now >= AUCTION_END.getTime()) return null;
 
   const toggle = (e: React.MouseEvent) => {
     e.preventDefault();

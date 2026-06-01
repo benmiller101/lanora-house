@@ -214,7 +214,7 @@ export default function BeforeAfterAdmin() {
   };
 
   const handleImagesChanged = (beforeImages: string[], afterImages: string[]) => {
-    setFormData({ ...formData, beforeImageUrls: beforeImages, afterImageUrls: afterImages });
+    setFormData(prev => ({ ...prev, beforeImageUrls: beforeImages, afterImageUrls: afterImages }));
   };
 
   const publishedPosts = posts.filter((post: BeforeAfterPost) => post.published);
