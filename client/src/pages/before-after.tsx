@@ -2,11 +2,9 @@ import { useQuery } from "@tanstack/react-query";
 import SEOHead from "@/components/SEOHead";
 import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
-import { Button } from "@/components/ui/button";
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
-import { MapPin, Calendar, Camera, ArrowRight, X, ChevronLeft, ChevronRight } from "lucide-react";
+import { MapPin, Calendar, Camera, X, ChevronLeft, ChevronRight } from "lucide-react";
 import { motion } from "framer-motion";
-import { TransitionWrapper, StaggeredContainer, StaggeredItem } from "@/components/ui/TransitionWrapper";
 import { useState } from "react";
 
 interface BeforeAfterPost {
@@ -38,9 +36,8 @@ export default function BeforeAfter() {
     }
   });
 
-  // Separate featured and regular posts
-  const featuredPosts = posts.filter((post: BeforeAfterPost) => post.featured);
-  const regularPosts = posts.filter((post: BeforeAfterPost) => !post.featured);
+  // All posts in one unified list
+  const allPosts = posts;
 
   const handlePostClick = (post: BeforeAfterPost) => {
     setSelectedPost(post);
@@ -121,163 +118,72 @@ export default function BeforeAfter() {
               <p className="text-gray-400">Check back soon for amazing before & after stories!</p>
             </div>
           ) : (
-            <div className="space-y-16">
-              {/* Featured Posts Section */}
-              {featuredPosts.length > 0 && (
-                <section>
-                  <h2 className="text-3xl font-bold text-neutral-900 mb-8 text-center">
-                    Featured Transformations
-                  </h2>
-                  <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
-                    {featuredPosts.map((post: BeforeAfterPost) => (
-                      <Card 
-                        key={post.id} 
-                        className="overflow-hidden shadow-lg hover:shadow-xl transition-all duration-300 border-2 border-primary/20 cursor-pointer transform hover:scale-[1.02]"
-                        onClick={() => handlePostClick(post)}
-                      >
-                        <CardContent className="p-0">
-                          <div className="relative">
-                            <Badge className="absolute top-4 left-4 z-10 bg-primary">
-                              Featured
-                            </Badge>
-                            <div className="grid grid-cols-1 sm:grid-cols-2">
-                              <div className="relative">
-                                <div className="absolute top-2 left-2 bg-black/60 text-white px-3 py-1 rounded-full text-sm font-medium z-10">
-                                  Before
-                                </div>
-                                <img
-                                  src={post.beforeImageUrls?.[0] || PLACEHOLDER_IMG}
-                                  alt="Before"
-                                  className="w-full h-56 sm:h-64 md:h-80 object-cover"
-                                  loading="lazy"
-                                  decoding="async"
-                                  onError={(e) => { (e.target as HTMLImageElement).src = PLACEHOLDER_IMG; }}
-                                />
-                              </div>
-                              <div className="relative">
-                                <div className="absolute top-2 left-2 bg-primary text-primary-foreground px-3 py-1 rounded-full text-sm font-medium z-10">
-                                  After
-                                </div>
-                                <img
-                                  src={post.afterImageUrls?.[0] || PLACEHOLDER_IMG}
-                                  alt="After"
-                                  className="w-full h-56 sm:h-64 md:h-80 object-cover"
-                                  loading="lazy"
-                                  decoding="async"
-                                  onError={(e) => { (e.target as HTMLImageElement).src = PLACEHOLDER_IMG; }}
-                                />
-                              </div>
-                            </div>
-                            <div className="absolute bottom-4 right-4 bg-black/60 text-white px-3 py-1 rounded-full text-sm">
-                              {Math.max(post.beforeImageUrls?.length || 0, post.afterImageUrls?.length || 0)} photos
-                            </div>
+            <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6">
+              {allPosts.map((post: BeforeAfterPost) => (
+                <Card
+                  key={post.id}
+                  className="overflow-hidden hover:shadow-lg transition-all duration-300 cursor-pointer transform hover:scale-[1.02]"
+                  onClick={() => handlePostClick(post)}
+                >
+                  <CardContent className="p-0">
+                    <div className="relative">
+                      <div className="grid grid-cols-2">
+                        <div className="relative">
+                          <div className="absolute top-2 left-2 bg-black/60 text-white px-2 py-1 rounded text-xs font-medium z-10">
+                            Before
                           </div>
-                          <div className="p-6">
-                            <h3 className="text-2xl font-bold text-neutral-900 mb-3">
-                              {post.title}
-                            </h3>
-                            {post.description && (
-                              <p className="text-neutral-600 mb-4 leading-relaxed">
-                                {post.description}
-                              </p>
-                            )}
-                            <div className="flex items-center gap-4 text-sm text-neutral-500">
-                              {post.location && (
-                                <div className="flex items-center gap-1">
-                                  <MapPin className="h-4 w-4" />
-                                  <span>{post.location}</span>
-                                </div>
-                              )}
-                              <div className="flex items-center gap-1">
-                                <Calendar className="h-4 w-4" />
-                                <span>{new Date(post.createdAt).toLocaleDateString()}</span>
-                              </div>
-                            </div>
+                          <img
+                            src={post.beforeImageUrls?.[0] || PLACEHOLDER_IMG}
+                            alt="Before"
+                            className="w-full h-48 object-cover"
+                            loading="lazy"
+                            decoding="async"
+                            onError={(e) => { (e.target as HTMLImageElement).src = PLACEHOLDER_IMG; }}
+                          />
+                        </div>
+                        <div className="relative">
+                          <div className="absolute top-2 left-2 bg-primary text-primary-foreground px-2 py-1 rounded text-xs font-medium z-10">
+                            After
                           </div>
-                        </CardContent>
-                      </Card>
-                    ))}
-                  </div>
-                </section>
-              )}
-
-              {/* Regular Posts Section */}
-              {regularPosts.length > 0 && (
-                <section>
-                  {featuredPosts.length > 0 && (
-                    <h2 className="text-3xl font-bold text-neutral-900 mb-8 text-center">
-                      More Transformations
-                    </h2>
-                  )}
-                  <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6">
-                    {regularPosts.map((post: BeforeAfterPost) => (
-                      <Card 
-                        key={post.id} 
-                        className="overflow-hidden hover:shadow-lg transition-all duration-300 cursor-pointer transform hover:scale-[1.02]"
-                        onClick={() => handlePostClick(post)}
-                      >
-                        <CardContent className="p-0">
-                          <div className="relative">
-                            <div className="grid grid-cols-1 sm:grid-cols-2">
-                              <div className="relative">
-                                <div className="absolute top-2 left-2 bg-black/60 text-white px-2 py-1 rounded text-xs font-medium z-10">
-                                  Before
-                                </div>
-                                <img
-                                  src={post.beforeImageUrls?.[0] || PLACEHOLDER_IMG}
-                                  alt="Before"
-                                  className="w-full h-52 sm:h-48 object-cover"
-                                  loading="lazy"
-                                  decoding="async"
-                                  onError={(e) => { (e.target as HTMLImageElement).src = PLACEHOLDER_IMG; }}
-                                />
-                              </div>
-                              <div className="relative">
-                                <div className="absolute top-2 left-2 bg-primary text-primary-foreground px-2 py-1 rounded text-xs font-medium z-10">
-                                  After
-                                </div>
-                                <img
-                                  src={post.afterImageUrls?.[0] || PLACEHOLDER_IMG}
-                                  alt="After"
-                                  className="w-full h-52 sm:h-48 object-cover"
-                                  loading="lazy"
-                                  decoding="async"
-                                  onError={(e) => { (e.target as HTMLImageElement).src = PLACEHOLDER_IMG; }}
-                                />
-                              </div>
-                            </div>
-                            <div className="absolute top-2 right-2 bg-black/60 text-white px-2 py-1 rounded text-xs">
-                              {Math.max(post.beforeImageUrls?.length || 0, post.afterImageUrls?.length || 0)} photos
-                            </div>
+                          <img
+                            src={post.afterImageUrls?.[0] || PLACEHOLDER_IMG}
+                            alt="After"
+                            className="w-full h-48 object-cover"
+                            loading="lazy"
+                            decoding="async"
+                            onError={(e) => { (e.target as HTMLImageElement).src = PLACEHOLDER_IMG; }}
+                          />
+                        </div>
+                      </div>
+                      <div className="absolute top-2 right-2 bg-black/60 text-white px-2 py-1 rounded text-xs">
+                        {Math.max(post.beforeImageUrls?.length || 0, post.afterImageUrls?.length || 0)} photos
+                      </div>
+                    </div>
+                    <div className="p-4">
+                      <h3 className="text-lg font-semibold text-neutral-900 mb-2">
+                        {post.title}
+                      </h3>
+                      {post.description && (
+                        <p className="text-neutral-600 text-sm mb-3 line-clamp-2">
+                          {post.description}
+                        </p>
+                      )}
+                      <div className="flex items-center gap-3 text-xs text-neutral-500">
+                        {post.location && (
+                          <div className="flex items-center gap-1">
+                            <MapPin className="h-3 w-3" />
+                            <span>{post.location}</span>
                           </div>
-                          <div className="p-4">
-                            <h3 className="text-lg font-semibold text-neutral-900 mb-2">
-                              {post.title}
-                            </h3>
-                            {post.description && (
-                              <p className="text-neutral-600 text-sm mb-3 line-clamp-2">
-                                {post.description}
-                              </p>
-                            )}
-                            <div className="flex items-center gap-3 text-xs text-neutral-500">
-                              {post.location && (
-                                <div className="flex items-center gap-1">
-                                  <MapPin className="h-3 w-3" />
-                                  <span>{post.location}</span>
-                                </div>
-                              )}
-                              <div className="flex items-center gap-1">
-                                <Calendar className="h-3 w-3" />
-                                <span>{new Date(post.createdAt).toLocaleDateString()}</span>
-                              </div>
-                            </div>
-                          </div>
-                        </CardContent>
-                      </Card>
-                    ))}
-                  </div>
-                </section>
-              )}
+                        )}
+                        <div className="flex items-center gap-1">
+                          <Calendar className="h-3 w-3" />
+                          <span>{new Date(post.createdAt).toLocaleDateString()}</span>
+                        </div>
+                      </div>
+                    </div>
+                  </CardContent>
+                </Card>
+              ))}
             </div>
           )}
 

@@ -46,7 +46,7 @@ import {
 import multer from "multer";
 import path from "path";
 import fs from "fs";
-import { uploadFile } from "./lib/r2";
+import { uploadFile, getImageBlob } from "./lib/r2";
 import "express-session";
 
 declare module "express-session" {
@@ -243,6 +243,16 @@ export async function registerRoutes(app: Express): Promise<Server> {
       const xml = `<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n${staticPages.map(p => `  <url>\n    <loc>${BASE}${p.path}</loc>\n    <changefreq>${p.changefreq}</changefreq>\n    <priority>${p.priority}</priority>\n  </url>`).join("\n")}\n</urlset>`;
       res.type("application/xml").send(xml);
     }
+  });
+
+  // Serve uploaded images from the database (no auth required, heavy caching)
+  app.get("/api/image/*", async (req: Request, res: Response) => {
+    const key = (req.params as any)[0] as string;
+    const blob = await getImageBlob(key);
+    if (!blob) return res.status(404).send("Not found");
+    res.setHeader("Content-Type", blob.mimeType);
+    res.setHeader("Cache-Control", "public, max-age=31536000, immutable");
+    res.send(blob.data);
   });
 
   // Apply security middleware

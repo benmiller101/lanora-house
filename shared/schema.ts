@@ -900,3 +900,12 @@ export const insertAuctionHighlightSchema = createInsertSchema(auctionHighlights
 
 export type AuctionHighlight = typeof auctionHighlights.$inferSelect;
 export type InsertAuctionHighlight = z.infer<typeof insertAuctionHighlightSchema>;
+
+// Image Blobs — stores uploaded images in the database so they survive deploys
+// and are accessible identically on localhost and production (both use the same Neon DB).
+export const imageBlobs = pgTable("image_blobs", {
+  key: varchar("key").primaryKey().notNull(),
+  data: text("data").notNull(), // base64-encoded image bytes
+  mimeType: varchar("mime_type").notNull().default("image/jpeg"),
+  createdAt: timestamp("created_at").defaultNow(),
+});

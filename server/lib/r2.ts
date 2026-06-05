@@ -1,14 +1,18 @@
-import fs from "fs";
-import path from "path";
+import { db } from "../db";
+import { imageBlobs } from "../../shared/schema";
+import { eq } from "drizzle-orm";
 
-const uploadsBase = path.join(process.cwd(), "public", "uploads");
+export async function uploadFile(buffer: Buffer, key: string, mimeType: string): Promise<string> {
+  const base64 = buffer.toString("base64");
+  await db
+    .insert(imageBlobs)
+    .values({ key, data: base64, mimeType })
+    .onConflictDoUpdate({ target: imageBlobs.key, set: { data: base64, mimeType } });
+  return `/api/image/${key}`;
+}
 
-export async function uploadFile(buffer: Buffer, key: string, _mimeType: string): Promise<string> {
-  const filePath = path.join(uploadsBase, key);
-  const dir = path.dirname(filePath);
-  if (!fs.existsSync(dir)) {
-    fs.mkdirSync(dir, { recursive: true });
-  }
-  await fs.promises.writeFile(filePath, buffer);
-  return `/uploads/${key}`;
+export async function getImageBlob(key: string): Promise<{ data: Buffer; mimeType: string } | null> {
+  const [blob] = await db.select().from(imageBlobs).where(eq(imageBlobs.key, key)).limit(1);
+  if (!blob) return null;
+  return { data: Buffer.from(blob.data, "base64"), mimeType: blob.mimeType };
 }

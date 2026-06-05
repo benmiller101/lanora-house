@@ -47,8 +47,10 @@ app.get("/apple-touch-icon.png", (req, res) => {
 });
 
 async function seedBeforeAfterPosts() {
-  const [{ value: existing }] = await db.select({ value: count() }).from(beforeAfterPosts);
-  if (existing > 0) return;
+  // Only insert seed posts that aren't already in the DB (matched by title).
+  // Admin-created posts are never touched.
+  const existing = await db.select({ title: beforeAfterPosts.title }).from(beforeAfterPosts);
+  const existingTitles = new Set(existing.map((p) => p.title));
 
   const posts = [
     {
@@ -162,8 +164,11 @@ async function seedBeforeAfterPosts() {
     },
   ];
 
-  await db.insert(beforeAfterPosts).values(posts);
-  log("Seeded 4 before/after posts");
+  const toInsert = posts.filter((p) => !existingTitles.has(p.title));
+  if (toInsert.length > 0) {
+    await db.insert(beforeAfterPosts).values(toInsert);
+    log(`Seeded ${toInsert.length} before/after posts`);
+  }
 }
 
 const BASE_EASYLIVE = 'https://auctions.lanorahouse.com';
