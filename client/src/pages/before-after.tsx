@@ -217,26 +217,22 @@ export default function BeforeAfter() {
 
         {/* Image Modal */}
         <Dialog open={!!selectedPost} onOpenChange={handleCloseModal}>
-          <DialogContent className="max-w-3xl w-[95vw] max-h-[92vh] p-0 overflow-y-auto">
+          <DialogContent className="max-w-3xl w-[95vw] max-h-[90vh] p-0 flex flex-col overflow-hidden">
             {selectedPost && (
               <>
-                <DialogHeader className="p-6 pb-0">
-                  <DialogTitle className="text-2xl font-bold">{selectedPost.title}</DialogTitle>
-                  <button
-                    onClick={handleCloseModal}
-                    className="absolute right-4 top-4 rounded-sm opacity-70 ring-offset-background transition-opacity hover:opacity-100 focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2 disabled:pointer-events-none"
-                  >
-                    <X className="h-4 w-4" />
-                  </button>
+                {/* Fixed header */}
+                <DialogHeader className="flex-shrink-0 px-6 pt-5 pb-3 border-b">
+                  <DialogTitle className="text-xl font-bold pr-8">{selectedPost.title}</DialogTitle>
                 </DialogHeader>
-                
-                <div className="p-6">
+
+                {/* Scrollable body */}
+                <div className="flex-1 overflow-y-auto min-h-0 p-6">
                   {/* View Mode Toggle */}
-                  <div className="flex justify-center mb-6">
+                  <div className="flex justify-center mb-4">
                     <div className="bg-gray-100 rounded-lg p-1 flex">
                       <button
-                        onClick={() => setViewMode('before')}
-                        className={`px-6 py-2 rounded-md font-medium transition-colors ${
+                        onClick={() => { setViewMode('before'); setCurrentImageIndex(0); }}
+                        className={`px-5 py-2 rounded-md font-medium transition-colors text-sm ${
                           viewMode === 'before'
                             ? 'bg-white text-primary shadow-sm'
                             : 'text-gray-600 hover:text-gray-900'
@@ -245,8 +241,8 @@ export default function BeforeAfter() {
                         Before ({selectedPost.beforeImageUrls?.length || 0})
                       </button>
                       <button
-                        onClick={() => setViewMode('after')}
-                        className={`px-6 py-2 rounded-md font-medium transition-colors ${
+                        onClick={() => { setViewMode('after'); setCurrentImageIndex(0); }}
+                        className={`px-5 py-2 rounded-md font-medium transition-colors text-sm ${
                           viewMode === 'after'
                             ? 'bg-white text-primary shadow-sm'
                             : 'text-gray-600 hover:text-gray-900'
@@ -258,84 +254,60 @@ export default function BeforeAfter() {
                   </div>
 
                   {/* Current Image Display */}
-                  <div className="relative mb-4">
-                    {viewMode === 'before' && selectedPost.beforeImageUrls?.[currentImageIndex] && (
-                      <img
-                        src={selectedPost.beforeImageUrls[currentImageIndex]}
-                        alt={`Before ${currentImageIndex + 1}`}
-                        className="w-full max-h-[60vh] object-contain rounded-lg bg-black/5"
-                        loading="lazy"
-                        decoding="async"
-                        onError={(e) => { (e.target as HTMLImageElement).src = PLACEHOLDER_IMG; }}
-                      />
-                    )}
-                    {viewMode === 'after' && selectedPost.afterImageUrls?.[currentImageIndex] && (
-                      <img
-                        src={selectedPost.afterImageUrls[currentImageIndex]}
-                        alt={`After ${currentImageIndex + 1}`}
-                        className="w-full max-h-[60vh] object-contain rounded-lg bg-black/5"
-                        loading="lazy"
-                        decoding="async"
-                        onError={(e) => { (e.target as HTMLImageElement).src = PLACEHOLDER_IMG; }}
-                      />
-                    )}
-                    
+                  <div className="relative mb-3 bg-black/5 rounded-lg overflow-hidden">
+                    {(() => {
+                      const urls = viewMode === 'before' ? selectedPost.beforeImageUrls : selectedPost.afterImageUrls;
+                      const src = urls?.[currentImageIndex];
+                      return (
+                        <img
+                          key={`${viewMode}-${currentImageIndex}`}
+                          src={src || PLACEHOLDER_IMG}
+                          alt={`${viewMode === 'before' ? 'Before' : 'After'} ${currentImageIndex + 1}`}
+                          className="w-full max-h-[45vh] object-contain"
+                          loading="lazy"
+                          decoding="async"
+                          onError={(e) => { (e.target as HTMLImageElement).src = PLACEHOLDER_IMG; }}
+                        />
+                      );
+                    })()}
+
                     {/* Navigation Arrows */}
-                    {((viewMode === 'before' && (selectedPost.beforeImageUrls?.length || 0) > 1) ||
-                      (viewMode === 'after' && (selectedPost.afterImageUrls?.length || 0) > 1)) && (
+                    {(viewMode === 'before' ? selectedPost.beforeImageUrls?.length : selectedPost.afterImageUrls?.length) > 1 && (
                       <>
                         <button
                           onClick={handlePrevImage}
-                          className="absolute left-4 top-1/2 transform -translate-y-1/2 bg-black/60 hover:bg-black/80 text-white p-2 rounded-full transition-colors"
+                          className="absolute left-2 top-1/2 -translate-y-1/2 bg-black/60 hover:bg-black/80 text-white p-2 rounded-full transition-colors"
                         >
-                          <ChevronLeft className="h-6 w-6" />
+                          <ChevronLeft className="h-5 w-5" />
                         </button>
                         <button
                           onClick={handleNextImage}
-                          className="absolute right-4 top-1/2 transform -translate-y-1/2 bg-black/60 hover:bg-black/80 text-white p-2 rounded-full transition-colors"
+                          className="absolute right-2 top-1/2 -translate-y-1/2 bg-black/60 hover:bg-black/80 text-white p-2 rounded-full transition-colors"
                         >
-                          <ChevronRight className="h-6 w-6" />
+                          <ChevronRight className="h-5 w-5" />
                         </button>
                       </>
                     )}
 
                     {/* Image Counter */}
-                    <div className="absolute bottom-4 right-4 bg-black/60 text-white px-3 py-1 rounded-full text-sm">
-                      {currentImageIndex + 1} / {viewMode === 'before' ? (selectedPost.beforeImageUrls?.length || 0) : (selectedPost.afterImageUrls?.length || 0)}
+                    <div className="absolute bottom-2 right-2 bg-black/60 text-white px-2 py-0.5 rounded-full text-xs">
+                      {currentImageIndex + 1} / {(viewMode === 'before' ? selectedPost.beforeImageUrls?.length : selectedPost.afterImageUrls?.length) || 0}
                     </div>
                   </div>
 
                   {/* Thumbnail Gallery */}
-                  <div className="flex gap-2 overflow-x-auto pb-4">
-                    {viewMode === 'before' && selectedPost.beforeImageUrls?.map((imageUrl, index) => (
+                  <div className="flex gap-2 overflow-x-auto pb-2 mb-4">
+                    {(viewMode === 'before' ? selectedPost.beforeImageUrls : selectedPost.afterImageUrls)?.map((imageUrl, index) => (
                       <button
                         key={index}
                         onClick={() => setCurrentImageIndex(index)}
-                        className={`flex-shrink-0 w-20 h-20 rounded-lg overflow-hidden border-2 transition-colors ${
+                        className={`flex-shrink-0 w-16 h-16 rounded overflow-hidden border-2 transition-colors ${
                           currentImageIndex === index ? 'border-primary' : 'border-gray-200'
                         }`}
                       >
                         <img
                           src={imageUrl}
-                          alt={`Before ${index + 1}`}
-                          className="w-full h-full object-cover"
-                          loading="lazy"
-                          decoding="async"
-                          onError={(e) => { (e.target as HTMLImageElement).src = PLACEHOLDER_IMG; }}
-                        />
-                      </button>
-                    ))}
-                    {viewMode === 'after' && selectedPost.afterImageUrls?.map((imageUrl, index) => (
-                      <button
-                        key={index}
-                        onClick={() => setCurrentImageIndex(index)}
-                        className={`flex-shrink-0 w-20 h-20 rounded-lg overflow-hidden border-2 transition-colors ${
-                          currentImageIndex === index ? 'border-primary' : 'border-gray-200'
-                        }`}
-                      >
-                        <img
-                          src={imageUrl}
-                          alt={`After ${index + 1}`}
+                          alt={`${viewMode} ${index + 1}`}
                           className="w-full h-full object-cover"
                           loading="lazy"
                           decoding="async"
@@ -348,17 +320,17 @@ export default function BeforeAfter() {
                   {/* Post Details */}
                   <div className="pt-4 border-t">
                     {selectedPost.description && (
-                      <p className="text-gray-600 mb-4">{selectedPost.description}</p>
+                      <p className="text-gray-600 mb-3 text-sm leading-relaxed">{selectedPost.description}</p>
                     )}
-                    <div className="flex items-center gap-4 text-sm text-gray-500">
+                    <div className="flex items-center gap-4 text-xs text-gray-500">
                       {selectedPost.location && (
                         <div className="flex items-center gap-1">
-                          <MapPin className="h-4 w-4" />
+                          <MapPin className="h-3 w-3" />
                           <span>{selectedPost.location}</span>
                         </div>
                       )}
                       <div className="flex items-center gap-1">
-                        <Calendar className="h-4 w-4" />
+                        <Calendar className="h-3 w-3" />
                         <span>{new Date(selectedPost.createdAt).toLocaleDateString()}</span>
                       </div>
                     </div>
