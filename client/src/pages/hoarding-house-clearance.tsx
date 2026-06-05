@@ -29,7 +29,8 @@ import {
   Droplets,
   Leaf,
   Brain,
-  Sparkles
+  Sparkles,
+  Star
 } from "lucide-react";
 import { motion } from "framer-motion";
 import { TransitionWrapper, StaggeredContainer, StaggeredItem } from "@/components/ui/TransitionWrapper";
