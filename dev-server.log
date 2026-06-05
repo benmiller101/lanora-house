@@ -1,0 +1,53 @@
+{
+  severity_local: 'NOTICE',
+  severity: 'NOTICE',
+  code: '42P06',
+  message: 'schema "drizzle" already exists, skipping',
+  file: 'schemacmds.c',
+  line: '132',
+  routine: 'CreateSchemaCommand'
+}
+{
+  severity_local: 'NOTICE',
+  severity: 'NOTICE',
+  code: '42P07',
+  message: 'relation "__drizzle_migrations" already exists, skipping',
+  file: 'parse_utilcmd.c',
+  line: '207',
+  routine: 'transformCreateStmt'
+}
+6:31:44 PM [express] Database migrations applied
+[2m18:31:45[22m [36m[1m[vite][22m[39m [90m[2m(client)[22m[39m Re-optimizing dependencies because vite config has changed
+6:31:45 PM [express] serving on port 3000
+[baseline-browser-mapping] The data in this module is over two months old.  To ensure accurate Baseline data, please update: `npm i baseline-browser-mapping@latest -D`
+Browserslist: browsers data (caniuse-lite) is 8 months old. Please run:
+  npx update-browserslist-db@latest
+  Why you should do it regularly: https://github.com/browserslist/update-db#readme
+Google Business Profile not connected — using Places API fallback (max 5 reviews).
+Server error: [Error: ENOENT: no such file or directory, stat 'c:\Users\benwm\Desktop\Desktop\Coding Projects\Lanora House Website\public\favicon.ico'] {
+  errno: -4058,
+  code: 'ENOENT',
+  syscall: 'stat',
+  path: 'c:\\Users\\benwm\\Desktop\\Desktop\\Coding Projects\\Lanora House Website\\public\\favicon.ico',
+  expose: false,
+  statusCode: 404,
+  status: 404
+}
+Server error: [Error: ENOENT: no such file or directory, stat 'c:\Users\benwm\Desktop\Desktop\Coding Projects\Lanora House Website\public\favicon-32x32.png'] {
+  errno: -4058,
+  code: 'ENOENT',
+  syscall: 'stat',
+  path: 'c:\\Users\\benwm\\Desktop\\Desktop\\Coding Projects\\Lanora House Website\\public\\favicon-32x32.png',
+  expose: false,
+  statusCode: 404,
+  status: 404
+}
+Server error: [Error: ENOENT: no such file or directory, stat 'c:\Users\benwm\Desktop\Desktop\Coding Projects\Lanora House Website\public\favicon-16x16.png'] {
+  errno: -4058,
+  code: 'ENOENT',
+  syscall: 'stat',
+  path: 'c:\\Users\\benwm\\Desktop\\Desktop\\Coding Projects\\Lanora House Website\\public\\favicon-16x16.png',
+  expose: false,
+  statusCode: 404,
+  status: 404
+}
