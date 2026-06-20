@@ -255,7 +255,7 @@ const ShedClearancePage = () => {
               Is your old shed falling apart or simply no longer needed? Let Lanora House take care of the heavy lifting.
             </p>
             <p className="text-lg text-gray-600 mb-8 max-w-2xl mx-auto">
-              Our professional shed removal and disposal service covers everything — from safe dismantling to responsible recycling — leaving your space clean, clear, and ready for something new. <a href="tel:+447843930927" className="text-primary hover:underline">Call our experts</a> for a quick assessment.
+              Our professional shed removal and disposal service covers everything — from safe dismantling to responsible recycling — leaving your space clean, clear, and ready for something new. <a href="tel:+447456809049" className="text-primary hover:underline">Call our experts</a> for a quick assessment.
             </p>
             <div className="flex flex-col sm:flex-row gap-6 justify-center items-center">
               <Dialog open={isQuoteDialogOpen} onOpenChange={setIsQuoteDialogOpen}>
@@ -456,9 +456,9 @@ const ShedClearancePage = () => {
               </Dialog>
 
               <Button asChild size="lg" variant="outline" className="border-primary text-primary hover:bg-secondary/20 text-lg px-8 py-4 h-auto">
-                <a href="tel:+447843930927" className="flex items-center">
+                <a href="tel:+447456809049" className="flex items-center">
                   <Phone className="w-5 h-5 mr-3" />
-                  Call: +44 7843 930 927
+                  Call: +44 7456 809 049
                 </a>
               </Button>
             </div>
@@ -515,7 +515,7 @@ const ShedClearancePage = () => {
               </Button>
             </Link>
             <Button asChild size="lg" variant="outline" className="border-primary text-primary hover:bg-primary/10 text-lg px-8 py-4 h-auto">
-              <a href="tel:+447843930927" className="flex items-center">
+              <a href="tel:+447456809049" className="flex items-center">
                 <Phone className="w-5 h-5 mr-3" />
                 Call Now
               </a>
@@ -565,7 +565,7 @@ const ShedClearancePage = () => {
               </Button>
             </Link>
             <Button asChild size="lg" variant="outline" className="border-primary text-primary hover:bg-primary/10 text-lg px-8 py-4 h-auto">
-              <a href="tel:+447843930927" className="flex items-center">
+              <a href="tel:+447456809049" className="flex items-center">
                 <Phone className="w-5 h-5 mr-3" />
                 Call Now
               </a>
@@ -621,7 +621,7 @@ const ShedClearancePage = () => {
               </Button>
             </Link>
             <Button asChild size="lg" variant="outline" className="border-primary text-primary hover:bg-primary/10 text-lg px-8 py-4 h-auto">
-              <a href="tel:+447843930927" className="flex items-center">
+              <a href="tel:+447456809049" className="flex items-center">
                 <Phone className="w-5 h-5 mr-3" />
                 Call Now
               </a>
@@ -684,9 +684,9 @@ const ShedClearancePage = () => {
                 </DialogTrigger>
               </Dialog>
               <Button asChild size="lg" variant="outline" className="border-white text-white bg-transparent hover:bg-white hover:text-primary text-lg px-8 py-4 h-auto">
-                <a href="tel:+447843930927" className="flex items-center">
+                <a href="tel:+447456809049" className="flex items-center">
                   <Phone className="w-5 h-5 mr-3" />
-                  Call: +44 7843 930 927
+                  Call: +44 7456 809 049
                 </a>
               </Button>
               <Button asChild size="lg" variant="outline" className="border-white text-white bg-transparent hover:bg-white hover:text-primary text-lg px-8 py-4 h-auto">

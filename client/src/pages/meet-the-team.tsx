@@ -185,11 +185,11 @@ export default function MeetTheTeam() {
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
             <a 
-              href="tel:+447843930927" 
+              href="tel:+447456809049" 
               className="bg-white text-primary px-8 py-4 rounded-full font-medium hover:bg-blue-50 transition-all duration-300 transform hover:scale-105 shadow-lg"
               data-testid="button-call"
             >
-              Call +44 7843 930927
+              Call +44 7456 809049
             </a>
             <a 
               href="/contact" 

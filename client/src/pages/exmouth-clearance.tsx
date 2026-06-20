@@ -364,7 +364,7 @@ const ExmouthClearancePage = () => {
                           required
                           value={quoteForm.phone}
                           onChange={(e) => handleInputChange("phone", e.target.value)}
-                          placeholder="+44 7843 930927"
+                          placeholder="+44 7456 809049"
                         />
                       </div>
                       <div>
@@ -529,9 +529,9 @@ const ExmouthClearancePage = () => {
               </Dialog>
 
               <Button asChild size="lg" variant="outline" className="border-primary text-primary hover:bg-secondary/20 text-lg px-8 py-4 h-auto">
-                <a href="tel:+447843930927" className="flex items-center">
+                <a href="tel:+447456809049" className="flex items-center">
                   <Phone className="w-5 h-5 mr-3" />
-                  Call: +44 7843 930927
+                  Call: +44 7456 809049
                 </a>
               </Button>
             </div>
@@ -559,7 +559,7 @@ const ExmouthClearancePage = () => {
                   <strong className="text-primary">South West specialists</strong> serving Exmouth and East Devon. We understand this UNESCO World Heritage gateway and its unique clearance needs.
                 </p>
                 <p className="leading-relaxed">
-                  From one room to full property clearance, we're here to make your clearance stress-free and straightforward throughout Exmouth and the surrounding area. <a href="tel:+447843930927" className="text-primary hover:underline">Contact our team</a> for personalized service.
+                  From one room to full property clearance, we're here to make your clearance stress-free and straightforward throughout Exmouth and the surrounding area. <a href="tel:+447456809049" className="text-primary hover:underline">Contact our team</a> for personalized service.
                 </p>
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mt-6">
                   <div className="flex items-center gap-3 p-3 bg-blue-50 rounded-lg">
@@ -910,7 +910,7 @@ const ExmouthClearancePage = () => {
                           required
                           value={quoteForm.phone}
                           onChange={(e) => handleInputChange("phone", e.target.value)}
-                          placeholder="+44 7843 930927"
+                          placeholder="+44 7456 809049"
                         />
                       </div>
                       <div>
@@ -1067,9 +1067,9 @@ const ExmouthClearancePage = () => {
                 </DialogContent>
               </Dialog>
               <Button asChild size="lg" variant="outline" className="border-white text-white bg-transparent hover:bg-white hover:text-primary text-lg px-8 py-4 h-auto">
-                <a href="tel:+447843930927" className="flex items-center">
+                <a href="tel:+447456809049" className="flex items-center">
                   <Phone className="w-5 h-5 mr-3" />
-                  Call: +44 7843 930927
+                  Call: +44 7456 809049
                 </a>
               </Button>
             </div>

@@ -280,7 +280,7 @@ export function HoardingHouseClearancePage() {
             </h1>
             <p className="text-xl md:text-2xl text-gray-600 mb-8 max-w-4xl mx-auto">
               Professional, compassionate hoarding clearance services across Cornwall and Devon. 
-              We understand this is more than clutter - it's about dignity, care, and moving forward. <a href="tel:+447843930927" className="text-primary hover:underline">Call us confidentially</a> to start the conversation.
+              We understand this is more than clutter - it's about dignity, care, and moving forward. <a href="tel:+447456809049" className="text-primary hover:underline">Call us confidentially</a> to start the conversation.
             </p>
             
             <div className="flex flex-col sm:flex-row gap-6 justify-center items-center">
@@ -443,9 +443,9 @@ export function HoardingHouseClearancePage() {
               </Dialog>
 
               <Button asChild size="lg" variant="outline" className="border-primary text-primary hover:bg-secondary/20 text-lg px-8 py-4 h-auto">
-                <a href="tel:+447843930927" className="flex items-center">
+                <a href="tel:+447456809049" className="flex items-center">
                   <Phone className="w-5 h-5 mr-3" />
-                  Confidential: +44 7843 930927
+                  Confidential: +44 7456 809049
                 </a>
               </Button>
             </div>
@@ -509,7 +509,7 @@ export function HoardingHouseClearancePage() {
               </Button>
             </Link>
             <Button asChild size="lg" variant="outline" className="border-primary text-primary hover:bg-primary/10 text-lg px-8 py-4 h-auto">
-              <a href="tel:+447843930927" className="flex items-center">
+              <a href="tel:+447456809049" className="flex items-center">
                 <Phone className="w-5 h-5 mr-3" />
                 Call Now
               </a>
@@ -568,7 +568,7 @@ export function HoardingHouseClearancePage() {
               </Button>
             </Link>
             <Button asChild size="lg" variant="outline" className="border-primary text-primary hover:bg-primary/10 text-lg px-8 py-4 h-auto">
-              <a href="tel:+447843930927" className="flex items-center">
+              <a href="tel:+447456809049" className="flex items-center">
                 <Phone className="w-5 h-5 mr-3" />
                 Call Now
               </a>
@@ -617,7 +617,7 @@ export function HoardingHouseClearancePage() {
               </Button>
             </Link>
             <Button asChild size="lg" variant="outline" className="border-primary text-primary hover:bg-primary/10 text-lg px-8 py-4 h-auto">
-              <a href="tel:+447843930927" className="flex items-center">
+              <a href="tel:+447456809049" className="flex items-center">
                 <Phone className="w-5 h-5 mr-3" />
                 Call Now
               </a>
@@ -671,7 +671,7 @@ export function HoardingHouseClearancePage() {
               </Button>
             </Link>
             <Button asChild size="lg" variant="outline" className="border-primary text-primary hover:bg-primary/10 text-lg px-8 py-4 h-auto">
-              <a href="tel:+447843930927" className="flex items-center">
+              <a href="tel:+447456809049" className="flex items-center">
                 <Phone className="w-5 h-5 mr-3" />
                 Call Now
               </a>
@@ -793,9 +793,9 @@ export function HoardingHouseClearancePage() {
                 </DialogTrigger>
               </Dialog>
               <Button asChild size="lg" variant="outline" className="border-white text-white bg-transparent hover:bg-white hover:text-primary text-lg px-8 py-4 h-auto">
-                <a href="tel:+447843930927" className="flex items-center">
+                <a href="tel:+447456809049" className="flex items-center">
                   <Phone className="w-5 h-5 mr-3" />
-                  Confidential: +44 7843 930927
+                  Confidential: +44 7456 809049
                 </a>
               </Button>
             </div>

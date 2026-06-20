@@ -1,0 +1,19 @@
+{
+  "id": 10,
+  "title": "Construction Waste Collection Helston, Cornwall",
+  "description": "When a building project wraps up it leaves behind a surprising volume of waste — broken bricks, plasterboard, timber offcuts, packaging and general site debris. Our team carried out a full construction waste collection in Helston, Cornwall, clearing the site quickly and leaving it spotless so the client could move on without delay.\n\nWe loaded and removed all materials responsibly, separating recyclable items where possible and ensuring everything was disposed of through a licensed waste transfer site. As registered waste carriers we handle construction and demolition waste compliantly, so you never need to worry about fly-tipping penalties or incorrect disposal.\n\nWhether you're a homeowner finishing an extension, a tradesperson wrapping up a renovation, or a contractor clearing a commercial site, Lanora House can help. We cover Helston and the wider West Cornwall area, offering same-week bookings and a no-nonsense service.\n\n📞 **Ready to clear your site? Call us today or use the form below for a free, no-obligation quote.** We'll give you a fair price and turn up on time — it's that simple.",
+  "category": "construction-waste",
+  "location": "Helston, Cornwall",
+  "featured": false,
+  "createdAt": "2026-05-25T07:20:22.978Z",
+  "beforeImages": [
+    "before/before-01.jpg",
+    "before/before-02.jpg"
+  ],
+  "afterImages": [
+    "after/after-01.jpg",
+    "after/after-02.jpg"
+  ],
+  "beforeImageCount": 2,
+  "afterImageCount": 2
+}

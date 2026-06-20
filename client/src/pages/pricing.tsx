@@ -369,9 +369,9 @@ export default function Pricing() {
                 className="text-lg px-8 py-4 h-auto border-primary text-primary hover:bg-primary hover:text-white"
                 asChild
               >
-                <a href="tel:+447843930927">
+                <a href="tel:+447456809049">
                   <Phone className="w-5 h-5 mr-3" />
-                  Call +44 7843 930 927
+                  Call +44 7456 809 049
                 </a>
               </Button>
             </div>
@@ -397,7 +397,7 @@ export default function Pricing() {
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
             <div className="flex items-center justify-center gap-2 text-gray-700">
               <Phone className="w-5 h-5" />
-              <span>+44 7843 930 927</span>
+              <span>+44 7456 809 049</span>
             </div>
             <div className="flex items-center justify-center gap-2 text-gray-700">
               <Mail className="w-5 h-5" />
@@ -589,9 +589,9 @@ export default function Pricing() {
               className="text-lg px-8 py-4 h-auto bg-white text-primary hover:bg-gray-100"
               asChild
             >
-              <a href="tel:+447843930927">
+              <a href="tel:+447456809049">
                 <Phone className="w-5 h-5 mr-3" />
-                Call: +44 7843 930 927
+                Call: +44 7456 809 049
               </a>
             </Button>
             <Button 

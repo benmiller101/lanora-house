@@ -1,0 +1,27 @@
+{
+  "id": 18,
+  "title": "House Clearance in Looe, Cornwall",
+  "description": "Complete house clearance of a fully furnished property in the coastal town of Looe, Cornwall. Our team cleared every room — from bedroom furniture and personal effects to kitchen items and household belongings — sorting everything for reuse, donation or responsible disposal. Trusted house clearance specialists serving Looe and the wider South Cornwall area.",
+  "category": "House Clearance",
+  "location": "Looe, Cornwall",
+  "featured": true,
+  "createdAt": "2026-06-05T14:09:52.697Z",
+  "beforeImages": [
+    "before/before-01.jpg",
+    "before/before-02.jpg",
+    "before/before-03.jpg",
+    "before/before-04.jpg",
+    "before/before-05.jpg",
+    "before/before-06.jpg"
+  ],
+  "afterImages": [
+    "after/after-01.jpg",
+    "after/after-02.jpg",
+    "after/after-03.jpg",
+    "after/after-04.jpg",
+    "after/after-05.jpg",
+    "after/after-06.jpg"
+  ],
+  "beforeImageCount": 6,
+  "afterImageCount": 6
+}

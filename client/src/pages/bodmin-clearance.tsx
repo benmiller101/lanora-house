@@ -308,7 +308,7 @@ const BodminClearancePage = () => {
               If you need a house or business premises cleared in Bodmin, Lanora House is here to help. Whether you're dealing with a probate property, moving house, clearing out years of clutter, or managing a rental turnover — we offer efficient, respectful, and environmentally responsible clearance services.
             </p>
             <p className="text-lg text-gray-600 mb-8 max-w-2xl mx-auto">
-              We're based in Cornwall, fully licensed and insured, and committed to helping you clear your space without stress. <a href="tel:+447843930927" className="text-primary hover:underline">Call us today</a> for immediate assistance.
+              We're based in Cornwall, fully licensed and insured, and committed to helping you clear your space without stress. <a href="tel:+447456809049" className="text-primary hover:underline">Call us today</a> for immediate assistance.
             </p>
             <div className="flex flex-col sm:flex-row gap-6 justify-center items-center">
               <Dialog open={isQuoteDialogOpen} onOpenChange={setIsQuoteDialogOpen}>
@@ -366,7 +366,7 @@ const BodminClearancePage = () => {
                           required
                           value={quoteForm.phone}
                           onChange={(e) => handleInputChange("phone", e.target.value)}
-                          placeholder="+44 7843 930927"
+                          placeholder="+44 7456 809049"
                         />
                       </div>
                       <div>
@@ -527,9 +527,9 @@ const BodminClearancePage = () => {
               </Dialog>
 
               <Button asChild size="lg" variant="outline" className="border-primary text-primary hover:bg-secondary/20 text-lg px-8 py-4 h-auto">
-                <a href="tel:+447843930927" className="flex items-center">
+                <a href="tel:+447456809049" className="flex items-center">
                   <Phone className="w-5 h-5 mr-3" />
-                  Call: +44 7843 930927
+                  Call: +44 7456 809049
                 </a>
               </Button>
             </div>
@@ -673,7 +673,7 @@ const BodminClearancePage = () => {
               <Link href="/contact" data-testid="button-quote-services">No Obligation Quote</Link>
             </Button>
             <Button asChild size="lg" variant="outline" className="border-primary text-primary hover:bg-primary/10 text-lg px-8 py-4 h-auto">
-              <a href="tel:+447843930927" className="flex items-center" data-testid="button-call-services" aria-label="Call Lanora House on +44 7843 930927">
+              <a href="tel:+447456809049" className="flex items-center" data-testid="button-call-services" aria-label="Call Lanora House on +44 7456 809049">
                 <Phone className="w-5 h-5 mr-3" aria-hidden="true" />
                 Call Now
               </a>
@@ -739,7 +739,7 @@ const BodminClearancePage = () => {
               <Link href="/contact" data-testid="button-quote-eco">No Obligation Quote</Link>
             </Button>
             <Button asChild size="lg" variant="outline" className="border-primary text-primary hover:bg-primary/10 text-lg px-8 py-4 h-auto">
-              <a href="tel:+447843930927" className="flex items-center" data-testid="button-call-eco" aria-label="Call Lanora House on +44 7843 930927">
+              <a href="tel:+447456809049" className="flex items-center" data-testid="button-call-eco" aria-label="Call Lanora House on +44 7456 809049">
                 <Phone className="w-5 h-5 mr-3" aria-hidden="true" />
                 Call Now
               </a>
@@ -933,7 +933,7 @@ const BodminClearancePage = () => {
                           required
                           value={quoteForm.phone}
                           onChange={(e) => handleInputChange("phone", e.target.value)}
-                          placeholder="+44 7843 930927"
+                          placeholder="+44 7456 809049"
                         />
                       </div>
                       <div>
@@ -1090,9 +1090,9 @@ const BodminClearancePage = () => {
                 </DialogContent>
               </Dialog>
               <Button asChild size="lg" variant="outline" className="border-white text-white bg-transparent hover:bg-white hover:text-primary text-lg px-8 py-4 h-auto">
-                <a href="tel:+447843930927" className="flex items-center">
+                <a href="tel:+447456809049" className="flex items-center">
                   <Phone className="w-5 h-5 mr-3" />
-                  Call: +44 7843 930927
+                  Call: +44 7456 809049
                 </a>
               </Button>
             </div>

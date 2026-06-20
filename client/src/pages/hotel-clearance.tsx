@@ -291,7 +291,7 @@ const HotelClearancePage = () => {
               Transform your hotel space with Lanora House's professional hotel clearance services — trusted by hotels across Cornwall, Devon, and the wider South West.
             </p>
             <p className="text-lg text-gray-600 mb-8 max-w-2xl mx-auto">
-              Whether you're renovating, refurbishing, downsizing, or closing down, our team is here to handle every detail of your clearance with efficiency and care. <a href="tel:+447843930927" className="text-primary hover:underline">Speak to our hospitality specialists</a> for tailored solutions.
+              Whether you're renovating, refurbishing, downsizing, or closing down, our team is here to handle every detail of your clearance with efficiency and care. <a href="tel:+447456809049" className="text-primary hover:underline">Speak to our hospitality specialists</a> for tailored solutions.
             </p>
             <div className="flex flex-col sm:flex-row gap-6 justify-center items-center">
               <Dialog open={isQuoteDialogOpen} onOpenChange={setIsQuoteDialogOpen}>
@@ -349,7 +349,7 @@ const HotelClearancePage = () => {
                           required
                           value={quoteForm.phone}
                           onChange={(e) => handleInputChange("phone", e.target.value)}
-                          placeholder="+44 7843 930927"
+                          placeholder="+44 7456 809049"
                         />
                       </div>
                       <div>
@@ -536,9 +536,9 @@ const HotelClearancePage = () => {
               </Dialog>
 
               <Button asChild size="lg" variant="outline" className="border-primary text-primary hover:bg-secondary/20 text-lg px-8 py-4 h-auto">
-                <a href="tel:+447843930927" className="flex items-center">
+                <a href="tel:+447456809049" className="flex items-center">
                   <Phone className="w-5 h-5 mr-3" />
-                  Call: +44 7843 930927
+                  Call: +44 7456 809049
                 </a>
               </Button>
             </div>
@@ -597,7 +597,7 @@ const HotelClearancePage = () => {
               </Button>
             </Link>
             <Button asChild size="lg" variant="outline" className="border-primary text-primary hover:bg-primary/10 text-lg px-8 py-4 h-auto">
-              <a href="tel:+447843930927" className="flex items-center">
+              <a href="tel:+447456809049" className="flex items-center">
                 <Phone className="w-5 h-5 mr-3" />
                 Call Now
               </a>
@@ -647,7 +647,7 @@ const HotelClearancePage = () => {
               </Button>
             </Link>
             <Button asChild size="lg" variant="outline" className="border-primary text-primary hover:bg-primary/10 text-lg px-8 py-4 h-auto">
-              <a href="tel:+447843930927" className="flex items-center">
+              <a href="tel:+447456809049" className="flex items-center">
                 <Phone className="w-5 h-5 mr-3" />
                 Call Now
               </a>
@@ -703,7 +703,7 @@ const HotelClearancePage = () => {
               </Button>
             </Link>
             <Button asChild size="lg" variant="outline" className="border-primary text-primary hover:bg-primary/10 text-lg px-8 py-4 h-auto">
-              <a href="tel:+447843930927" className="flex items-center">
+              <a href="tel:+447456809049" className="flex items-center">
                 <Phone className="w-5 h-5 mr-3" />
                 Call Now
               </a>
@@ -760,7 +760,7 @@ const HotelClearancePage = () => {
               </Button>
             </Link>
             <Button asChild size="lg" variant="outline" className="border-primary text-primary hover:bg-primary/10 text-lg px-8 py-4 h-auto">
-              <a href="tel:+447843930927" className="flex items-center">
+              <a href="tel:+447456809049" className="flex items-center">
                 <Phone className="w-5 h-5 mr-3" />
                 Call Now
               </a>
@@ -865,7 +865,7 @@ const HotelClearancePage = () => {
                           required
                           value={quoteForm.phone}
                           onChange={(e) => handleInputChange("phone", e.target.value)}
-                          placeholder="+44 7843 930927"
+                          placeholder="+44 7456 809049"
                         />
                       </div>
                       <div>
@@ -1011,9 +1011,9 @@ const HotelClearancePage = () => {
                 </DialogContent>
               </Dialog>
               <Button asChild size="lg" variant="outline" className="border-white text-white bg-transparent hover:bg-white hover:text-primary text-lg px-8 py-4 h-auto">
-                <a href="tel:+447843930927" className="flex items-center">
+                <a href="tel:+447456809049" className="flex items-center">
                   <Phone className="w-5 h-5 mr-3" />
-                  Call: +44 7843 930927
+                  Call: +44 7456 809049
                 </a>
               </Button>
             </div>

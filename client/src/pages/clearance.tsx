@@ -379,10 +379,10 @@ const ClearancePage = () => {
               </Dialog>
 
               <a
-                href="tel:+447843930927"
+                href="tel:+447456809049"
                 className="inline-flex items-center justify-center border border-white/50 hover:bg-white/10 text-white/90 py-2.5 px-7 rounded-md transition-colors font-medium text-base whitespace-nowrap"
               >
-                Call Now: +44 7843 930 927
+                Call Now: +44 7456 809 049
               </a>
             </div>
           </div>
@@ -511,7 +511,7 @@ const ClearancePage = () => {
               </Button>
             </Link>
             <Button asChild size="lg" variant="outline" className="border-primary text-primary hover:bg-primary/10 text-lg px-8 py-4 h-auto">
-              <a href="tel:+447843930927" className="flex items-center">
+              <a href="tel:+447456809049" className="flex items-center">
                 <Phone className="w-5 h-5 mr-3" />
                 Call Now
               </a>
@@ -528,7 +528,7 @@ const ClearancePage = () => {
               Why Choose Lanora House for Your Clearance?
             </h2>
             <p className="text-xl text-gray-600 max-w-3xl mx-auto">
-              Local expertise, sustainable solutions, and cost-effective service across Cornwall and Devon. <a href="tel:+447843930927" className="text-primary hover:underline">Speak to our team</a> about your specific requirements.
+              Local expertise, sustainable solutions, and cost-effective service across Cornwall and Devon. <a href="tel:+447456809049" className="text-primary hover:underline">Speak to our team</a> about your specific requirements.
             </p>
           </div>
           
@@ -606,7 +606,7 @@ const ClearancePage = () => {
               </Button>
             </Link>
             <Button asChild size="lg" variant="outline" className="border-primary text-primary hover:bg-primary/10 text-lg px-8 py-4 h-auto">
-              <a href="tel:+447843930927" className="flex items-center">
+              <a href="tel:+447456809049" className="flex items-center">
                 <Phone className="w-5 h-5 mr-3" />
                 Call Now
               </a>
@@ -663,7 +663,7 @@ const ClearancePage = () => {
               </Button>
             </Link>
             <Button asChild size="lg" variant="outline" className="border-primary text-primary hover:bg-primary/10 text-lg px-8 py-4 h-auto">
-              <a href="tel:+447843930927" className="flex items-center">
+              <a href="tel:+447456809049" className="flex items-center">
                 <Phone className="w-5 h-5 mr-3" />
                 Call Now
               </a>
@@ -791,7 +791,7 @@ const ClearancePage = () => {
               </Button>
             </Link>
             <Button asChild size="lg" variant="outline" className="border-primary text-primary hover:bg-primary/10 text-lg px-8 py-4 h-auto">
-              <a href="tel:+447843930927" className="flex items-center">
+              <a href="tel:+447456809049" className="flex items-center">
                 <Phone className="w-5 h-5 mr-3" />
                 Call Now
               </a>
@@ -847,11 +847,11 @@ const ClearancePage = () => {
                   Ready for eco-friendly clearances? Call now for your free quote
                 </p>
                 <a 
-                  href="tel:+447843930927" 
+                  href="tel:+447456809049" 
                   className="inline-flex items-center gap-2 bg-primary text-white px-4 py-2 rounded-lg hover:bg-primary-dark transition-colors"
                 >
                   <Phone className="w-4 h-4" />
-                  +44 7843 930 927
+                  +44 7456 809 049
                 </a>
               </CardContent>
             </Card>

@@ -255,7 +255,7 @@ export default function Footer() {
               </li>
               <li className="flex items-center">
                 <i className="ri-phone-line mr-2"></i>
-                <span className="opacity-70">07843 930927</span>
+                <span className="opacity-70">07456 809049</span>
               </li>
               <li className="flex items-center">
                 <i className="ri-mail-line mr-2"></i>

@@ -355,7 +355,7 @@ const DrugParaphernaliaClearancePage = () => {
               At Lanora House, we provide specialist drug paraphernalia clearance and deep-clean services for properties that have been exposed to drug use or illegal drug activity. Our trained, discreet team works quickly and safely to restore spaces for safe and legal use.
             </p>
             <p className="text-lg text-gray-600 mb-8 max-w-2xl mx-auto">
-              We support landlords, letting agents, housing associations, local councils, and private property owners across Cornwall, Devon, and the wider South West. <a href="tel:+447843930927" className="text-primary hover:underline">Call for discreet consultation</a>.
+              We support landlords, letting agents, housing associations, local councils, and private property owners across Cornwall, Devon, and the wider South West. <a href="tel:+447456809049" className="text-primary hover:underline">Call for discreet consultation</a>.
             </p>
             <div className="flex flex-col sm:flex-row gap-6 justify-center items-center">
               <Dialog open={isQuoteDialogOpen} onOpenChange={setIsQuoteDialogOpen}>
@@ -413,7 +413,7 @@ const DrugParaphernaliaClearancePage = () => {
                           required
                           value={quoteForm.phone}
                           onChange={(e) => handleInputChange("phone", e.target.value)}
-                          placeholder="+44 7843 930927"
+                          placeholder="+44 7456 809049"
                         />
                       </div>
                       <div>
@@ -570,9 +570,9 @@ const DrugParaphernaliaClearancePage = () => {
               </Dialog>
 
               <Button asChild size="lg" variant="outline" className="border-primary text-primary hover:bg-secondary/20 text-lg px-8 py-4 h-auto">
-                <a href="tel:+447843930927" className="flex items-center">
+                <a href="tel:+447456809049" className="flex items-center">
                   <Phone className="w-5 h-5 mr-3" />
-                  Emergency: +44 7843 930927
+                  Emergency: +44 7456 809049
                 </a>
               </Button>
             </div>
@@ -714,7 +714,7 @@ const DrugParaphernaliaClearancePage = () => {
               </Button>
             </Link>
             <Button asChild size="lg" variant="outline" className="border-primary text-primary hover:bg-primary/10 text-lg px-8 py-4 h-auto">
-              <a href="tel:+447843930927" className="flex items-center">
+              <a href="tel:+447456809049" className="flex items-center">
                 <Phone className="w-5 h-5 mr-3" />
                 Call Now
               </a>
@@ -768,7 +768,7 @@ const DrugParaphernaliaClearancePage = () => {
               </Button>
             </Link>
             <Button asChild size="lg" variant="outline" className="border-primary text-primary hover:bg-primary/10 text-lg px-8 py-4 h-auto">
-              <a href="tel:+447843930927" className="flex items-center">
+              <a href="tel:+447456809049" className="flex items-center">
                 <Phone className="w-5 h-5 mr-3" />
                 Call Now
               </a>
@@ -817,7 +817,7 @@ const DrugParaphernaliaClearancePage = () => {
               </Button>
             </Link>
             <Button asChild size="lg" variant="outline" className="border-primary text-primary hover:bg-primary/10 text-lg px-8 py-4 h-auto">
-              <a href="tel:+447843930927" className="flex items-center">
+              <a href="tel:+447456809049" className="flex items-center">
                 <Phone className="w-5 h-5 mr-3" />
                 Call Now
               </a>
@@ -900,9 +900,9 @@ const DrugParaphernaliaClearancePage = () => {
                 </DialogTrigger>
               </Dialog>
               <Button asChild size="lg" variant="outline" className="border-white text-white bg-transparent hover:bg-white hover:text-primary text-lg px-8 py-4 h-auto">
-                <a href="tel:+447843930927" className="flex items-center">
+                <a href="tel:+447456809049" className="flex items-center">
                   <Phone className="w-5 h-5 mr-3" />
-                  Emergency: +44 7843 930927
+                  Emergency: +44 7456 809049
                 </a>
               </Button>
               <Button asChild size="lg" variant="outline" className="border-white text-white bg-transparent hover:bg-white hover:text-primary text-lg px-8 py-4 h-auto">

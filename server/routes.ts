@@ -722,7 +722,7 @@ Create a compelling, professional blog post with:
 - "Contact us for a free valuation"
 - "Browse our antique collection"
 - "Book a house clearance consultation"
-- "Get in touch: +44 7843 930 927"
+- "Get in touch: +44 7456 809 049"
 - "Visit our showroom in Cornwall"
 
 **SEO & MARKETING:**

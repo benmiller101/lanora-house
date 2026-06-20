@@ -1,0 +1,21 @@
+{
+  "id": 20,
+  "title": "House Clearance in Devon",
+  "description": "Professional house clearance carried out in Devon, clearing a fully occupied property from top to bottom. Our experienced team removed all furniture, appliances and personal belongings, leaving the property completely empty and ready for sale, rent or renovation. Eco-friendly clearance with responsible disposal throughout.",
+  "category": "House Clearance",
+  "location": "Devon",
+  "featured": false,
+  "createdAt": "2026-06-05T14:09:52.697Z",
+  "beforeImages": [
+    "before/before-01.jpg",
+    "before/before-02.jpg",
+    "before/before-03.jpg"
+  ],
+  "afterImages": [
+    "after/after-01.jpg",
+    "after/after-02.jpg",
+    "after/after-03.jpg"
+  ],
+  "beforeImageCount": 3,
+  "afterImageCount": 3
+}

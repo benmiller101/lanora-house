@@ -165,7 +165,7 @@ export default function PrivacyPolicyPage() {
                 United Kingdom<br />
                 <br />
                 <strong>Email:</strong> info@lanorahouse.com<br />
-                <strong>Phone:</strong> 07843 930927
+                <strong>Phone:</strong> 07456 809049
               </address>
               <p>If you are not satisfied with how we handle your data, you have the right to complain to the Information Commissioner's Office (ICO) at <a href="https://www.ico.org.uk" target="_blank" rel="noopener noreferrer" className="text-primary underline">www.ico.org.uk</a>.</p>
             </section>

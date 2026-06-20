@@ -364,7 +364,7 @@ const BarnstapleClearancePage = () => {
                           required
                           value={quoteForm.phone}
                           onChange={(e) => handleInputChange("phone", e.target.value)}
-                          placeholder="+44 7843 930927"
+                          placeholder="+44 7456 809049"
                         />
                       </div>
                       <div>
@@ -527,9 +527,9 @@ const BarnstapleClearancePage = () => {
               </Dialog>
 
               <Button asChild size="lg" variant="outline" className="border-primary text-primary hover:bg-secondary/20 text-lg px-8 py-4 h-auto">
-                <a href="tel:+447843930927" className="flex items-center">
+                <a href="tel:+447456809049" className="flex items-center">
                   <Phone className="w-5 h-5 mr-3" />
-                  Call: +44 7843 930927
+                  Call: +44 7456 809049
                 </a>
               </Button>
             </div>
@@ -557,7 +557,7 @@ const BarnstapleClearancePage = () => {
                   <strong className="text-primary">South West specialists</strong> serving Barnstaple and across North Devon. We understand this ancient royal borough and its unique clearance needs.
                 </p>
                 <p className="leading-relaxed">
-                  From the town center to the surrounding areas, from a single sofa to an entire estate, we provide trusted clearance services throughout Barnstaple and the surrounding area. <a href="tel:+447843930927" className="text-primary hover:underline">Contact our local team</a> for immediate assistance.
+                  From the town center to the surrounding areas, from a single sofa to an entire estate, we provide trusted clearance services throughout Barnstaple and the surrounding area. <a href="tel:+447456809049" className="text-primary hover:underline">Contact our local team</a> for immediate assistance.
                 </p>
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mt-6">
                   <div className="flex items-center gap-3 p-3 bg-blue-50 rounded-lg">
@@ -673,7 +673,7 @@ const BarnstapleClearancePage = () => {
               <Link href="/contact">No Obligation Quote</Link>
             </Button>
             <Button asChild size="lg" variant="outline" className="border-primary text-primary hover:bg-primary/10 text-lg px-8 py-4 h-auto">
-              <a href="tel:+447843930927" className="flex items-center">
+              <a href="tel:+447456809049" className="flex items-center">
                 <Phone className="w-5 h-5 mr-3" />
                 Call Now
               </a>
@@ -739,7 +739,7 @@ const BarnstapleClearancePage = () => {
               <Link href="/contact">No Obligation Quote</Link>
             </Button>
             <Button asChild size="lg" variant="outline" className="border-primary text-primary hover:bg-primary/10 text-lg px-8 py-4 h-auto">
-              <a href="tel:+447843930927" className="flex items-center">
+              <a href="tel:+447456809049" className="flex items-center">
                 <Phone className="w-5 h-5 mr-3" />
                 Call Now
               </a>
@@ -756,7 +756,7 @@ const BarnstapleClearancePage = () => {
               Why Barnstaple Chooses Lanora House
             </h2>
             <p className="text-xl text-gray-600 max-w-3xl mx-auto">
-              From a single sofa to an entire estate — we're here to help. <a href="tel:+447843930927" className="text-primary hover:underline">Speak to our team</a> to get started today.
+              From a single sofa to an entire estate — we're here to help. <a href="tel:+447456809049" className="text-primary hover:underline">Speak to our team</a> to get started today.
             </p>
           </div>
           
@@ -892,9 +892,9 @@ const BarnstapleClearancePage = () => {
                 </DialogTrigger>
               </Dialog>
               <Button asChild size="lg" variant="outline" className="border-white text-white bg-transparent hover:bg-white hover:text-primary text-lg px-8 py-4 h-auto">
-                <a href="tel:+447843930927" className="flex items-center">
+                <a href="tel:+447456809049" className="flex items-center">
                   <Phone className="w-5 h-5 mr-3" />
-                  Call: +44 7843 930927
+                  Call: +44 7456 809049
                 </a>
               </Button>
               <Button asChild size="lg" variant="outline" className="border-white text-white bg-transparent hover:bg-white hover:text-primary text-lg px-8 py-4 h-auto">

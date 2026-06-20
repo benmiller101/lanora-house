@@ -553,9 +553,9 @@ const BusinessCleaningPage = () => {
                 asChild
                 data-testid="button-call-now"
               >
-                <a href="tel:+447843930927" className="flex items-center gap-2">
+                <a href="tel:+447456809049" className="flex items-center gap-2">
                   <Phone className="h-5 w-5" />
-                  Call: 07843 930927
+                  Call: 07456 809049
                 </a>
               </Button>
             </div>
@@ -661,9 +661,9 @@ const BusinessCleaningPage = () => {
               asChild
               data-testid="button-call-section2"
             >
-              <a href="tel:+447843930927" className="flex items-center gap-2">
+              <a href="tel:+447456809049" className="flex items-center gap-2">
                 <Phone className="h-5 w-5" />
-                Call: 07843 930927
+                Call: 07456 809049
               </a>
             </Button>
           </div>
@@ -775,9 +775,9 @@ const BusinessCleaningPage = () => {
               asChild
               data-testid="button-call-section4"
             >
-              <a href="tel:+447843930927" className="flex items-center gap-2">
+              <a href="tel:+447456809049" className="flex items-center gap-2">
                 <Phone className="h-5 w-5" />
-                Call for Assessment: 07843 930927
+                Call for Assessment: 07456 809049
               </a>
             </Button>
           </div>
@@ -916,9 +916,9 @@ const BusinessCleaningPage = () => {
               asChild
               data-testid="button-call-section6"
             >
-              <a href="tel:+447843930927" className="flex items-center gap-2">
+              <a href="tel:+447456809049" className="flex items-center gap-2">
                 <Phone className="h-5 w-5" />
-                Call: 07843 930927
+                Call: 07456 809049
               </a>
             </Button>
           </div>
@@ -1010,9 +1010,9 @@ const BusinessCleaningPage = () => {
                 asChild
                 data-testid="button-final-call"
               >
-                <a href="tel:+447843930927" className="flex items-center gap-2">
+                <a href="tel:+447456809049" className="flex items-center gap-2">
                   <Phone className="h-5 w-5" />
-                  Call: 07843 930927
+                  Call: 07456 809049
                 </a>
               </Button>
             </div>

@@ -371,7 +371,7 @@ const ExeterClearancePage = () => {
                           required
                           value={quoteForm.phone}
                           onChange={(e) => handleInputChange("phone", e.target.value)}
-                          placeholder="+44 7843 930927"
+                          placeholder="+44 7456 809049"
                         />
                       </div>
                       <div>
@@ -535,9 +535,9 @@ const ExeterClearancePage = () => {
               </Dialog>
 
               <Button asChild size="lg" variant="outline" className="border-primary text-primary hover:bg-secondary/20 text-lg px-8 py-4 h-auto">
-                <a href="tel:+447843930927" className="flex items-center">
+                <a href="tel:+447456809049" className="flex items-center">
                   <Phone className="w-5 h-5 mr-3" />
-                  Call: +44 7843 930927
+                  Call: +44 7456 809049
                 </a>
               </Button>
             </div>
@@ -565,7 +565,7 @@ const ExeterClearancePage = () => {
                   <strong className="text-primary">South West specialists</strong> serving Exeter and across East Devon. We understand this historic cathedral city and its unique clearance needs.
                 </p>
                 <p className="leading-relaxed">
-                  From the city center to the surrounding areas, from student properties to family homes, we provide trusted clearance services throughout Exeter and the surrounding area. <a href="tel:+447843930927" className="text-primary hover:underline">Call us today</a> to discuss your requirements.
+                  From the city center to the surrounding areas, from student properties to family homes, we provide trusted clearance services throughout Exeter and the surrounding area. <a href="tel:+447456809049" className="text-primary hover:underline">Call us today</a> to discuss your requirements.
                 </p>
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mt-6">
                   <div className="flex items-center gap-3 p-3 bg-blue-50 rounded-lg">
@@ -738,7 +738,7 @@ const ExeterClearancePage = () => {
               Why Choose Lanora House in Exeter?
             </h2>
             <p className="text-xl text-gray-600 max-w-3xl mx-auto">
-              At Lanora House, we've worked with homeowners, letting agents, solicitors, and businesses across Exeter — and we're ready to help you too. <a href="tel:+447843930927" className="text-primary hover:underline">Give us a call</a> to see how we can assist.
+              At Lanora House, we've worked with homeowners, letting agents, solicitors, and businesses across Exeter — and we're ready to help you too. <a href="tel:+447456809049" className="text-primary hover:underline">Give us a call</a> to see how we can assist.
             </p>
           </div>
           
@@ -777,7 +777,7 @@ const ExeterClearancePage = () => {
               Who We Help
             </h2>
             <p className="text-xl text-gray-600 max-w-3xl mx-auto">
-              We adapt to your needs with clear communication and total respect. <a href="tel:+447843930927" className="text-primary hover:underline">Call us</a> for friendly, professional advice.
+              We adapt to your needs with clear communication and total respect. <a href="tel:+447456809049" className="text-primary hover:underline">Call us</a> for friendly, professional advice.
             </p>
           </div>
           
@@ -916,7 +916,7 @@ const ExeterClearancePage = () => {
                           required
                           value={quoteForm.phone}
                           onChange={(e) => handleInputChange("phone", e.target.value)}
-                          placeholder="+44 7843 930927"
+                          placeholder="+44 7456 809049"
                         />
                       </div>
                       <div>
@@ -1073,9 +1073,9 @@ const ExeterClearancePage = () => {
                 </DialogContent>
               </Dialog>
               <Button asChild size="lg" variant="outline" className="border-white text-white bg-transparent hover:bg-white hover:text-primary text-lg px-8 py-4 h-auto">
-                <a href="tel:+447843930927" className="flex items-center">
+                <a href="tel:+447456809049" className="flex items-center">
                   <Phone className="w-5 h-5 mr-3" />
-                  Call: +44 7843 930927
+                  Call: +44 7456 809049
                 </a>
               </Button>
             </div>

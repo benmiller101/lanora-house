@@ -1,0 +1,25 @@
+{
+  "id": 19,
+  "title": "House Clearance in Praze-an-Beeble, Cornwall",
+  "description": "Full property clearance in Praze-an-Beeble, a village near Camborne in West Cornwall. We cleared all rooms of a furnished home, removing furniture, clothing and household belongings efficiently and professionally. Every item was handled with care — salvageable goods donated or resold, with minimal waste sent to landfill.",
+  "category": "House Clearance",
+  "location": "Praze-an-Beeble, Cornwall",
+  "featured": true,
+  "createdAt": "2026-06-05T14:09:52.697Z",
+  "beforeImages": [
+    "before/before-01.jpg",
+    "before/before-02.jpg",
+    "before/before-03.jpg",
+    "before/before-04.jpg",
+    "before/before-05.jpg"
+  ],
+  "afterImages": [
+    "after/after-01.jpg",
+    "after/after-02.jpg",
+    "after/after-03.jpg",
+    "after/after-04.jpg",
+    "after/after-05.jpg"
+  ],
+  "beforeImageCount": 5,
+  "afterImageCount": 5
+}
