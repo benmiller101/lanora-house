@@ -662,12 +662,12 @@ export default function AuctionsPage() {
                           </p>
                           <div className="flex flex-col sm:flex-row gap-4">
                             <a
-                              href="tel:+447456809049"
+                              href="tel:+447843930927"
                               className="flex items-center gap-2 text-primary hover:text-primary/80 transition-colors"
                               data-testid="link-phone-valuation"
                             >
                               <FiPhone className="w-5 h-5" />
-                              <span className="font-medium text-base">+44 7456 809049</span>
+                              <span className="font-medium text-base">+44 7843 930927</span>
                             </a>
                             <a
                               href="mailto:info@lanorahouse.com"
@@ -777,11 +777,11 @@ export default function AuctionsPage() {
                           Get Free Valuation <FiArrowRight className="ml-2" />
                         </Button>
                         <a
-                          href="tel:+447456809049"
+                          href="tel:+447843930927"
                           className="text-white/80 hover:text-white text-base underline underline-offset-2 transition-colors"
                           data-testid="button-call-selling"
                         >
-                          <FiPhone className="inline mr-1.5" />+44 7456 809 049
+                          <FiPhone className="inline mr-1.5" />+44 7843 930 927
                         </a>
                       </div>
                     </div>
@@ -945,7 +945,7 @@ export default function AuctionsPage() {
                           </div>
                           <div className="flex items-center gap-3">
                             <FiPhone className="w-5 h-5 flex-shrink-0" />
-                            <span>+44 7456 809049</span>
+                            <span>+44 7843 930927</span>
                           </div>
                           <div className="flex items-center gap-3">
                             <FiGlobe className="w-5 h-5 flex-shrink-0" />
@@ -967,11 +967,11 @@ export default function AuctionsPage() {
                           <FiMail className="mr-2" /> Get Free Valuation
                         </Button>
                         <a
-                          href="tel:+447456809049"
+                          href="tel:+447843930927"
                           className="text-white/80 hover:text-white text-base underline underline-offset-2 transition-colors w-full text-center"
                           data-testid="button-call-commission"
                         >
-                          <FiPhone className="inline mr-1.5" />+44 7456 809 049
+                          <FiPhone className="inline mr-1.5" />+44 7843 930 927
                         </a>
                       </div>
                     </div>
@@ -1358,11 +1358,11 @@ export default function AuctionsPage() {
                         Contact Us <FiArrowRight className="ml-2" />
                       </Button>
                       <a
-                        href="tel:+447456809049"
+                        href="tel:+447843930927"
                         className="text-white/80 hover:text-white text-base underline underline-offset-2 transition-colors"
                         data-testid="button-call-shipping"
                       >
-                        <FiPhone className="inline mr-1.5" />+44 7456 809 049
+                        <FiPhone className="inline mr-1.5" />+44 7843 930 927
                       </a>
                     </div>
                   </div>

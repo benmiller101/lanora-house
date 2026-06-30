@@ -220,7 +220,7 @@ export default function BuyersTerms() {
                     <p className="text-neutral-700 dark:text-neutral-300">Unit 12b, The Old Foundry Chapel</p>
                     <p className="text-neutral-700 dark:text-neutral-300">Chapel Terrace</p>
                     <p className="text-neutral-700 dark:text-neutral-300">Hayle, Cornwall TR27 4AB</p>
-                    <p className="text-neutral-700 dark:text-neutral-300 mt-2">Phone: 07456 809049</p>
+                    <p className="text-neutral-700 dark:text-neutral-300 mt-2">Phone: 07843 930927</p>
                     <p className="text-neutral-700 dark:text-neutral-300">Email: info@lanorahouse.com</p>
                   </div>
                 </CardContent>

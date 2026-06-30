@@ -301,7 +301,7 @@ const RedruthClearancePage = () => {
               If you're looking for professional and affordable house clearance in Redruth, Lanora House is here to help. Whether it's a simple shed clearance, a full estate clean-out, or a hoarded home that needs careful handling — we've got the tools, team, and experience to get it done quickly and responsibly.
             </p>
             <p className="text-lg text-gray-600 mb-8 max-w-2xl mx-auto">
-              We're based in Cornwall, fully licensed, and proud to offer eco-friendly, compassionate clearance services across Redruth and surrounding areas. <a href="tel:+447456809049" className="text-primary hover:underline">Contact our local team</a> for immediate assistance.
+              We're based in Cornwall, fully licensed, and proud to offer eco-friendly, compassionate clearance services across Redruth and surrounding areas. <a href="tel:+447843930927" className="text-primary hover:underline">Contact our local team</a> for immediate assistance.
             </p>
             <div className="flex flex-col sm:flex-row gap-6 justify-center items-center">
               <Dialog open={isQuoteDialogOpen} onOpenChange={setIsQuoteDialogOpen}>
@@ -359,7 +359,7 @@ const RedruthClearancePage = () => {
                           required
                           value={quoteForm.phone}
                           onChange={(e) => handleInputChange("phone", e.target.value)}
-                          placeholder="+44 7456 809049"
+                          placeholder="+44 7843 930927"
                         />
                       </div>
                       <div>
@@ -517,9 +517,9 @@ const RedruthClearancePage = () => {
               </Dialog>
 
               <Button asChild size="lg" variant="outline" className="border-primary text-primary hover:bg-secondary/20 text-lg px-8 py-4 h-auto">
-                <a href="tel:+447456809049" className="flex items-center">
+                <a href="tel:+447843930927" className="flex items-center">
                   <Phone className="w-5 h-5 mr-3" />
-                  Call: +44 7456 809049
+                  Call: +44 7843 930927
                 </a>
               </Button>
             </div>
@@ -663,7 +663,7 @@ const RedruthClearancePage = () => {
               <Link href="/contact" data-testid="button-quote-services">No Obligation Quote</Link>
             </Button>
             <Button asChild size="lg" variant="outline" className="border-primary text-primary hover:bg-primary/10 text-lg px-8 py-4 h-auto">
-              <a href="tel:+447456809049" className="flex items-center" data-testid="button-call-services" aria-label="Call Lanora House on +44 7456 809049">
+              <a href="tel:+447843930927" className="flex items-center" data-testid="button-call-services" aria-label="Call Lanora House on +44 7843 930927">
                 <Phone className="w-5 h-5 mr-3" aria-hidden="true" />
                 Call Now
               </a>
@@ -761,7 +761,7 @@ const RedruthClearancePage = () => {
               <Link href="/contact" data-testid="button-quote-eco">No Obligation Quote</Link>
             </Button>
             <Button asChild size="lg" variant="outline" className="border-primary text-primary hover:bg-primary/10 text-lg px-8 py-4 h-auto">
-              <a href="tel:+447456809049" className="flex items-center" data-testid="button-call-eco" aria-label="Call Lanora House on +44 7456 809049">
+              <a href="tel:+447843930927" className="flex items-center" data-testid="button-call-eco" aria-label="Call Lanora House on +44 7843 930927">
                 <Phone className="w-5 h-5 mr-3" aria-hidden="true" />
                 Call Now
               </a>
@@ -956,7 +956,7 @@ const RedruthClearancePage = () => {
                           required
                           value={quoteForm.phone}
                           onChange={(e) => handleInputChange("phone", e.target.value)}
-                          placeholder="+44 7456 809049"
+                          placeholder="+44 7843 930927"
                         />
                       </div>
                       <div>
@@ -1113,9 +1113,9 @@ const RedruthClearancePage = () => {
                 </DialogContent>
               </Dialog>
               <Button asChild size="lg" variant="outline" className="border-white text-white bg-transparent hover:bg-white hover:text-primary text-lg px-8 py-4 h-auto">
-                <a href="tel:+447456809049" className="flex items-center">
+                <a href="tel:+447843930927" className="flex items-center">
                   <Phone className="w-5 h-5 mr-3" />
-                  Call: +44 7456 809049
+                  Call: +44 7843 930927
                 </a>
               </Button>
             </div>

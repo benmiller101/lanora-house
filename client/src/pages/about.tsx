@@ -302,7 +302,7 @@ export default function About() {
                     </div>
                     <div>
                       <h4 className="font-semibold text-neutral-800 mb-1">Contact</h4>
-                      <p className="text-neutral-600">Phone / WhatsApp: +44 7456 809049<br />Email: info@lanorahouse.com</p>
+                      <p className="text-neutral-600">Phone / WhatsApp: +44 7843 930927<br />Email: info@lanorahouse.com</p>
                     </div>
                   </div>
                   

@@ -306,7 +306,7 @@ const PaigntonClearancePage = () => {
               Need a reliable and affordable house clearance service in Paignton? Whether you're managing a property after a loved one passes, clearing out after a tenancy, downsizing, or just decluttering — Lanora House is your local, licensed clearance partner.
             </p>
             <p className="text-lg text-gray-600 mb-8 max-w-2xl mx-auto">
-              We're committed to delivering fast, respectful, and eco-friendly property clearance services with no hidden fees and a zero-to-landfill approach. <a href="tel:+447456809049" className="text-primary hover:underline">Contact our team</a> for transparent pricing.
+              We're committed to delivering fast, respectful, and eco-friendly property clearance services with no hidden fees and a zero-to-landfill approach. <a href="tel:+447843930927" className="text-primary hover:underline">Contact our team</a> for transparent pricing.
             </p>
             <div className="flex flex-col sm:flex-row gap-6 justify-center items-center">
               <Dialog open={isQuoteDialogOpen} onOpenChange={setIsQuoteDialogOpen}>
@@ -364,7 +364,7 @@ const PaigntonClearancePage = () => {
                           required
                           value={quoteForm.phone}
                           onChange={(e) => handleInputChange("phone", e.target.value)}
-                          placeholder="+44 7456 809049"
+                          placeholder="+44 7843 930927"
                         />
                       </div>
                       <div>
@@ -528,9 +528,9 @@ const PaigntonClearancePage = () => {
               </Dialog>
 
               <Button asChild size="lg" variant="outline" className="border-primary text-primary hover:bg-secondary/20 text-lg px-8 py-4 h-auto">
-                <a href="tel:+447456809049" className="flex items-center">
+                <a href="tel:+447843930927" className="flex items-center">
                   <Phone className="w-5 h-5 mr-3" />
-                  Call: +44 7456 809049
+                  Call: +44 7843 930927
                 </a>
               </Button>
             </div>
@@ -909,7 +909,7 @@ const PaigntonClearancePage = () => {
                           required
                           value={quoteForm.phone}
                           onChange={(e) => handleInputChange("phone", e.target.value)}
-                          placeholder="+44 7456 809049"
+                          placeholder="+44 7843 930927"
                         />
                       </div>
                       <div>
@@ -1066,9 +1066,9 @@ const PaigntonClearancePage = () => {
                 </DialogContent>
               </Dialog>
               <Button asChild size="lg" variant="outline" className="border-white text-white bg-transparent hover:bg-white hover:text-primary text-lg px-8 py-4 h-auto">
-                <a href="tel:+447456809049" className="flex items-center">
+                <a href="tel:+447843930927" className="flex items-center">
                   <Phone className="w-5 h-5 mr-3" />
-                  Call: +44 7456 809049
+                  Call: +44 7843 930927
                 </a>
               </Button>
             </div>

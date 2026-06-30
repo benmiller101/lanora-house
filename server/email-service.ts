@@ -103,7 +103,7 @@ export async function sendClearanceQuoteConfirmation(
           <tr><td style="padding:10px;background:#f4f4f8;font-weight:bold;border-bottom:1px solid #ddd;">Clearance Type</td><td style="padding:10px;border-bottom:1px solid #ddd;">${data.clearanceType || "To be confirmed"}</td></tr>
           <tr><td style="padding:10px;background:#f4f4f8;font-weight:bold;border-bottom:1px solid #ddd;">Preferred Timeframe</td><td style="padding:10px;border-bottom:1px solid #ddd;">${data.timeframe || "To be confirmed"}</td></tr>
         </table>
-        <p>If you have any questions please call us on <strong>07456 809 049</strong> or email <a href="mailto:info@lanorahouse.com" style="color:${PRIMARY_COLOR};">info@lanorahouse.com</a>.</p>
+        <p>If you have any questions please call us on <strong>07843 930 927</strong> or email <a href="mailto:info@lanorahouse.com" style="color:${PRIMARY_COLOR};">info@lanorahouse.com</a>.</p>
         <p style="color:#666;font-size:14px;">— The Lanora House Team</p>
       `,
       ctaButton: { text: "View Our Services", url: "https://www.lanorahouse.com/clearance" },

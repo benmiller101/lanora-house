@@ -288,11 +288,11 @@ export default function AuthenticityGuarantee() {
                   </a>
                   
                   <a 
-                    href="tel:+447456809049"
+                    href="tel:+447843930927"
                     className="flex items-center justify-center gap-3 bg-white/20 hover:bg-white/30 transition-colors rounded-lg py-4 px-6"
                   >
                     <Phone className="w-6 h-6" />
-                    <span className="font-semibold">+44 7456 809 049</span>
+                    <span className="font-semibold">+44 7843 930 927</span>
                   </a>
                 </div>
               </div>

@@ -421,9 +421,9 @@ export function FlyTippingRemovalPage() {
               </Dialog>
 
               <Button size="lg" variant="outline" className="border-primary text-primary hover:bg-secondary/20 text-lg px-8 py-4 h-auto">
-                <a href="tel:+447456809049" className="flex items-center">
+                <a href="tel:+447843930927" className="flex items-center">
                   <Phone className="w-5 h-5 mr-3" />
-                  Emergency: +44 7456 809049
+                  Emergency: +44 7843 930927
                 </a>
               </Button>
             </div>
@@ -450,7 +450,7 @@ export function FlyTippingRemovalPage() {
               Professional Fly Tipping Clearance Services
             </h2>
             <p className="text-xl text-gray-600 max-w-3xl mx-auto">
-              Licensed removal of all types of illegally dumped waste with complete documentation and legal compliance. <a href="tel:+447456809049" className="text-primary hover:underline">Contact our team</a> for immediate response.
+              Licensed removal of all types of illegally dumped waste with complete documentation and legal compliance. <a href="tel:+447843930927" className="text-primary hover:underline">Contact our team</a> for immediate response.
             </p>
           </div>
           
@@ -487,7 +487,7 @@ export function FlyTippingRemovalPage() {
               </Button>
             </Link>
             <Button size="lg" variant="outline" className="border-primary text-primary hover:bg-primary/10 text-lg px-8 py-4 h-auto">
-              <a href="tel:+447456809049" className="flex items-center">
+              <a href="tel:+447843930927" className="flex items-center">
                 <Phone className="w-5 h-5 mr-3" />
                 Call Now
               </a>
@@ -546,7 +546,7 @@ export function FlyTippingRemovalPage() {
               </Button>
             </Link>
             <Button size="lg" variant="outline" className="border-primary text-primary hover:bg-primary/10 text-lg px-8 py-4 h-auto">
-              <a href="tel:+447456809049" className="flex items-center">
+              <a href="tel:+447843930927" className="flex items-center">
                 <Phone className="w-5 h-5 mr-3" />
                 Call Now
               </a>
@@ -595,7 +595,7 @@ export function FlyTippingRemovalPage() {
               </Button>
             </Link>
             <Button size="lg" variant="outline" className="border-primary text-primary hover:bg-primary/10 text-lg px-8 py-4 h-auto">
-              <a href="tel:+447456809049" className="flex items-center">
+              <a href="tel:+447843930927" className="flex items-center">
                 <Phone className="w-5 h-5 mr-3" />
                 Call Now
               </a>
@@ -649,7 +649,7 @@ export function FlyTippingRemovalPage() {
               </Button>
             </Link>
             <Button size="lg" variant="outline" className="border-primary text-primary hover:bg-primary/10 text-lg px-8 py-4 h-auto">
-              <a href="tel:+447456809049" className="flex items-center">
+              <a href="tel:+447843930927" className="flex items-center">
                 <Phone className="w-5 h-5 mr-3" />
                 Call Now
               </a>
@@ -733,9 +733,9 @@ export function FlyTippingRemovalPage() {
                 </DialogTrigger>
               </Dialog>
               <Button size="lg" variant="outline" className="border-white text-white bg-transparent hover:bg-white hover:text-primary text-lg px-8 py-4 h-auto">
-                <a href="tel:+447456809049" className="flex items-center">
+                <a href="tel:+447843930927" className="flex items-center">
                   <Phone className="w-5 h-5 mr-3" />
-                  Emergency: +44 7456 809049
+                  Emergency: +44 7843 930927
                 </a>
               </Button>
             </div>

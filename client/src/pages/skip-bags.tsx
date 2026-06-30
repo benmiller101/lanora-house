@@ -295,7 +295,7 @@ export default function SkipBags() {
               </Card>
 
               <div className="mt-6 flex flex-wrap gap-4 justify-center">
-                <a href="tel:01234567890" className="flex items-center gap-2 text-primary hover:text-primary/80 font-medium">
+                <a href="tel:+447843930927" className="flex items-center gap-2 text-primary hover:text-primary/80 font-medium">
                   <Phone className="h-5 w-5" />
                   Call us for alternatives
                 </a>

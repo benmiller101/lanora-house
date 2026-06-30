@@ -196,7 +196,7 @@ export default function SettingsPage() {
                     <div>
                       <label className="text-sm font-medium">Contact Phone</label>
                       <Input 
-                        defaultValue="07456809049"
+                        defaultValue="07843930927"
                         className="mt-1.5"
                       />
                     </div>

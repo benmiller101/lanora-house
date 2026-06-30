@@ -4,7 +4,7 @@
 const LOGO_URL = "https://www.lanorahouse.com/logos/lanora-logo-email.png";
 const SITE_URL = "https://lanorahouse.com";
 const ADDRESS = "First Floor (rear of building), The Old Foundry Chapel, 11–13 Chapel Terrace, Hayle TR27 4AB";
-const PHONE = "+44 7456 809049";
+const PHONE = "+44 7843 930927";
 const PRIMARY_COLOR = "#2D317C";
 const SECONDARY_COLOR = "#292C6D";
 

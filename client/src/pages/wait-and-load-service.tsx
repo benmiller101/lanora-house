@@ -506,9 +506,9 @@ export function WaitAndLoadServicePage() {
               </Dialog>
 
               <Button size="lg" variant="outline" className="border-primary text-primary hover:bg-secondary/20 text-lg px-8 py-4 h-auto">
-                <a href="tel:+447456809049" className="flex items-center">
+                <a href="tel:+447843930927" className="flex items-center">
                   <Phone className="w-5 h-5 mr-3" />
-                  Call: +44 7456 809049
+                  Call: +44 7843 930927
                 </a>
               </Button>
             </div>
@@ -572,7 +572,7 @@ export function WaitAndLoadServicePage() {
               </Button>
             </Link>
             <Button asChild size="lg" variant="outline" className="border-primary text-primary hover:bg-primary/10 text-lg px-8 py-4 h-auto">
-              <a href="tel:+447456809049" className="flex items-center">
+              <a href="tel:+447843930927" className="flex items-center">
                 <Phone className="w-5 h-5 mr-3" />
                 Call Now
               </a>
@@ -624,7 +624,7 @@ export function WaitAndLoadServicePage() {
               </Button>
             </Link>
             <Button asChild size="lg" variant="outline" className="border-primary text-primary hover:bg-primary/10 text-lg px-8 py-4 h-auto">
-              <a href="tel:+447456809049" className="flex items-center">
+              <a href="tel:+447843930927" className="flex items-center">
                 <Phone className="w-5 h-5 mr-3" />
                 Call Now
               </a>
@@ -673,7 +673,7 @@ export function WaitAndLoadServicePage() {
               </Button>
             </Link>
             <Button asChild size="lg" variant="outline" className="border-primary text-primary hover:bg-primary/10 text-lg px-8 py-4 h-auto">
-              <a href="tel:+447456809049" className="flex items-center">
+              <a href="tel:+447843930927" className="flex items-center">
                 <Phone className="w-5 h-5 mr-3" />
                 Call Now
               </a>
@@ -727,7 +727,7 @@ export function WaitAndLoadServicePage() {
               </Button>
             </Link>
             <Button asChild size="lg" variant="outline" className="border-primary text-primary hover:bg-primary/10 text-lg px-8 py-4 h-auto">
-              <a href="tel:+447456809049" className="flex items-center">
+              <a href="tel:+447843930927" className="flex items-center">
                 <Phone className="w-5 h-5 mr-3" />
                 Call Now
               </a>
@@ -811,9 +811,9 @@ export function WaitAndLoadServicePage() {
                 </DialogTrigger>
               </Dialog>
               <Button size="lg" variant="outline" className="border-white text-white bg-transparent hover:bg-white hover:text-primary text-lg px-8 py-4 h-auto">
-                <a href="tel:+447456809049" className="flex items-center">
+                <a href="tel:+447843930927" className="flex items-center">
                   <Phone className="w-5 h-5 mr-3" />
-                  Call: +44 7456 809049
+                  Call: +44 7843 930927
                 </a>
               </Button>
             </div>

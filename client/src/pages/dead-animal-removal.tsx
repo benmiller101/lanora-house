@@ -238,7 +238,7 @@ export function DeadAnimalRemovalPage() {
             </h1>
             <p className="text-xl md:text-2xl text-gray-600 mb-8 max-w-4xl mx-auto">
               Safe, hygienic, and respectful removal of deceased animals across Cornwall, Devon, and the South West. 
-              Licensed disposal with environmental responsibility. <a href="tel:+447456809049" className="text-primary hover:underline">Call our licensed specialists</a> for immediate assistance.
+              Licensed disposal with environmental responsibility. <a href="tel:+447843930927" className="text-primary hover:underline">Call our licensed specialists</a> for immediate assistance.
             </p>
             
             <div className="flex flex-col sm:flex-row gap-6 justify-center items-center">
@@ -387,9 +387,9 @@ export function DeadAnimalRemovalPage() {
               </Dialog>
 
               <Button size="lg" variant="outline" className="border-primary text-primary hover:bg-secondary/20 text-lg px-8 py-4 h-auto">
-                <a href="tel:+447456809049" className="flex items-center">
+                <a href="tel:+447843930927" className="flex items-center">
                   <Phone className="w-5 h-5 mr-3" />
-                  Call: +44 7456 809049
+                  Call: +44 7843 930927
                 </a>
               </Button>
             </div>
@@ -453,7 +453,7 @@ export function DeadAnimalRemovalPage() {
               </Button>
             </Link>
             <Button size="lg" variant="outline" className="border-primary text-primary hover:bg-primary/10 text-lg px-8 py-4 h-auto">
-              <a href="tel:+447456809049" className="flex items-center">
+              <a href="tel:+447843930927" className="flex items-center">
                 <Phone className="w-5 h-5 mr-3" />
                 Call Now
               </a>
@@ -512,7 +512,7 @@ export function DeadAnimalRemovalPage() {
               </Button>
             </Link>
             <Button size="lg" variant="outline" className="border-primary text-primary hover:bg-primary/10 text-lg px-8 py-4 h-auto">
-              <a href="tel:+447456809049" className="flex items-center">
+              <a href="tel:+447843930927" className="flex items-center">
                 <Phone className="w-5 h-5 mr-3" />
                 Call Now
               </a>
@@ -561,7 +561,7 @@ export function DeadAnimalRemovalPage() {
               </Button>
             </Link>
             <Button size="lg" variant="outline" className="border-primary text-primary hover:bg-primary/10 text-lg px-8 py-4 h-auto">
-              <a href="tel:+447456809049" className="flex items-center">
+              <a href="tel:+447843930927" className="flex items-center">
                 <Phone className="w-5 h-5 mr-3" />
                 Call Now
               </a>
@@ -615,7 +615,7 @@ export function DeadAnimalRemovalPage() {
               </Button>
             </Link>
             <Button size="lg" variant="outline" className="border-primary text-primary hover:bg-primary/10 text-lg px-8 py-4 h-auto">
-              <a href="tel:+447456809049" className="flex items-center">
+              <a href="tel:+447843930927" className="flex items-center">
                 <Phone className="w-5 h-5 mr-3" />
                 Call Now
               </a>
@@ -699,9 +699,9 @@ export function DeadAnimalRemovalPage() {
                 </DialogTrigger>
               </Dialog>
               <Button size="lg" variant="outline" className="border-white text-white bg-transparent hover:bg-white hover:text-primary text-lg px-8 py-4 h-auto">
-                <a href="tel:+447456809049" className="flex items-center">
+                <a href="tel:+447843930927" className="flex items-center">
                   <Phone className="w-5 h-5 mr-3" />
-                  Call: +44 7456 809049
+                  Call: +44 7843 930927
                 </a>
               </Button>
             </div>

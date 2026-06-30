@@ -76,14 +76,14 @@ const faqs = [
   },
   {
     question: "Where are your auctions held?",
-    answer: "Our auctions are held online monthly on a Saturday at 10:00am. Viewing of lots is available every Friday 11:00am–4:00pm at Unit 12b, The Old Foundry Chapel, Chapel Terrace, Hayle, Cornwall TR27 4AB. The auction catalogue is released one week before each sale. Consignment appointments are by arrangement — call us on 07456 809049 (phones open 7am–10pm, 7 days a week).",
+    answer: "Our auctions are held online monthly on a Saturday at 10:00am. Viewing of lots is available every Friday 11:00am–4:00pm at Unit 12b, The Old Foundry Chapel, Chapel Terrace, Hayle, Cornwall TR27 4AB. The auction catalogue is released one week before each sale. Consignment appointments are by arrangement — call us on 07843 930927 (phones open 7am–10pm, 7 days a week).",
     icon: <Home className="w-6 h-6" />,
     highlight: "Online Auctions",
     color: "bg-blue-500"
   },
   {
     question: "How do I get started?",
-    answer: "Simply contact us by phone (07456 809049) or email (info@lanorahouse.com) with details of what you need cleared or want to sell. We can arrange a site visit for larger clearances or provide valuations from photos for individual items. All quotes are free and there's no obligation.",
+    answer: "Simply contact us by phone (07843 930927) or email (info@lanorahouse.com) with details of what you need cleared or want to sell. We can arrange a site visit for larger clearances or provide valuations from photos for individual items. All quotes are free and there's no obligation.",
     icon: <FileText className="w-6 h-6" />,
     highlight: "Easy Start",
     color: "bg-green-500"
@@ -124,7 +124,7 @@ export default function ClearanceFAQ() {
               Everything you need to know about our clearance services and auctions
             </p>
             <p className="text-lg opacity-80">
-              Have a question not covered here? <a href="tel:+447456809049" className="text-white hover:text-secondary underline">Call us on 07456 809049</a>
+              Have a question not covered here? <a href="tel:+447843930927" className="text-white hover:text-secondary underline">Call us on 07843 930927</a>
             </p>
           </motion.div>
         </div>
@@ -215,11 +215,11 @@ export default function ClearanceFAQ() {
                 View Auctions
               </a>
               <a
-                href="tel:+447456809049"
+                href="tel:+447843930927"
                 className="inline-flex items-center justify-center px-8 py-4 bg-white dark:bg-neutral-800 text-primary border-2 border-primary font-semibold rounded-lg hover:bg-primary hover:text-white dark:hover:bg-primary transition-colors shadow-lg"
                 data-testid="button-call-now"
               >
-                Call: 07456 809049
+                Call: 07843 930927
               </a>
             </div>
           </div>

@@ -306,7 +306,7 @@ const OkehamptonClearancePage = () => {
               Clearing a property in Okehampton? Whether it's a family home, rental property, probate estate, or cluttered space — Lanora House provides respectful, licensed, and eco-friendly house clearance services in Okehampton and surrounding West Devon villages.
             </p>
             <p className="text-lg text-gray-600 mb-8 max-w-2xl mx-auto">
-              We clear everything from single items to entire homes — quickly, discreetly, and always responsibly. <a href="tel:+447456809049" className="text-primary hover:underline">Call us now</a> for immediate assistance.
+              We clear everything from single items to entire homes — quickly, discreetly, and always responsibly. <a href="tel:+447843930927" className="text-primary hover:underline">Call us now</a> for immediate assistance.
             </p>
             <div className="flex flex-col sm:flex-row gap-6 justify-center items-center">
               <Dialog open={isQuoteDialogOpen} onOpenChange={setIsQuoteDialogOpen}>
@@ -364,7 +364,7 @@ const OkehamptonClearancePage = () => {
                           required
                           value={quoteForm.phone}
                           onChange={(e) => handleInputChange("phone", e.target.value)}
-                          placeholder="+44 7456 809049"
+                          placeholder="+44 7843 930927"
                         />
                       </div>
                       <div>
@@ -529,9 +529,9 @@ const OkehamptonClearancePage = () => {
               </Dialog>
 
               <Button asChild size="lg" variant="outline" className="border-primary text-primary hover:bg-secondary/20 text-lg px-8 py-4 h-auto">
-                <a href="tel:+447456809049" className="flex items-center">
+                <a href="tel:+447843930927" className="flex items-center">
                   <Phone className="w-5 h-5 mr-3" />
-                  Call: +44 7456 809049
+                  Call: +44 7843 930927
                 </a>
               </Button>
             </div>
@@ -675,7 +675,7 @@ const OkehamptonClearancePage = () => {
               <Link href="/contact">No Obligation Quote</Link>
             </Button>
             <Button asChild size="lg" variant="outline" className="border-primary text-primary hover:bg-primary/10 text-lg px-8 py-4 h-auto">
-              <a href="tel:+447456809049" className="flex items-center">
+              <a href="tel:+447843930927" className="flex items-center">
                 <Phone className="w-5 h-5 mr-3" />
                 Call Now
               </a>
@@ -741,7 +741,7 @@ const OkehamptonClearancePage = () => {
               <Link href="/contact">No Obligation Quote</Link>
             </Button>
             <Button asChild size="lg" variant="outline" className="border-primary text-primary hover:bg-primary/10 text-lg px-8 py-4 h-auto">
-              <a href="tel:+447456809049" className="flex items-center">
+              <a href="tel:+447843930927" className="flex items-center">
                 <Phone className="w-5 h-5 mr-3" />
                 Call Now
               </a>
@@ -936,7 +936,7 @@ const OkehamptonClearancePage = () => {
                           required
                           value={quoteForm.phone}
                           onChange={(e) => handleInputChange("phone", e.target.value)}
-                          placeholder="+44 7456 809049"
+                          placeholder="+44 7843 930927"
                         />
                       </div>
                       <div>
@@ -1093,9 +1093,9 @@ const OkehamptonClearancePage = () => {
                 </DialogContent>
               </Dialog>
               <Button asChild size="lg" variant="outline" className="border-white text-white bg-transparent hover:bg-white hover:text-primary text-lg px-8 py-4 h-auto">
-                <a href="tel:+447456809049" className="flex items-center">
+                <a href="tel:+447843930927" className="flex items-center">
                   <Phone className="w-5 h-5 mr-3" />
-                  Call: +44 7456 809049
+                  Call: +44 7843 930927
                 </a>
               </Button>
             </div>

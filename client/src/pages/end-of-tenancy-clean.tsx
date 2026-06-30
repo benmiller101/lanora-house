@@ -180,9 +180,9 @@ const EndOfTenancyCleanPage = () => {
                   </DialogTrigger>
                 </Dialog>
                 <Button asChild variant="outline" size="lg" className="text-lg px-8 py-4 h-auto">
-                  <a href="tel:+447456809049" data-testid="button-call-now">
+                  <a href="tel:+447843930927" data-testid="button-call-now">
                     <Phone className="mr-2 h-5 w-5" />
-                    Call Now: 07456 809049
+                    Call Now: 07843 930927
                   </a>
                 </Button>
               </div>
@@ -475,9 +475,9 @@ const EndOfTenancyCleanPage = () => {
                   </DialogTrigger>
                 </Dialog>
                 <Button asChild variant="outline" size="lg" className="border-white text-white bg-transparent hover:bg-white hover:text-primary text-lg px-8 py-4 h-auto">
-                  <a href="tel:+447456809049" data-testid="button-call-now-cta">
+                  <a href="tel:+447843930927" data-testid="button-call-now-cta">
                     <Phone className="mr-2 h-5 w-5" />
-                    Call: 07456 809049
+                    Call: 07843 930927
                   </a>
                 </Button>
               </div>

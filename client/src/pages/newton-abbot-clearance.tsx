@@ -306,7 +306,7 @@ const NewtonAbbotClearancePage = () => {
               Whether you're preparing a home for sale, managing a probate estate, clearing a rental property, or dealing with years of clutter — Lanora House offers professional house clearance in Newton Abbot, tailored to your needs.
             </p>
             <p className="text-lg text-gray-600 mb-8 max-w-2xl mx-auto">
-              We are trusted across Devon for efficient, eco-conscious clearances with a zero-to-landfill approach and no hidden fees. <a href="tel:+447456809049" className="text-primary hover:underline">Speak to our experts</a> for a free consultation.
+              We are trusted across Devon for efficient, eco-conscious clearances with a zero-to-landfill approach and no hidden fees. <a href="tel:+447843930927" className="text-primary hover:underline">Speak to our experts</a> for a free consultation.
             </p>
             <div className="flex flex-col sm:flex-row gap-6 justify-center items-center">
               <Dialog open={isQuoteDialogOpen} onOpenChange={setIsQuoteDialogOpen}>
@@ -364,7 +364,7 @@ const NewtonAbbotClearancePage = () => {
                           required
                           value={quoteForm.phone}
                           onChange={(e) => handleInputChange("phone", e.target.value)}
-                          placeholder="+44 7456 809049"
+                          placeholder="+44 7843 930927"
                         />
                       </div>
                       <div>
@@ -527,9 +527,9 @@ const NewtonAbbotClearancePage = () => {
               </Dialog>
 
               <Button asChild size="lg" variant="outline" className="border-primary text-primary hover:bg-secondary/20 text-lg px-8 py-4 h-auto">
-                <a href="tel:+447456809049" className="flex items-center">
+                <a href="tel:+447843930927" className="flex items-center">
                   <Phone className="w-5 h-5 mr-3" />
-                  Call: +44 7456 809049
+                  Call: +44 7843 930927
                 </a>
               </Button>
             </div>
@@ -908,7 +908,7 @@ const NewtonAbbotClearancePage = () => {
                           required
                           value={quoteForm.phone}
                           onChange={(e) => handleInputChange("phone", e.target.value)}
-                          placeholder="+44 7456 809049"
+                          placeholder="+44 7843 930927"
                         />
                       </div>
                       <div>
@@ -1065,9 +1065,9 @@ const NewtonAbbotClearancePage = () => {
                 </DialogContent>
               </Dialog>
               <Button asChild size="lg" variant="outline" className="border-white text-white bg-transparent hover:bg-white hover:text-primary text-lg px-8 py-4 h-auto">
-                <a href="tel:+447456809049" className="flex items-center">
+                <a href="tel:+447843930927" className="flex items-center">
                   <Phone className="w-5 h-5 mr-3" />
-                  Call: +44 7456 809049
+                  Call: +44 7843 930927
                 </a>
               </Button>
             </div>

@@ -193,13 +193,13 @@ export default function Contact() {
                 </CardHeader>
                 <CardContent>
                   <a 
-                    href="tel:+447456809049" 
+                    href="tel:+447843930927" 
                     className="text-primary hover:text-primary-dark transition-colors block mb-3"
                   >
-                    +44 7456 809049
+                    +44 7843 930927
                   </a>
                   <a 
-                    href="https://wa.me/447456809049" 
+                    href="https://wa.me/447843930927" 
                     target="_blank"
                     rel="noopener noreferrer"
                     className="inline-flex items-center gap-2 bg-green-500 hover:bg-green-600 text-white px-4 py-2 rounded-lg transition-colors"

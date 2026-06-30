@@ -19,7 +19,7 @@ export default function Home() {
           "url": "https://www.lanorahouse.com",
           "description": "Sustainable house clearance specialists based in Hayle, Cornwall. Monthly auctions at The Old Foundry Chapel.",
           "address": { "@type": "PostalAddress", "streetAddress": "Unit 12b, The Old Foundry Chapel, Chapel Terrace", "addressLocality": "Hayle", "addressRegion": "Cornwall", "postalCode": "TR27 4AB", "addressCountry": "GB" },
-          "telephone": "+447456809049"
+          "telephone": "+447843930927"
         }}
       />
 
